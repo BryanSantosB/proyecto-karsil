@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyALL8qgg3K0Gz-lbmldlvURQ0eS3B8d8Eg";
+const GOOGLE_MAPS_API_KEY = "";
 
 export const useGoogleMaps = () => {
   const [loaded, setLoaded] = useState(false);
