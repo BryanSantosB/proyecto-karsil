@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from "../../../context/FormContext";
-import NavegacionPasos from "../../../components/ui/NavegacionPasos"; // Usamos el que creamos antes
+import NavegacionPasos from "../../../components/ui/NavegacionPasos/NavegacionPasos"; // Usamos el que creamos antes
 import CardResumenRuta from "../../../components/shared/CardResumenRuta";
 import InfoPaqueteGrid from "../../../components/shared/InfoPaqueteGrid";
 

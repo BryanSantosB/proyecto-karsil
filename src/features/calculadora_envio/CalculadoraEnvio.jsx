@@ -4,7 +4,7 @@ import SeccionPaquete from "./steps/SeccionPaquete.jsx";
 import SeccionTipoPaquete from "./steps/SeccionTipoPaquete.jsx";
 import ResumenTotal from "./steps/ResumenTotal.jsx";
 import { motion, AnimatePresence } from "framer-motion";
-import Stepper from "../../components/ui/Stepper.jsx";
+import Stepper from "../../components/ui/Strepper/Stepper.jsx";
 
 const ContenidoCalculadora = () => {
   const { paso } = useForm();

@@ -5,9 +5,9 @@ import { listaFechas } from "../../data/fechasRecojo";
 import { useGoogleMaps } from "../../hooks/useGoogleMaps";
 import Mapa from "../shared/Mapa";
 import "./c_origen.css";
-import CustomSelect from "../ui/CustomSelect";
-import CustomInput from "../ui/CustomInput";
-import SelectorModalidad from "../ui/SelectorModalidad";
+import CustomSelect from "../ui/CustomSelect/CustomSelect";
+import CustomInput from "../ui/CustomInput/CustomInput";
+import SelectorModalidad from "../ui/SelectorModalidad/SelectorModalidad";
 
 const OrigenCard = (props) => {
   const { formData, actualizarDatos } = useForm();
