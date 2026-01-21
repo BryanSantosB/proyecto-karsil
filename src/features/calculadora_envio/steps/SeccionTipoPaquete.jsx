@@ -60,7 +60,7 @@ const SeccionTipoPaquete = () => {
           ))}
 
           {/* Navegación */}
-          <div className="col-12 mt-5">
+          <div className="col-12 mt-2">
             <NavegacionPasos
               onSiguiente={validarYContinuar}
               onVolver={anteriorPaso}

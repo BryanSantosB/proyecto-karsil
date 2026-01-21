@@ -47,7 +47,7 @@ const SeccionEnvio = () => {
     <div className="container-fluid px-2">
       <AlertaFlotante mensaje={error} onClose={() => setError("")} />
 
-      <div className="row g-4 pb-5 justify-content-center align-items-stretch">
+      <div className="row g-4 pb-2 justify-content-center align-items-stretch">
         <div className="col-12 col-xl-6 d-flex">
           <OrigenCard
             modalidad="recojo"

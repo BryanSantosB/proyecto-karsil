@@ -39,7 +39,7 @@ const SeccionPaquete = () => {
       <NeumorphicContainer width="100%" maxWidth="800px" className="p-3 p-md-5 mt-3">
         <h2 className="text-center mb-4 text-uppercase fw-bold fs-4 fs-md-2">Detalles</h2>
 
-        <div className="row g-3">
+        <div className="row g-1">
           {/* Peso */}
           <div className="col-12">
             <CustomInput
@@ -85,7 +85,7 @@ const SeccionPaquete = () => {
           </div>
 
           {/* Opciones de Envío*/}
-          <div className="col-12 mt-4">
+          <div className="col-12 mt-2">
             <label className="d-block text-center mb-3 fw-bold text-muted small">MÉTODO DE ENVÍO</label>
             <div className="d-flex flex-column flex-md-row justify-content-center gap-3">
               <label className="flex-fill">
@@ -121,7 +121,7 @@ const SeccionPaquete = () => {
           </div>
 
           {/* Botones de navegación */}
-          <div className="col-12 mt-5">
+          <div className="col-12 mt-2">
             <NavegacionPasos
               onSiguiente={validarYContinuar}
               onVolver={anteriorPaso}

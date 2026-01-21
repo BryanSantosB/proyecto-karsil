@@ -32,8 +32,16 @@ const OrigenCard = (props) => {
     setTipoOrigen(nuevoTipo);
     actualizarDatos(seccion, { tipo: nuevoTipo });
     setDireccionMapa("");
-    nuevoTipo !== "agencia" + props.modalidad && actualizarDatos(seccion, { ciudad: "" });
-    nuevoTipo === "agencia" + props.modalidad && actualizarDatos(seccion, { departamento: "", provincia: "", distrito: "", direccion: "", fecha: "" });
+    nuevoTipo !== "agencia" + props.modalidad &&
+      actualizarDatos(seccion, { ciudad: "" });
+    nuevoTipo === "agencia" + props.modalidad &&
+      actualizarDatos(seccion, {
+        departamento: "",
+        provincia: "",
+        distrito: "",
+        direccion: "",
+        fecha: "",
+      });
     setResetKey((k) => k + 1);
   };
 
@@ -52,12 +60,18 @@ const OrigenCard = (props) => {
   if (!mapsLoaded) return <p>Cargando mapa...</p>;
 
   return (
-    <NeumorphicContainer width="100%" maxWidth="100%" className="mx-auto my-2 p-3 p-md-4">
-      <h2 className="text-center mb-4 fw-bold text-uppercase fs-4">{props.title}</h2>
+    <NeumorphicContainer
+      width="100%"
+      maxWidth="100%"
+      className="mx-auto my-2 p-3 p-md-4"
+    >
+      <h2 className="text-center mb-4 fw-bold text-uppercase fs-4">
+        {props.title}
+      </h2>
 
       {/* Selector de Modalidad (Agencia/Domicilio) */}
       <div className="mb-4">
-        <SelectorModalidad 
+        <SelectorModalidad
           opciones={opciones}
           valorSeleccionado={tipoOrigen}
           onChange={(nuevoValor) => cambiarTipoOrigen(nuevoValor)}
@@ -65,8 +79,7 @@ const OrigenCard = (props) => {
       </div>
 
       {/* Contenedor de Formulario */}
-      <div className="d-flex flex-column align-items-center w-100 gap-2 mb-4">
-        
+      <div className="d-flex flex-column align-items-center w-100 gap-2 mb-2">
         {tipoOrigen !== props.modalidad && (
           <div className="w-100">
             <CustomSelect
@@ -80,32 +93,38 @@ const OrigenCard = (props) => {
 
         {tipoOrigen === props.modalidad && (
           <>
-          <div className="d-flex gap-2 w-100">
-            <div className="w-100">
-              <CustomInput
-                type="text"
-                placeholder="Departamento"
-                value={formData[seccion].departamento || ""}
-                onChange={(e) => actualizarDatos(seccion, { departamento: e.target.value })}
-              />
+            <div className="d-flex gap-2 w-100">
+              <div className="w-100">
+                <CustomInput
+                  type="text"
+                  placeholder="Departamento"
+                  value={formData[seccion].departamento || ""}
+                  onChange={(e) =>
+                    actualizarDatos(seccion, { departamento: e.target.value })
+                  }
+                />
+              </div>
+              <div className="w-100">
+                <CustomInput
+                  type="text"
+                  placeholder="Provincia"
+                  value={formData[seccion].provincia || ""}
+                  onChange={(e) =>
+                    actualizarDatos(seccion, { provincia: e.target.value })
+                  }
+                />
+              </div>
+              <div className="w-100">
+                <CustomInput
+                  type="text"
+                  placeholder="Distrito"
+                  value={formData[seccion].distrito || ""}
+                  onChange={(e) =>
+                    actualizarDatos(seccion, { distrito: e.target.value })
+                  }
+                />
+              </div>
             </div>
-            <div className="w-100">
-              <CustomInput
-                type="text"
-                placeholder="Provincia"
-                value={formData[seccion].provincia || ""}
-                onChange={(e) => actualizarDatos(seccion, { provincia: e.target.value })}
-              />
-            </div>
-            <div className="w-100">
-              <CustomInput
-                type="text"
-                placeholder="Distrito"
-                value={formData[seccion].distrito || ""}
-                onChange={(e) => actualizarDatos(seccion, { distrito: e.target.value })}
-              />
-            </div>
-          </div>
             <div className="w-100">
               <CustomInput
                 type="text"
@@ -123,18 +142,20 @@ const OrigenCard = (props) => {
               placeholder="Fecha de Recojo"
               value={formData[seccion].fecha || ""}
               options={listaFechas}
-              onChange={(e) => actualizarDatos(seccion, { fecha: e.target.value })}
+              onChange={(e) =>
+                actualizarDatos(seccion, { fecha: e.target.value })
+              }
             />
           </div>
         )}
       </div>
 
       {/* Contenedor del Mapa */}
-<div className="w-100 mt-auto"> 
-  <div className="ratio ratio-16x9 rounded-4 overflow-hidden shadow-sm">
-    <Mapa direccion={direccionMapa} resetKey={resetKey} />
-  </div>
-</div>
+      <div className="w-100 mt-auto">
+        <div className="ratio ratio-16x9 rounded-4 overflow-hidden shadow-sm">
+          <Mapa direccion={direccionMapa} resetKey={resetKey} />
+        </div>
+      </div>
     </NeumorphicContainer>
   );
 };
