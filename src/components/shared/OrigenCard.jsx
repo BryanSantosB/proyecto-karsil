@@ -8,6 +8,7 @@ import "./c_origen.css";
 import CustomSelect from "../ui/CustomSelect/CustomSelect";
 import CustomInput from "../ui/CustomInput/CustomInput";
 import SelectorModalidad from "../ui/SelectorModalidad/SelectorModalidad";
+import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
 
 const OrigenCard = (props) => {
   const { formData, actualizarDatos } = useForm();
@@ -36,7 +37,6 @@ const OrigenCard = (props) => {
 
   const manejarCambioCiudad = (e) => {
     const ciudad = e.target.value;
-    // Mantenemos tu lógica de validación para el mapa
     tipoOrigen !== props.modalidad && setDireccionMapa(ciudad);
     actualizarDatos(seccion, { ciudad: ciudad });
   };
@@ -50,66 +50,70 @@ const OrigenCard = (props) => {
   if (!mapsLoaded) return <p>Cargando mapa...</p>;
 
   return (
-    <div className="card shadow border-0 w-100 mt-3">
-      <h2 className="title">{props.title}</h2>
+    <NeumorphicContainer width="100%" maxWidth="100%" className="mx-auto my-2 p-3 p-md-4">
+      <h2 className="text-center mb-4 fw-bold text-uppercase fs-4">{props.title}</h2>
 
-      {/* Radios */}
-      <SelectorModalidad 
-        opciones={opciones}
-        valorSeleccionado={tipoOrigen}
-        onChange={(nuevoValor) => cambiarTipoOrigen(nuevoValor)}
-      />
-
-      <div className="w-80">
-        
-
-      {/* Ciudad */}
-      <CustomSelect
-        placeholder="Selecciona una ciudad"
-        value={formData[seccion].ciudad || ""}
-        options={ciudadesOrigen}
-        onChange={(e) => manejarCambioCiudad(e)}
-      />
-
-      {/* Dirección */}
-      {tipoOrigen === props.modalidad && (
-        <CustomInput
-          type="text"
-          placeholder="Dirección"
-          value={formData[seccion].direccion || ""}
-          onChange={(e) => manejarCambioDireccion(e)}
-          min="0.1"
-          step="0.1"
+      {/* Selector de Modalidad (Agencia/Domicilio) */}
+      <div className="mb-4">
+        <SelectorModalidad 
+          opciones={opciones}
+          valorSeleccionado={tipoOrigen}
+          onChange={(nuevoValor) => cambiarTipoOrigen(nuevoValor)}
         />
-      )}
-
-      {/* Referencia */}
-      {tipoOrigen === props.modalidad && (
-        <CustomInput
-          type="text"
-          placeholder="Referencia de Ubicación (opcional)"
-          value={formData[seccion].referencia || ""}
-          onChange={(e) =>
-            actualizarDatos(seccion, { referencia: e.target.value })
-          }
-          min="0.1"
-          step="0.1"
-        />
-      )}
-
-      {/* Fecha */}
-      {tipoOrigen === "recojo" && (
-        <CustomSelect
-          placeholder="Seleccionar Fecha de Recojo"
-          value={formData[seccion].fecha || ""}
-          options={listaFechas} // El array que ya tienes en data
-          onChange={(e) => actualizarDatos(seccion, { fecha: e.target.value })}
-        />
-      )}
       </div>
 
-      <Mapa direccion={direccionMapa} resetKey={resetKey} />
-    </div>
+      {/* Contenedor de Formulario */}
+      <div className="d-flex flex-column align-items-center w-100 gap-2 mb-4">
+        
+        <div className="w-100">
+          <CustomSelect
+            placeholder="Selecciona una ciudad"
+            value={formData[seccion].ciudad || ""}
+            options={ciudadesOrigen}
+            onChange={manejarCambioCiudad}
+          />
+        </div>
+
+        {tipoOrigen === props.modalidad && (
+          <>
+            <div className="w-100">
+              <CustomInput
+                type="text"
+                placeholder="Dirección exacta"
+                value={formData[seccion].direccion || ""}
+                onChange={manejarCambioDireccion}
+              />
+            </div>
+            <div className="w-100">
+              <CustomInput
+                type="text"
+                placeholder="Referencia (Ej: Portón azul)"
+                value={formData[seccion].referencia || ""}
+                onChange={(e) => actualizarDatos(seccion, { referencia: e.target.value })}
+              />
+            </div>
+          </>
+        )}
+
+        {tipoOrigen === "recojo" && (
+          <div className="w-100">
+            <CustomSelect
+              placeholder="Fecha de Recojo"
+              value={formData[seccion].fecha || ""}
+              options={listaFechas}
+              onChange={(e) => actualizarDatos(seccion, { fecha: e.target.value })}
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Contenedor del Mapa */}
+<div className="w-100 mt-auto"> 
+  <div className="ratio ratio-16x9 rounded-4 overflow-hidden shadow-sm">
+    <Mapa direccion={direccionMapa} resetKey={resetKey} />
+  </div>
+</div>
+    </NeumorphicContainer>
   );
 };
 

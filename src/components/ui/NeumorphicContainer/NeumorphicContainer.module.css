@@ -1,0 +1,21 @@
+.neumorphicBase {
+  background-color: #fff;
+  border-radius: 30px;
+  padding: 2rem;
+  /* Sombras para PC */
+  box-shadow: 12px 12px 24px #cccccc,
+             -12px -12px 24px #f4f4f4;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+/* --- MODO CELULAR (Mobile) --- */
+@media (max-width: 768px) {
+  .neumorphicBase {
+    background-color: transparent; 
+    box-shadow: none;              
+    padding: 1rem 0;               
+    border-radius: 0;         
+    border: none;
+  }
+}

@@ -38,14 +38,21 @@ const Mapa = ({ direccion, resetKey }) => {
       direccion,
       mapRef.current,
       markerRef.current,
-      geocoderRef.current
+      geocoderRef.current,
     );
   }, [direccion, resetKey]);
 
   return (
-    <div className="map-container w-80">
-          <div ref={divRef} className="map-placeholder" />
-        </div>
+    <div
+      ref={divRef}
+      className="w-100 h-100"
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        backgroundColor: "#e5e3df",
+      }}
+    />
   );
 };
 

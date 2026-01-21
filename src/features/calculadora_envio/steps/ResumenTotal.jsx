@@ -1,27 +1,32 @@
 import React from 'react';
 import { useForm } from "context/FormContext";
-import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos"; // Usamos el que creamos antes
+import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
 import CardResumenRuta from "components/shared/CardResumenRuta";
 import InfoPaqueteGrid from "components/shared/InfoPaqueteGrid";
+import NeumorphicContainer from 'components/ui/NeumorphicContainer/NeumorphicContainer';
 
 const ResumenTotal = () => {
   const { formData, anteriorPaso } = useForm();
 
   const handleConfirmar = () => {
     console.log("Datos Finales Enviados:", formData);
-    // Aquí iría tu llamada a la API
+    // Lógica de envío
   };
 
   return (
-    <div className="container d-flex justify-content-center pb-5 ">
-      <div className="card shadow p-4 border-0 p-5 w-100" style={{ maxWidth: '850px' }}>
-        <h2 className="text-center mb-4 fw-bold">Resumen del Envío</h2>
+    <div className="container-fluid d-flex justify-content-center pb-5 px-2">
+      
+      <NeumorphicContainer maxWidth="900px" className="mx-auto my-2 my-md-4 p-3 p-md-5">
+        <h2 className="text-center mb-4 fw-bold fs-3 fs-md-2">Resumen del Envío</h2>
 
         <div className="row g-4">
+          {/* SECCIÓN DE RUTA */}
           <div className="col-12">
-            <h5 className="text-uppercase text-muted small fw-bold mb-3">1. Información de Ruta</h5>
+            <h5 className="text-uppercase text-muted small fw-bold mb-3 border-bottom pb-2">
+              1. Información de Ruta
+            </h5>
             <div className="row g-3">
-              <div className="col-md-6">
+              <div className="col-12 col-md-6">
                 <CardResumenRuta 
                   titulo="ORIGEN" 
                   tipo={formData.origen.tipo} 
@@ -30,7 +35,7 @@ const ResumenTotal = () => {
                   bgColor="#F3E5F5"
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-12 col-md-6">
                 <CardResumenRuta 
                   titulo="DESTINO" 
                   tipo={formData.destino.tipo} 
@@ -42,24 +47,32 @@ const ResumenTotal = () => {
             </div>
           </div>
 
+          {/* SECCIÓN DE PAQUETE */}
           <div className="col-12">
-            <h5 className="text-uppercase text-muted small fw-bold mb-3">2. Detalles del Paquete</h5>
-            <InfoPaqueteGrid paquete={formData.paquete} />
+            <h5 className="text-uppercase text-muted small fw-bold mb-3 border-bottom pb-2">
+              2. Detalles del Paquete
+            </h5>
+            {/* Asegúrate de que InfoPaqueteGrid también use col-12 col-md-X internamente */}
+            <div className="bg-light rounded-3 p-2 p-md-0 bg-md-transparent">
+               <InfoPaqueteGrid paquete={formData.paquete} />
+            </div>
           </div>
 
-          <div className="col-12 mt-2">
+          {/* ACCIONES FINALES */}
+          <div className="col-12 mt-4">
             <NavegacionPasos 
               onSiguiente={handleConfirmar}
               onVolver={anteriorPaso}
               textoSiguiente="CONFIRMAR PEDIDO"
               mostrarVolver={true}
             />
-            <p className="text-center text-muted small mt-2">
-              Al confirmar, aceptas nuestros términos de servicio.
+            
+            <p className="text-center text-muted small mt-3 px-3">
+              Al confirmar, aceptas nuestros términos de servicio y políticas de privacidad.
             </p>
           </div>
         </div>
-      </div>
+      </NeumorphicContainer>
     </div>
   );
 };
