@@ -15,22 +15,33 @@ const SeccionEnvio = () => {
   };
 
   const validarYContinuar = () => {
-    const { origen, destino } = formData;
-    if (!origen.ciudad) return setError("Selecciona una ciudad de origen.");
-    if (origen.tipo === "recojo") {
-      if (!esDireccionValida(origen.direccion))
-        return setError("La dirección de origen no parece válida.");
-      if (!origen.fecha)
-        return setError("Selecciona una fecha para el recojo.");
-    }
-    if (!destino.ciudad) return setError("Selecciona una ciudad de destino.");
-    if (destino.tipo === "entrega") {
-      if (!esDireccionValida(destino.direccion))
-        return setError("La dirección de destino no parece válida.");
-    }
-    setError("");
-    siguientePaso();
-  };
+  const { origen, destino } = formData;
+
+  // VALIDACIONES DE ORIGEN
+  if (origen.tipo === "recojo") {
+    if (!origen.departamento) return setError("Selecciona el departamento de origen.");
+    if (!origen.provincia) return setError("Selecciona la provincia de origen.");
+    if (!origen.distrito) return setError("Selecciona el distrito de origen.");
+    if (!esDireccionValida(origen.direccion)) return setError("Ingresa una dirección de recojo válida.");
+    if (!origen.fecha) return setError("Selecciona una fecha para el recojo.");
+  } else {
+    if (!origen.ciudad) return setError("Selecciona la agencia de origen.");
+  }
+
+  // VALIDACIONES DE DESTINO
+  if (destino.tipo === "entrega") {
+    if (!destino.departamento) return setError("Selecciona el departamento de destino.");
+    if (!destino.provincia) return setError("Selecciona la provincia de destino.");
+    if (!destino.distrito) return setError("Selecciona el distrito de destino.");
+    if (!esDireccionValida(destino.direccion)) return setError("Ingresa una dirección de entrega válida.");
+  } else {
+    if (!destino.ciudad) return setError("Selecciona la agencia de destino.");
+  }
+
+  // Si pasa todos los filtros
+  setError("");
+  siguientePaso();
+};
 
   return (
     <div className="container-fluid px-2">

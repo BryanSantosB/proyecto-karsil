@@ -11,6 +11,9 @@ export const FormProvider = ({ children }) => {
     origen: {
       tipo: "recojo", 
       ciudad: "",
+      departamento: "",
+      provincia: "",
+      distrito: "",
       direccion: "",
       referencia: "",
       fecha: ""

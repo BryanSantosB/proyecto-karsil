@@ -65,17 +65,43 @@ const OrigenCard = (props) => {
       {/* Contenedor de Formulario */}
       <div className="d-flex flex-column align-items-center w-100 gap-2 mb-4">
         
-        <div className="w-100">
-          <CustomSelect
-            placeholder="Selecciona una ciudad"
-            value={formData[seccion].ciudad || ""}
-            options={ciudadesOrigen}
-            onChange={manejarCambioCiudad}
-          />
-        </div>
+        {tipoOrigen !== props.modalidad && (
+          <div className="w-100">
+            <CustomSelect
+              placeholder="Selecciona una ciudad"
+              value={formData[seccion].ciudad || ""}
+              options={ciudadesOrigen}
+              onChange={manejarCambioCiudad}
+            />
+          </div>
+        )}
 
         {tipoOrigen === props.modalidad && (
           <>
+          <div className="w-100">
+              <CustomInput
+                type="text"
+                placeholder="Departamento"
+                value={formData[seccion].departamento || ""}
+                onChange={(e) => actualizarDatos(seccion, { departamento: e.target.value })}
+              />
+            </div>
+            <div className="w-100">
+              <CustomInput
+                type="text"
+                placeholder="Provincia"
+                value={formData[seccion].provincia || ""}
+                onChange={(e) => actualizarDatos(seccion, { provincia: e.target.value })}
+              />
+            </div>
+            <div className="w-100">
+              <CustomInput
+                type="text"
+                placeholder="Distrito"
+                value={formData[seccion].distrito || ""}
+                onChange={(e) => actualizarDatos(seccion, { distrito: e.target.value })}
+              />
+            </div>
             <div className="w-100">
               <CustomInput
                 type="text"
