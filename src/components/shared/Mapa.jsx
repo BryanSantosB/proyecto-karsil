@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { crearMapa, centrarPorDireccion, resetMapa } from "../../maps/mapUtils";
+import { crearMapa, centrarPorDireccion, resetMapa } from "maps/mapUtils";
 
 const peru = { lat: -9.19, lng: -75.0152 };
 

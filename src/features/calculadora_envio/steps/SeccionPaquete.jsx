@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useForm } from "../../../context/FormContext";
-import AlertaFlotante from "../../../components/ui/AlertaFlotante/AlertaFlotante";
-import NavegacionPasos from "../../../components/ui/NavegacionPasos/NavegacionPasos";
-import CustomInput from "../../../components/ui/CustomInput/CustomInput";
+import { useForm } from "context/FormContext";
+import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
+import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
+import CustomInput from "components/ui/CustomInput/CustomInput";
 /* import "../../../components/ui/NeumorphicCard.module.css"; */
 
 const SeccionPaquete = () => {

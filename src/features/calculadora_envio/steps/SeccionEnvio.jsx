@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useForm } from "../../../context/FormContext";
-import OrigenCard from "../../../components/shared/OrigenCard";
-import AlertaFlotante from "../../../components/ui/AlertaFlotante/AlertaFlotante";
-import NavegacionPasos from "../../../components/ui/NavegacionPasos/NavegacionPasos";
+import { useForm } from "context/FormContext";
+import OrigenCard from "components/shared/OrigenCard";
+import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
+import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
 
 const SeccionEnvio = () => {
   const { formData, siguientePaso, anteriorPaso, paso } = useForm();

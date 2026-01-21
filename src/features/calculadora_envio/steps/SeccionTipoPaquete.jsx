@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useForm } from "../../../context/FormContext";
-import NavegacionPasos from '../../../components/ui/NavegacionPasos/NavegacionPasos';
-import AlertaFlotante from '../../../components/ui/AlertaFlotante/AlertaFlotante';
+import { useForm } from "context/FormContext";
+import NavegacionPasos from 'components/ui/NavegacionPasos/NavegacionPasos';
+import AlertaFlotante from 'components/ui/AlertaFlotante/AlertaFlotante';
 
 const SeccionTipoPaquete = () => {
   const { formData, actualizarDatos, siguientePaso, anteriorPaso } = useForm();

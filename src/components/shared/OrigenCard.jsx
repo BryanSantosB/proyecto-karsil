@@ -1,8 +1,8 @@
-import { useForm } from "../../context/FormContext";
+import { useForm } from "context/FormContext";
 import { useState } from "react";
-import { ciudadesOrigen } from "../../data/ciudadesOrigen";
-import { listaFechas } from "../../data/fechasRecojo";
-import { useGoogleMaps } from "../../hooks/useGoogleMaps";
+import { ciudadesOrigen } from "data/ciudadesOrigen";
+import { listaFechas } from "data/fechasRecojo";
+import { useGoogleMaps } from "hooks/useGoogleMaps";
 import Mapa from "../shared/Mapa";
 import "./c_origen.css";
 import CustomSelect from "../ui/CustomSelect/CustomSelect";

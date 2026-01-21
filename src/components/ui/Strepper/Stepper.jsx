@@ -1,4 +1,3 @@
-// Stepper.jsx
 const Stepper = ({ pasoActual }) => {
   const pasos = [1, 2, 3, 4];
   const nombres = ["Ruta", "Paquete", "Categoría", "Resumen"];
