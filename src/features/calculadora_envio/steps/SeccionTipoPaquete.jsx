@@ -35,7 +35,7 @@ const SeccionTipoPaquete = () => {
       {/* Componente de Alerta */}
       <AlertaFlotante mensaje={error} onClose={() => setError("")} />
         
-      <div className="card shadow-sm p-4 border-0 w-100" style={{ maxWidth: '800px'}}>
+      <div className="card shadow p-4 border-0 w-100" style={{ maxWidth: '800px'}}>
         <h2 className="text-center mb-4 text-uppercase fw-bold">
           Tipo de Paquete
         </h2>

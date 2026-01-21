@@ -3,6 +3,7 @@ import { useForm } from "../../../context/FormContext";
 import AlertaFlotante from "../../../components/ui/AlertaFlotante";
 import NavegacionPasos from "../../../components/ui/NavegacionPasos";
 import CustomInput from "../../../components/ui/CustomInput";
+/* import "../../../components/ui/NeumorphicCard.module.css"; */
 
 const SeccionPaquete = () => {
   const { formData, actualizarDatos, siguientePaso, anteriorPaso } = useForm();
@@ -39,10 +40,10 @@ const SeccionPaquete = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center">
+    <div className=" container d-flex justify-content-center ">
       {/* Componente de Alerta */}
       <AlertaFlotante mensaje={error} onClose={() => setError("")} />
-      <div className="card shadow-sm p-4 w-100 " style={{ maxWidth: '800px' }}>
+      <div className=" card shadow-lg border-0 p-5 w-100 mt-3" style={{ maxWidth: '800px' }}>
         <h2 className="text-center mb-4 text-uppercase fw-bold">Detalles</h2>
 
         <div className="row g-3">

@@ -44,7 +44,7 @@ const SeccionEnvio = () => {
       <AlertaFlotante mensaje={error} onClose={() => setError("")} />
 
       {/* Cards de origen y destino */}
-      <div className="d-flex justify-content-center align-items-stretch pb-5 gap-5">
+      <div className="d-flex justify-content-center align-items-stretch pb-5 gap-5 ">
         <OrigenCard
           modalidad="recojo"
           modalidadText="Recojo a domicilio"

@@ -50,7 +50,7 @@ const OrigenCard = (props) => {
   if (!mapsLoaded) return <p>Cargando mapa...</p>;
 
   return (
-    <div className="card">
+    <div className="card shadow border-0 w-100 mt-3">
       <h2 className="title">{props.title}</h2>
 
       {/* Radios */}
