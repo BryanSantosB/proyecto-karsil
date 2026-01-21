@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useForm } from "../../context/FormContext";
-import AlertaFlotante from "../AlertaFlotante";
+import { useForm } from "../../../context/FormContext";
+import AlertaFlotante from "../../../components/ui/AlertaFlotante";
+import NavegacionPasos from "../../../components/ui/NavegacionPasos";
 
 const SeccionPaquete = () => {
   const { formData, actualizarDatos, siguientePaso, anteriorPaso } = useForm();
@@ -133,19 +134,10 @@ const SeccionPaquete = () => {
 
           {/* Botón Siguiente */}
           <div className="col-12 mt-5 d-flex flex-column align-items-center gap-2">
-            <button
-              onClick={validarYContinuar}
-              className="btn py-2 px-5 rounded-pill shadow-sm fw-bold"
-              style={{ backgroundColor: '#E0D7FF', color: '#000', minWidth: '200px' }}
-            >
-              Siguiente
-            </button>
-            <button 
-              onClick={anteriorPaso}
-              className="btn btn-link btn-sm text-muted text-decoration-none"
-            >
-              Volver
-            </button>
+            <NavegacionPasos
+              onSiguiente={validarYContinuar}
+              onVolver={anteriorPaso}
+            />
           </div>
         </div>
       </div>

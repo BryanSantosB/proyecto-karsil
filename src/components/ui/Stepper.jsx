@@ -17,7 +17,7 @@ const Stepper = ({ pasoActual }) => {
              zIndex: 0, 
              width: `${((pasoActual - 1) / (pasos.length - 1)) * 100}%`,
              transition: 'width 0.4s ease'
-           }}></div>
+           }}></div>  
 
       {pasos.map((p, index) => (
         <div key={p} className="position-relative d-flex flex-column align-items-center" style={{ zIndex: 1 }}>

@@ -1,4 +1,4 @@
-import CalculadoraEnvio from "./components/direccion/CalculadoraEnvio";
+import CalculadoraEnvio from "./features/calculadora_envio/CalculadoraEnvio";
 
 function App() {
   return (

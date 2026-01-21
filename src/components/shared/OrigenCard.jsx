@@ -3,8 +3,8 @@ import { useState } from "react";
 import { ciudadesOrigen } from "../../data/ciudadesOrigen";
 import { listaFechas } from "../../data/fechasRecojo";
 import { useGoogleMaps } from "../../hooks/useGoogleMaps";
-import Mapa from "./Mapa";
-import "./styles/c_origen.css";
+import Mapa from "../shared/Mapa";
+import "./c_origen.css";
 
 const OrigenCard = (props) => {
   const { formData, actualizarDatos } = useForm();

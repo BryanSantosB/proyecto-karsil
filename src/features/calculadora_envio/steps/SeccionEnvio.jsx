@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useForm } from "../../context/FormContext";
-import OrigenCard from "./OrigenCard";
-import AlertaFlotante from "../AlertaFlotante";
+import { useForm } from "../../../context/FormContext";
+import OrigenCard from "../../../components/shared/OrigenCard";
+import AlertaFlotante from "../../../components/ui/AlertaFlotante";
+import NavegacionPasos from "../../../components/ui/NavegacionPasos";
 
 const SeccionEnvio = () => {
-  const { formData, siguientePaso } = useForm();
+  const { formData, siguientePaso, anteriorPaso, paso } = useForm();
 
   const [error, setError] = useState("");
 
@@ -27,7 +28,6 @@ const SeccionEnvio = () => {
     }
 
     if (!destino.ciudad) return setError("Selecciona una ciudad de destino.");
-
 
     if (destino.tipo === "entrega") {
       if (!esDireccionValida(destino.direccion))
@@ -60,13 +60,11 @@ const SeccionEnvio = () => {
         ></OrigenCard>
       </div>
       <div className="d-flex justify-content-center align-items-center w-100">
-        <button
-          type="button"
-          className="btn_continuar"
-          onClick={validarYContinuar}
-        >
-          Continuar
-        </button>
+        <NavegacionPasos
+          onSiguiente={validarYContinuar}
+          onVolver={anteriorPaso}
+          mostrarVolver={paso > 1}
+        />
       </div>
     </div>
   );

@@ -104,13 +104,3 @@ select {
 .oculto {
   display: none !important;
 }
-
-.btn_continuar{
-    background-color: #8E7CC3;
-    border: none;
-    font-size: large;
-    color: white;
-    padding: 1vh 2%;
-
-}
-

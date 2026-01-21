@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm } from "../../context/FormContext";
+import { useForm } from "../../../context/FormContext";
 
 const ResumenTotal = () => {
   const { formData, anteriorPaso } = useForm();

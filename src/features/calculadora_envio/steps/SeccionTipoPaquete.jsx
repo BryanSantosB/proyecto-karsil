@@ -1,8 +1,11 @@
-import React from 'react';
-import { useForm } from "../../context/FormContext";
+import React, { useState } from 'react';
+import { useForm } from "../../../context/FormContext";
+import NavegacionPasos from '../../../components/ui/NavegacionPasos';
+import AlertaFlotante from '../../../components/ui/AlertaFlotante';
 
 const SeccionTipoPaquete = () => {
   const { formData, actualizarDatos, siguientePaso, anteriorPaso } = useForm();
+  const [error, setError] = useState("");
 
   // Opciones basadas en tu imagen
   const tipos = [
@@ -16,8 +19,22 @@ const SeccionTipoPaquete = () => {
     actualizarDatos('paquete', { categoria: id });
   };
 
+  const validarYContinuar = () => {
+    if (!formData.paquete.categoria) {
+      setError("Por favor, selecciona un tipo de paquete para continuar.");
+      return;
+    }
+
+    setError("");
+    siguientePaso();
+  };
+
   return (
+    
     <div className="container d-flex justify-content-center">
+      {/* Componente de Alerta */}
+      <AlertaFlotante mensaje={error} onClose={() => setError("")} />
+        
       <div className="card shadow-sm p-4 border-0 w-100" style={{ maxWidth: '800px'}}>
         <h2 className="text-center mb-4 text-uppercase fw-bold">
           Tipo de Paquete
@@ -45,26 +62,10 @@ const SeccionTipoPaquete = () => {
 
           {/* Botón Siguiente */}
           <div className="col-12 mt-5 d-flex flex-column align-items-center gap-3">
-            <button
-              onClick={siguientePaso}
-              disabled={!formData.paquete.categoria} // Deshabilitar si no hay selección
-              className="btn py-2 px-5 rounded-pill shadow-sm fw-normal"
-              style={{ 
-                backgroundColor: '#E1D5F5', 
-                color: '#000', 
-                minWidth: '180px',
-                opacity: !formData.paquete.categoria ? 0.6 : 1 
-              }}
-            >
-              Siguiente
-            </button>
-            
-            <button 
-              onClick={anteriorPaso}
-              className="btn btn-link btn-sm text-muted text-decoration-none"
-            >
-              volver atrás
-            </button>
+            <NavegacionPasos
+              onSiguiente={validarYContinuar}
+              onVolver={anteriorPaso}
+            />
           </div>
         </div>
       </div>

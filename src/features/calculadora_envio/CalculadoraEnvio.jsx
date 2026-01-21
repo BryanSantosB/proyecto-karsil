@@ -1,10 +1,10 @@
 import {useForm, FormProvider } from "../../context/FormContext.jsx";
-import SeccionEnvio from "./SeccionEnvio";
-import SeccionPaquete from "./SeccionPaquete.jsx";
-import SeccionTipoPaquete from "./SeccionTipoPaquete.jsx";
-import ResumenTotal from "./ResumenTotal.jsx";
+import SeccionEnvio from "./steps/SeccionEnvio";
+import SeccionPaquete from "./steps/SeccionPaquete.jsx";
+import SeccionTipoPaquete from "./steps/SeccionTipoPaquete.jsx";
+import ResumenTotal from "./steps/ResumenTotal.jsx";
 import { motion, AnimatePresence } from "framer-motion";
-import Stepper from "./Stepper";
+import Stepper from "../../components/ui/Stepper.jsx";
 
 const ContenidoCalculadora = () => {
   const { paso } = useForm();
@@ -20,7 +20,7 @@ const ContenidoCalculadora = () => {
   };
 
   return (
-    <div className="container py-5">
+    <div className="container py-2">
       {/* 1. Barra de pasos visual */}
       <Stepper pasoActual={paso} />
 
