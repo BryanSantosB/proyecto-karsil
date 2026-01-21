@@ -15,7 +15,6 @@ export const FormProvider = ({ children }) => {
       provincia: "",
       distrito: "",
       direccion: "",
-      referencia: "",
       fecha: ""
     },
     destino: {

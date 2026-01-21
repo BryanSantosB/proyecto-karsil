@@ -32,6 +32,8 @@ const OrigenCard = (props) => {
     setTipoOrigen(nuevoTipo);
     actualizarDatos(seccion, { tipo: nuevoTipo });
     setDireccionMapa("");
+    nuevoTipo !== "agencia" + props.modalidad && actualizarDatos(seccion, { ciudad: "" });
+    nuevoTipo === "agencia" + props.modalidad && actualizarDatos(seccion, { departamento: "", provincia: "", distrito: "", direccion: "", fecha: "" });
     setResetKey((k) => k + 1);
   };
 
@@ -78,7 +80,8 @@ const OrigenCard = (props) => {
 
         {tipoOrigen === props.modalidad && (
           <>
-          <div className="w-100">
+          <div className="d-flex gap-2 w-100">
+            <div className="w-100">
               <CustomInput
                 type="text"
                 placeholder="Departamento"
@@ -102,20 +105,13 @@ const OrigenCard = (props) => {
                 onChange={(e) => actualizarDatos(seccion, { distrito: e.target.value })}
               />
             </div>
+          </div>
             <div className="w-100">
               <CustomInput
                 type="text"
                 placeholder="Dirección exacta"
                 value={formData[seccion].direccion || ""}
                 onChange={manejarCambioDireccion}
-              />
-            </div>
-            <div className="w-100">
-              <CustomInput
-                type="text"
-                placeholder="Referencia (Ej: Portón azul)"
-                value={formData[seccion].referencia || ""}
-                onChange={(e) => actualizarDatos(seccion, { referencia: e.target.value })}
               />
             </div>
           </>
