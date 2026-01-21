@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "../../../context/FormContext";
 import AlertaFlotante from "../../../components/ui/AlertaFlotante";
 import NavegacionPasos from "../../../components/ui/NavegacionPasos";
+import CustomInput from "../../../components/ui/CustomInput";
 
 const SeccionPaquete = () => {
   const { formData, actualizarDatos, siguientePaso, anteriorPaso } = useForm();
@@ -10,13 +11,11 @@ const SeccionPaquete = () => {
   const validarYContinuar = () => {
     const { paquete } = formData;
 
-    // 1. Validar Peso
     if (!paquete.peso || paquete.peso <= 0) {
       setError("El peso debe ser una cantidad mayor a 0 kg.");
       return;
     }
 
-    // 2. Validar Dimensiones (Largo, Ancho, Alto)
     if (!paquete.largo || paquete.largo <= 0 || 
         !paquete.ancho || paquete.ancho <= 0 || 
         !paquete.alto  || paquete.alto <= 0) {
@@ -24,13 +23,11 @@ const SeccionPaquete = () => {
       return;
     }
 
-    // 3. Validar Tipo de Envío (Aéreo o Terrestre)
     if (!paquete.tipoEnvio || paquete.tipoEnvio === "") {
       setError("Debes seleccionar un método de envío (Aéreo o Terrestre).");
       return;
     }
 
-    // Si todo es correcto
     setError("");
     siguientePaso();
   };
@@ -50,50 +47,52 @@ const SeccionPaquete = () => {
 
         <div className="row g-3">
           {/* Campo Peso */}
-          <div className="col-12">
-            <label className="form-label small fw-bold text-muted">Peso (kg)</label>
-            <input
-              type="number"
-              name="peso"
-              className="form-control form-control-lg bg-light border-0"
-              placeholder="0.00"
-              value={formData.paquete.peso || ''}
-              onChange={handleChange}
-            />
-          </div>
+          <CustomInput
+            label="Peso (kg)"
+            name="peso"
+            type="number"
+            placeholder="0.00"
+            value={formData.paquete.peso || ''}
+            onChange={(e) => handleChange(e)}
+            min="0.1"
+            step="0.1"
+          />
 
           {/* Dimensiones: Alto, Ancho, Largo */}
           <div className="col-4">
-            <label className="form-label small fw-bold text-muted">Largo (cm)</label>
-            <input
-              type="number"
+            <CustomInput
+              label="Largo (cm)"
               name="largo"
-              className="form-control bg-light border-0"
+              type="number"
               placeholder="0"
               value={formData.paquete.largo || ''}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e)}
+              min="0.1"
+              step="0.1"
             />
           </div>
           <div className="col-4">
-            <label className="form-label small fw-bold text-muted">Ancho (cm)</label>
-            <input
-              type="number"
+            <CustomInput
+              label="Ancho (cm)"
               name="ancho"
-              className="form-control bg-light border-0"
+              type="number"
               placeholder="0"
               value={formData.paquete.ancho || ''}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e)}
+              min="0.1"
+              step="0.1"
             />
           </div>
           <div className="col-4">
-            <label className="form-label small fw-bold text-muted">Alto (cm)</label>
-            <input
-              type="number"
+            <CustomInput
+              label="Alto (cm)"
               name="alto"
-              className="form-control bg-light border-0"
+              type="number"
               placeholder="0"
               value={formData.paquete.alto || ''}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e)}
+              min="0.1"
+              step="0.1"
             />
           </div>
 

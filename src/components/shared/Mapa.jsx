@@ -43,7 +43,7 @@ const Mapa = ({ direccion, resetKey }) => {
   }, [direccion, resetKey]);
 
   return (
-    <div class="map-container w-75">
+    <div className="map-container w-80">
           <div ref={divRef} className="map-placeholder" />
         </div>
   );
