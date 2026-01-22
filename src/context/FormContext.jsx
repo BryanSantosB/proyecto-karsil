@@ -20,8 +20,10 @@ export const FormProvider = ({ children }) => {
     destino: {
       tipo: "entrega",
       ciudad: "",
+      departamento: "",
+      provincia: "",
+      distrito: "",
       direccion: "",
-      referencia: ""
     },
     paquete: {
       peso: "", largo: "", ancho: "", alto: "", 

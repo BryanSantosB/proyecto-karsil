@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes/routes';
 import NavBar from 'components/ui/NavBar/NavBar';
 import React, { Suspense } from 'react';
+import Footer from 'components/ui/Footer/Footer';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         ))}
       </Routes>
       </Suspense>
+      <Footer/>
     </Router>
   );
 }

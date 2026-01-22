@@ -86,7 +86,7 @@ const OrigenCard = (props) => {
               placeholder="Selecciona una ciudad"
               value={formData[seccion].ciudad || ""}
               options={ciudadesOrigen}
-              onChange={manejarCambioCiudad}
+              onChange={(e) => {manejarCambioCiudad(e)}}
             />
           </div>
         )}

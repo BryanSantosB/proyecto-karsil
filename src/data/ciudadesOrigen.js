@@ -1,26 +1,26 @@
 export const ciudadesOrigen = [
   {
-    label: "CALLAO",
+    label: "LIMA - CALLAO" /* "CALLAO", */,
     value: "Calle Cromo Mz B Lt14-A Urb industrial Grimaneza Callao",
   },
   {
-    label: "BAZATE Y MEZA - LA VICTORIA",
+    label: "LIMA - BAZATE Y MEZA - LA VICTORIA",
     value: "Bauzate y Meza 225 – La Victoria",
   },
   {
-    label: "LUNA PIZARRO - LA VICTORIA",
+    label: "LIMA - LUNA PIZARRO - LA VICTORIA",
     value: "Luna Pizarro 593 – La Victoria",
   },
   {
-    label: "GALERIA SAN ANDRES - LA VICTORIA",
+    label: "LIMA - GALERIA SAN ANDRES - LA VICTORIA",
     value: "Av. Jose Galvez N° 199 Int.94 – La Victoria",
   },
   {
-    label: "SAN JUAN DE LURIGANCHO",
+    label: "LIMA - SAN JUAN DE LURIGANCHO",
     value: "Calle 13 de enero N° 2056 - San Juan de Lurigancho",
   },
   {
-    label: "MAGDALENA",
+    label: "LIMA - MAGDALENA",
     value: "Jirón Tacna 630 Primer piso - Magdalena",
   },
   { label: "IQUITOS", value: "Calle Napo 670 - Iquitos" },

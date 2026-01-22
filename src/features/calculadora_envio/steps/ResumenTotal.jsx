@@ -4,9 +4,11 @@ import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
 import CardResumenRuta from "components/shared/CardResumenRuta";
 import InfoPaqueteGrid from "components/shared/InfoPaqueteGrid";
 import NeumorphicContainer from 'components/ui/NeumorphicContainer/NeumorphicContainer';
+import { useCotizador } from 'hooks/useCotizador';
 
 const ResumenTotal = () => {
   const { formData, anteriorPaso } = useForm();
+  const { total, pesoCobrable } = useCotizador(formData);
 
   const handleConfirmar = () => {
     console.log("Datos Finales Enviados:", formData);
@@ -59,6 +61,20 @@ const ResumenTotal = () => {
           </div>
 
           {/* ACCIONES FINALES */}
+          <p className="text-sm text-gray-400">
+  Peso cobrable: {pesoCobrable.toFixed(2)} kg
+</p>
+
+<p className="text-xl font-bold text-green-500">
+  Precio estimado: S/ {total}
+</p>
+
+<p className="text-xs text-gray-500">
+  * Precio referencial, sujeto a validación
+</p>  
+
+
+          
           <div className="col-12 mt-4">
             <NavegacionPasos 
               onSiguiente={handleConfirmar}

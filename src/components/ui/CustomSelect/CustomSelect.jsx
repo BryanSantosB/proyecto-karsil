@@ -10,7 +10,7 @@ const CustomSelect = ({ value, onChange, options, placeholder = "Seleccionar..."
       >
         <option value="">{placeholder}</option>
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
+          <option key={opt.value} value={opt.label}>
             {opt.label}
           </option>
         ))}

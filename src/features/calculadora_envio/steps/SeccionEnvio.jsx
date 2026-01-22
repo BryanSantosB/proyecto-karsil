@@ -3,6 +3,7 @@ import { useForm } from "context/FormContext";
 import OrigenCard from "components/shared/OrigenCard";
 import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
 import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
+import { esRutaDisponible } from "utils/validarRuta";
 
 const SeccionEnvio = () => {
   const { formData, siguientePaso, anteriorPaso, paso } = useForm();
@@ -37,6 +38,13 @@ const SeccionEnvio = () => {
   } else {
     if (!destino.ciudad) return setError("Selecciona la agencia de destino.");
   }
+
+  // VALIDACIONES DE RUTAS DISPONIBLES
+  if (!esRutaDisponible(origen, destino)) {
+  return setError(
+    "La ruta seleccionada no está disponible. Solo se realizan envíos Lima ↔ Provincia."
+  );
+}
 
   // Si pasa todos los filtros
   setError("");
