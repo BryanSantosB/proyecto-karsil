@@ -15,8 +15,8 @@ const ContenidoCalculadora = () => {
       case 1: return <SeccionEnvio key="paso1" />;
       case 2: return <SeccionPaquete key="paso2" />;
       case 3: return <SeccionTipoPaquete key="paso3" />;
-      case 4: return <SeccionContacto key="paso4" />;
-      case 5: return <ResumenTotal key="paso5" />;
+      case 4: return <SeccionContacto key="paso5" />;
+      case 5: return <ResumenTotal key="paso4" />;
       default: return <SeccionEnvio key="paso1" />;
     }
   };

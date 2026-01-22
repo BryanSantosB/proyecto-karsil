@@ -1,18 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "context/FormContext";
 import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
 import CardResumenRuta from "components/shared/CardResumenRuta";
 import InfoPaqueteGrid from "components/shared/InfoPaqueteGrid";
 import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
 import { useCotizador } from "hooks/useCotizador";
+import ModalConfirmacion from "components/ui/ModalConfirmacion/ModalConfirmacion";
 
 const ResumenTotal = () => {
   const { formData, anteriorPaso } = useForm();
   const { total, pesoCobrable } = useCotizador(formData);
+  const [mostrarExito, setMostrarExito] = useState(false);
 
-  const handleConfirmar = () => {
-    console.log("Datos Finales Enviados:", formData);
-    // Lógica de envío
+  const confirmarYEnviar = () => {
+    console.log("Enviando datos de Karsil...", formData);
+
+    setMostrarExito(true);
+  };
+
+  const cerrarYReiniciar = () => {
+    setMostrarExito(false);
+    window.location.href = "/"; 
   };
 
   return (
@@ -79,9 +87,9 @@ const ResumenTotal = () => {
 
           <div className="col-12 mt-4">
             <NavegacionPasos
-              onSiguiente={handleConfirmar}
+              onSiguiente={confirmarYEnviar}
               onVolver={anteriorPaso}
-              textoSiguiente="CONFIRMAR PEDIDO"
+              textoSiguiente="CONFIRMAR ENVIO"
               mostrarVolver={true}
             />
 
@@ -92,6 +100,13 @@ const ResumenTotal = () => {
           </div>
         </div>
       </NeumorphicContainer>
+
+      <ModalConfirmacion
+        isOpen={mostrarExito} 
+        mensaje="¡Tu envío ha sido registrado!"
+        submensaje="Un asesor de Karsil revisará los detalles y te contactará por WhatsApp en breve."
+        onCerrar={cerrarYReiniciar}
+      />
     </div>
   );
 };
