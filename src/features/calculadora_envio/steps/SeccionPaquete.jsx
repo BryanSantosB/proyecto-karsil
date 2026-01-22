@@ -33,15 +33,15 @@ const SeccionPaquete = () => {
   };
 
   return (
-    <div className="container-fluid px-2 d-flex justify-content-center">
+    <div className="w-full px-2 flex justify-center">
       <AlertaFlotante mensaje={error} onClose={() => setError("")} />
 
       <NeumorphicContainer width="100%" maxWidth="800px" className="p-3 p-md-5 mt-3">
         <h2 className="text-center mb-4 text-uppercase fw-bold fs-4 fs-md-2">Detalles</h2>
 
-        <div className="row g-1">
+        <div className="row mx-0 g-3">
           {/* Peso */}
-          <div className="col-12">
+          <div className="col-12 px-1">
             <CustomInput
               label="Peso (kg)"
               name="peso"
@@ -53,7 +53,7 @@ const SeccionPaquete = () => {
           </div>
 
           {/* Dimensiones */}
-          <div className="col-12 col-md-4">
+          <div className="col-12 col-md-4 px-1">
             <CustomInput
               label="Largo (cm)"
               name="largo"
@@ -63,7 +63,7 @@ const SeccionPaquete = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="col-12 col-md-4">
+          <div className="col-12 col-md-4 px-1">
             <CustomInput
               label="Ancho (cm)"
               name="ancho"
@@ -73,7 +73,7 @@ const SeccionPaquete = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="col-12 col-md-4">
+          <div className="col-12 col-md-4 px-1">
             <CustomInput
               label="Alto (cm)"
               name="alto"
@@ -88,12 +88,12 @@ const SeccionPaquete = () => {
           <div className="col-12 mt-2">
             <label className="d-block text-center mb-3 fw-bold text-muted small">MÉTODO DE ENVÍO</label>
             <div className="d-flex flex-column flex-md-row justify-content-center gap-3">
-              <label className="flex-fill">
+              <label className="flex-fill mw-100">
                 <input
                   type="radio"
                   name="tipoEnvio"
                   value="aereo"
-                  className="btn-check"
+                  className="btn-check hidden"
                   checked={formData.paquete.tipoEnvio === 'aereo'}
                   onChange={handleChange}
                 />
@@ -103,12 +103,12 @@ const SeccionPaquete = () => {
                 </span>
               </label>
 
-              <label className="flex-fill">
+              <label className="flex-fill mw-100">
                 <input
                   type="radio"
                   name="tipoEnvio"
                   value="terrestre"
-                  className="btn-check"
+                  className="btn-check hidden"
                   checked={formData.paquete.tipoEnvio === 'terrestre'}
                   onChange={handleChange}
                 />
