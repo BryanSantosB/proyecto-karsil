@@ -1,6 +1,6 @@
 const Stepper = ({ pasoActual }) => {
-  const pasos = [1, 2, 3, 4];
-  const nombres = ["Ruta", "Paquete", "Categoría", "Resumen"];
+  const pasos = [1, 2, 3, 4, 5];
+  const nombres = ["Ruta", "Paquete", "Categoría", "Datos", "Cotización"];
 
   return (
     <div className="d-flex justify-content-between position-relative mb-5 w-75 mx-auto">

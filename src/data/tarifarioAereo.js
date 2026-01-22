@@ -71,7 +71,7 @@ export const tarifarioAereo = {
     reparto: { baseHasta20Kg: 10, kgAdicional: 0.5 },
   },
 
-  "TUMBRES": {
+  "TUMBES": {
     general: { primerKg: 20, kgAdicional: 6 },
     perecible: { primerKg: 20, kgAdicional: 7 },
     valorizado: { primerKg: 80, kgAdicional: 8 },

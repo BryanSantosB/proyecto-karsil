@@ -1,6 +1,6 @@
 export const ciudadesOrigen = [
   {
-    label: "LIMA - CALLAO" /* "CALLAO", */,
+    label: "LIMA - CALLAO",
     value: "Calle Cromo Mz B Lt14-A Urb industrial Grimaneza Callao",
   },
   {
@@ -33,6 +33,6 @@ export const ciudadesOrigen = [
   },
   { label: "TUMBES", value: "Cal. Jesus de Nazared - Tumbes" },
   { label: "PIURA", value: "Av. Catacaos S/N - Piura" },
-  { label: "CUZCO", value: "San Sebastián - Cuzco" },
+  { label: "CUSCO", value: "San Sebastián - Cuzco" },
   { label: "JULIACA", value: "Jr. Atahualpa 176 - Juliaca" },
 ];

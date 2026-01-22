@@ -41,6 +41,7 @@ const SeccionEnvio = () => {
 
   // VALIDACIONES DE RUTAS DISPONIBLES
   if (!esRutaDisponible(origen, destino)) {
+    console.log("Ruta no disponible:", origen, destino);
   return setError(
     "La ruta seleccionada no está disponible. Solo se realizan envíos Lima ↔ Provincia."
   );

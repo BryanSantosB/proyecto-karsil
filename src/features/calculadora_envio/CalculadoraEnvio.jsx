@@ -5,6 +5,7 @@ import SeccionTipoPaquete from "./steps/SeccionTipoPaquete.jsx";
 import ResumenTotal from "./steps/ResumenTotal.jsx";
 import { motion, AnimatePresence } from "framer-motion";
 import Stepper from "components/ui/Strepper/Stepper.jsx";
+import SeccionContacto from "./steps/SeccionContacto";
 
 const ContenidoCalculadora = () => {
   const { paso } = useForm();
@@ -14,7 +15,8 @@ const ContenidoCalculadora = () => {
       case 1: return <SeccionEnvio key="paso1" />;
       case 2: return <SeccionPaquete key="paso2" />;
       case 3: return <SeccionTipoPaquete key="paso3" />;
-      case 4: return <ResumenTotal key="paso4" />;
+      case 4: return <SeccionContacto key="paso4" />;
+      case 5: return <ResumenTotal key="paso5" />;
       default: return <SeccionEnvio key="paso1" />;
     }
   };

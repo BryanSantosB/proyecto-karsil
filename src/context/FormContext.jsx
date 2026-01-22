@@ -29,6 +29,10 @@ export const FormProvider = ({ children }) => {
       peso: "", largo: "", ancho: "", alto: "", 
       tipoEnvio: "",
       categoria: ""
+    },
+    contacto: { 
+      telefono: '', 
+      email: '' 
     }
   });
 

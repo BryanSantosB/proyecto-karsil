@@ -1,64 +1,100 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import miLogo from 'assets/icons/icon_karsil.png';
+import { useState } from "react";
 
 const Navbar = () => {
-  // Estado para manejar el menú móvil (en React no usamos querySelector ni addEventListener)
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  const [open, setOpen] = useState(false);
 
   return (
-    <nav className="h-[70px] relative w-full px-6 mb-4 md:px-16 lg:px-24 xl:px-32 flex items-center justify-between z-20 bg-white text-gray-700 shadow-[0px_4px_25px_0px_#0000000D] transition-all">
-      
-      {/* Logo - Usamos Link para evitar recargar la página */}
-      <Link to="/" className="flex items-center">
-        <img 
-          src={miLogo} 
-          alt="Karsil Logo" 
-          className="h-10 w-auto object-contain" 
-        />
-      </Link>
+    <nav className="sticky top-0 w-full z-50 backdrop-blur-md bg-gray-900/80 border-b border-white/10 mb-5">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex justify-between items-center h-16">
 
-      {/* Menú Desktop - md:flex hidden (se oculta en móvil, se muestra en md en adelante) */}
-      <ul className="md:flex hidden items-center gap-10">
-        <li><Link className="hover:text-gray-500/80 transition" to="/">Home</Link></li>
-        <li><Link className="hover:text-gray-500/80 transition" to="/servicios">Services</Link></li>
-        <li><Link className="hover:text-gray-500/80 transition" to="/portfolio">Portfolio</Link></li>
-        <li><Link className="hover:text-gray-500/80 transition" to="/precios">Pricing</Link></li>
-      </ul>
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <span className="text-2xl font-extrabold text-indigo-500 tracking-wide">
+              KARSIL
+            </span>
+            <span className="hidden sm:block text-xs text-gray-400">
+              Envíos Nacionales
+            </span>
+          </div>
 
-      {/* Botón Desktop */}
-      <button type="button" className="bg-white text-gray-600 border border-gray-300 md:inline hidden text-sm hover:bg-gray-50 active:scale-95 transition-all w-40 h-11 rounded-full">
-        Get started
-      </button>
+          {/* Desktop menu */}
+          <div className="hidden md:flex items-center gap-8">
+            {["Inicio", "Servicios", "Cobertura", "Seguimiento", "Contacto"].map(
+              (item) => (
+                <a
+                  key={item}
+                  href="/"
+                  className="relative group text-gray-300 hover:text-white transition"
+                >
+                  {item}
+                  <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-indigo-500 transition-all duration-300 group-hover:w-full" />
+                </a>
+              )
+            )}
 
-      {/* Botón Hamburguesa (Móvil) */}
-      <button 
-        aria-label="menu-btn" 
-        type="button" 
-        onClick={toggleMenu}
-        className="inline-block md:hidden active:scale-90 transition"
+            {/* CTA */}
+            <a
+              href="/cotizar"
+              className="relative inline-flex items-center justify-center px-5 py-2 font-semibold text-white rounded-lg bg-indigo-600 hover:bg-indigo-700 transition shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50"
+            >
+              Cotizar envío
+            </a>
+          </div>
+
+          {/* Mobile button */}
+          <button
+            onClick={() => setOpen(!open)}
+            className="md:hidden text-gray-300 focus:outline-none"
+          >
+            <div className="space-y-1">
+              <span
+                className={`block h-0.5 w-6 bg-current transition ${
+                  open ? "rotate-45 translate-y-1.5" : ""
+                }`}
+              />
+              <span
+                className={`block h-0.5 w-6 bg-current transition ${
+                  open ? "opacity-0" : ""
+                }`}
+              />
+              <span
+                className={`block h-0.5 w-6 bg-current transition ${
+                  open ? "-rotate-45 -translate-y-1.5" : ""
+                }`}
+              />
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ${
+          open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        }`}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="#000">
-          <path d="M 3 7 A 1.0001 1.0001 0 1 0 3 9 L 27 9 A 1.0001 1.0001 0 1 0 27 7 L 3 7 z M 3 14 A 1.0001 1.0001 0 1 0 3 16 L 27 16 A 1.0001 1.0001 0 1 0 27 14 L 3 14 z M 3 21 A 1.0001 1.0001 0 1 0 3 23 L 27 23 A 1.0001 1.0001 0 1 0 27 21 L 3 21 z"></path>
-        </svg>
-      </button>
+        <div className="px-6 pb-6 pt-2 space-y-4 bg-gray-900/95">
+          {["Inicio", "Servicios", "Cobertura", "Seguimiento", "Contacto"].map(
+            (item) => (
+              <a
+                key={item}
+                href="/"
+                className="block text-gray-300 hover:text-white transition"
+                onClick={() => setOpen(false)}
+              >
+                {item}
+              </a>
+            )
+          )}
 
-      {/* Menú Móvil - La clase "hidden" se quita dinámicamente con el estado isOpen */}
-      <div className={`absolute top-[70px] left-0 w-full bg-white p-6 shadow-xl md:hidden transition-all ${isOpen ? 'block' : 'hidden'}`}>
-        <ul className="flex flex-col space-y-4 text-lg">
-          <li><Link to="/" onClick={toggleMenu} className="text-sm">Home</Link></li>
-          <li><Link to="/servicios" onClick={toggleMenu} className="text-sm">Services</Link></li>
-          <li><Link to="/portfolio" onClick={toggleMenu} className="text-sm">Portfolio</Link></li>
-          <li><Link to="/precios" onClick={toggleMenu} className="text-sm">Pricing</Link></li>
-        </ul>
-
-        <button type="button" className="bg-white text-gray-600 border border-gray-300 mt-6 text-sm hover:bg-gray-50 active:scale-95 transition-all w-40 h-11 rounded-full">
-          Get started
-        </button>
+          <a
+            href="/cotizar"
+            className="block text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-lg shadow-md transition"
+          >
+            Cotizar envío
+          </a>
+        </div>
       </div>
     </nav>
   );
