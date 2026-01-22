@@ -41,8 +41,6 @@ export const FormProvider = ({ children }) => {
   const anteriorPaso = () => setPaso((prev) => prev - 1);
 
   // Función para actualizar datos de forma dinámica
-  // section: "origen", "destino", etc.
-  // data: el objeto con los cambios { ciudad: "Lima" }
   const actualizarDatos = (section, data) => {
     setFormData((prev) => ({
       ...prev,
