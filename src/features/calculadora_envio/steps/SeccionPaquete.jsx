@@ -98,7 +98,7 @@ const SeccionPaquete = () => {
                   onChange={handleChange}
                 />
                 <span className="btn btn-outline-primary w-100 py-3 rounded-pill border-0 shadow-sm d-flex align-items-center justify-content-center" 
-                      style={{ backgroundColor: formData.paquete.tipoEnvio === 'aereo' ? 'var(--color-primary)' : '#F8F9FA', color: '#000', minHeight: '55px' }}>
+                      style={{ backgroundColor: formData.paquete.tipoEnvio === 'aereo' ? 'var(--color-primary)' : '#F8F9FA', color: formData.paquete.tipoEnvio === 'aereo' ? '#fff' : '#000', minHeight: '55px' }}>
                   ✈️ Aéreo
                 </span>
               </label>
@@ -113,7 +113,7 @@ const SeccionPaquete = () => {
                   onChange={handleChange}
                 />
                 <span className="btn btn-outline-primary w-100 py-3 rounded-pill border-0 shadow-sm d-flex align-items-center justify-content-center"
-                      style={{ backgroundColor: formData.paquete.tipoEnvio === 'terrestre' ? 'var(--color-primary)' : '#F8F9FA', color: '#000', minHeight: '55px' }}>
+                      style={{ backgroundColor: formData.paquete.tipoEnvio === 'terrestre' ? 'var(--color-primary)' : '#F8F9FA', color: formData.paquete.tipoEnvio === 'terrestre' ? '#fff' : '#000', minHeight: '55px' }}>
                   🚚 Terrestre
                 </span>
               </label>
