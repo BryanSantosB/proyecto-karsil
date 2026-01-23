@@ -22,7 +22,7 @@
   border-radius: 50px; /* Redondeado igual que los botones */
   border: 2px solid #E1D5F5;
   font-weight: 600;
-  color: #8E7CC3;
+  color: var(--color-primary);
   background-color: #fff;
   transition: all 0.3s ease;
   font-size: 0.9rem;
@@ -31,13 +31,13 @@
 /* Efecto Hover */
 .optionLabel:hover .customRadio {
   background-color: #f8f6ff;
-  border-color: #8E7CC3;
+  border-color: var(--color-primary);
 }
 
 /* Cuando el radio está seleccionado */
 .optionLabel input:checked + .customRadio {
-  background-color: #8E7CC3;
+  background-color: var(--color-primary);
   color: #fff;
-  border-color: #8E7CC3;
-  box-shadow: 0 4px 10px rgba(142, 124, 195, 0.3);
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
 }

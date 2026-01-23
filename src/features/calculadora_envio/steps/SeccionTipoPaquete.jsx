@@ -45,7 +45,7 @@ const SeccionTipoPaquete = () => {
                 onClick={() => seleccionarTipo(tipo.id)}
                 className="btn w-100 py-3 rounded-pill border-0 shadow-sm transition-all"
                 style={{
-                  backgroundColor: formData.paquete.categoria === tipo.id ? '#8E7CC3' : '#F8F9FA',
+                  backgroundColor: formData.paquete.categoria === tipo.id ? 'var(--color-primary)' : '#F8F9FA',
                   color: formData.paquete.categoria === tipo.id ? '#fff' : '#555',
                   fontSize: '1rem',
                   fontWeight: '600',

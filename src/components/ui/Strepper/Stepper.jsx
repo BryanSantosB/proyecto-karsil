@@ -3,7 +3,8 @@ const Stepper = ({ pasoActual }) => {
   const nombres = ["Ruta", "Paquete", "Categoría", "Datos", "Cotización"];
 
   return (
-    <div className="d-flex justify-content-between position-relative mb-5 w-75 mx-auto">
+   <div className="d-flex justify-content-center w-100">
+    <div className="d-flex justify-content-between position-relative mb-5 w-responsive mx-3">
       {/* Línea de fondo */}
       <div className="position-absolute top-50 start-0 translate-middle-y w-100" 
            style={{ height: '2px', backgroundColor: '#e0e0e0', zIndex: 0 }}></div>
@@ -12,7 +13,7 @@ const Stepper = ({ pasoActual }) => {
       <div className="position-absolute top-50 start-0 translate-middle-y transition-all" 
            style={{ 
              height: '2px', 
-             backgroundColor: '#8E7CC3', 
+             backgroundColor: 'var(--color-primary)', 
              zIndex: 0, 
              width: `${((pasoActual - 1) / (pasos.length - 1)) * 100}%`,
              transition: 'width 0.4s ease'
@@ -24,9 +25,9 @@ const Stepper = ({ pasoActual }) => {
                style={{
                  width: '40px',
                  height: '40px',
-                 backgroundColor: p <= pasoActual ? '#8E7CC3' : '#fff',
-                 color: p <= pasoActual ? '#fff' : '#8E7CC3',
-                 border: `2px solid #8E7CC3`,
+                 backgroundColor: p <= pasoActual ? 'var(--color-primary)' : '#fff',
+                 color: p <= pasoActual ? '#fff' : 'var(--color-primary)',
+                 border: `2px solid var(--color-primary)`,
                  fontWeight: 'bold'
                }}>
             {p < pasoActual ? '✓' : p}
@@ -37,6 +38,7 @@ const Stepper = ({ pasoActual }) => {
         </div>
       ))}
     </div>
+   </div> 
   );
 };
 

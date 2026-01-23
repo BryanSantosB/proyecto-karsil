@@ -37,7 +37,7 @@ export default function Footer() {
                             <li><a href="/" className="hover:text-indigo-600 transition">Company</a></li>
                             <li><a href="/" className="hover:text-indigo-600 transition">Blogs</a></li>
                             <li><a href="/" className="hover:text-indigo-600 transition">Community</a></li>
-                            <li><a href="/" className="hover:text-indigo-600 transition">Careers<span className="text-xs text-white bg-indigo-600 rounded-md ml-2 px-2 py-1">We’re hiring!</span></a></li>
+                            <li><a href="/" className="hover:text-indigo-600 transition">Careers<span className="text-xs text-white bg-primary-primary rounded-md ml-2 px-2 py-1">We’re hiring!</span></a></li>
                             <li><a href="/" className="hover:text-indigo-600 transition">About</a></li>
                         </ul>
                     </div>

@@ -1,0 +1,20 @@
+:root {
+  /* ───────── Brand (base: #343551) ───────── */
+  --color-primary: #343551;        
+  --color-primary-light: #4b4d73;  
+  --color-primary-dark: #232438; 
+  --color-primary-bg: rgba(0,0,0,0);     
+
+  /* ───────── Textos ───────── */
+  --color-text: #1f2937;    
+  --color-text-light: #fff;      
+  --color-text-primary: #343551;   
+  --color-muted: #6b7280;         
+
+  /* ───────── UI / Borders ───────── */
+  --color-border: #d1d5db;
+  --color-bg: #ffffff;
+
+  /* ───────── Labels / secondary text ───────── */
+  --color-labels: #5f647a;
+}

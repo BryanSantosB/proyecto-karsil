@@ -7,7 +7,7 @@
   display: block;
   font-size: 0.85rem;
   font-weight: bold;
-  color: #6c757d;
+  color: var(--color-labels);
   margin-bottom: 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -26,7 +26,7 @@
 
 .inputField:focus {
   outline: none;
-  border-color: #8E7CC3;
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(142, 124, 195, 0.2);
 }
 
