@@ -8,6 +8,7 @@ import { useCotizador } from "hooks/useCotizador";
 import ModalConfirmacion from "components/ui/ModalConfirmacion/ModalConfirmacion";
 import { enviarCorreoEnvio } from "services/sendEmainl";
 import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
+import LoadingOverlay from "components/ui/LoadingOverlay/LoadingOverlay";
 
 const ResumenTotal = () => {
   const { formData, anteriorPaso } = useForm();
@@ -119,12 +120,12 @@ const ResumenTotal = () => {
             <NavegacionPasos
               onSiguiente={confirmarYEnviar}
               onVolver={anteriorPaso}
-              textoSiguiente={loading ? "Enviando..." : "CONFIRMAR ENVÍO"}
+              textoSiguiente="CONFIRMAR ENVÍO"
               mostrarVolver={true}
               disabled={loading}
             />
 
-            {loading ? "Enviando..." : "Confirmar envío"}
+            {loading && <LoadingOverlay mensaje="Enviando cotización..." />}
 
             <p className="text-center text-muted small mt-3 px-3">
               Al confirmar, aceptas nuestros términos de servicio y políticas de

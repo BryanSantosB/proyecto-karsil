@@ -55,10 +55,18 @@ const tarifarioActual = formData.paquete.tipoEnvio === 'aereo' ? tarifarioAereo 
 
   const pesoVolumetrico = (largo * ancho * alto) / factor;
 
+  console.log("Peso Real:", pesoReal);
+  console.log("Peso Volumétrico:", pesoVolumetrico);
+  
+
   const pesoCobrable = Math.max(pesoReal, pesoVolumetrico);
+
+  console.log("Peso Cobrable:", pesoCobrable);
 
   // 5. Cálculo del flete -----------------------------------------------
   let costoFlete;
+
+  console.log("Tarifa Carga:", tarifaCarga);
 
   if (pesoCobrable <= 1) {
     costoFlete = tarifaCarga.primerKg;
@@ -69,7 +77,7 @@ const tarifarioActual = formData.paquete.tipoEnvio === 'aereo' ? tarifarioAereo 
 
   // 6. Cálculo del reparto y entrega -----------------------------------------------
 
-  let costoRecojo = 0;
+  let costoRecojo = 0;  
   let costoReparto = 0;
 
   const repartoCfg = tarifasRuta.reparto;
@@ -96,8 +104,15 @@ const tarifarioActual = formData.paquete.tipoEnvio === 'aereo' ? tarifarioAereo 
   // Total de los servicios de reparto
   let costoTotalReparto = costoRecojo + costoReparto;
 
+  console.log("Costo Recojo:", costoRecojo);
+  console.log("Costo Reparto:", costoReparto);  
+
   // 7. Total -------------------------------------------------------------
   const total = costoFlete + costoTotalReparto;
+
+  console.log("Costo Flete:", costoFlete);
+  console.log("Costo Total Reparto:", costoTotalReparto);
+  console.log("Total:", total);
 
   return {
     ciudadRuta,

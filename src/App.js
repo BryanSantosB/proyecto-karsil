@@ -3,6 +3,7 @@ import { publicRoutes } from './routes/routes';
 import NavBar from 'components/ui/NavBar/NavBar';
 import React, { Suspense } from 'react';
 import Footer from 'components/ui/Footer/Footer';
+import LoadingOverlay from 'components/ui/LoadingOverlay/LoadingOverlay';
 
 function App() {
   return (
@@ -11,7 +12,7 @@ function App() {
         <NavBar />
 
         <main className="flex-1">
-          <Suspense fallback={<div>Cargando página...</div>}>
+          <Suspense fallback={<LoadingOverlay mensaje="Cargando Página..." />}>
             <Routes>
               {publicRoutes.map((route, index) => (
                 <Route
