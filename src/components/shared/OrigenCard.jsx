@@ -65,11 +65,12 @@ const OrigenCard = (props) => {
       maxWidth="100%"
       className="mx-auto my-2 p-3 p-md-4"
     >
-      <h2 className="text-center mb-4 fw-bold text-uppercase fs-4">
+      <div className="mx-md-5 mt-3 mb-md-5">
+
+        <h2 className="text-center mb-4 fw-bold text-uppercase fs-4">
         {props.title}
       </h2>
-
-      {/* Selector de Modalidad (Agencia/Domicilio) */}
+        {/* Selector de Modalidad (Agencia/Domicilio) */}
       <div className="mb-4">
         <SelectorModalidad
           opciones={opciones}
@@ -156,6 +157,8 @@ const OrigenCard = (props) => {
           <Mapa direccion={direccionMapa} resetKey={resetKey} />
         </div>
       </div>
+      </div>
+      
     </NeumorphicContainer>
   );
 };
