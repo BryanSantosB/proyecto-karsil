@@ -1,9 +1,7 @@
-import CalculadoraEnvio from "features/calculadora_envio/CalculadoraEnvio";
-
 function HomePage() {
   return (
     <div>
-      <CalculadoraEnvio />
+      <h1>INICIO</h1>
     </div>
   );
 }

@@ -6,25 +6,42 @@ import InfoPaqueteGrid from "components/shared/InfoPaqueteGrid";
 import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
 import { useCotizador } from "hooks/useCotizador";
 import ModalConfirmacion from "components/ui/ModalConfirmacion/ModalConfirmacion";
+import { enviarCorreoEnvio } from "services/sendEmainl";
+import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
 
 const ResumenTotal = () => {
   const { formData, anteriorPaso } = useForm();
-  const { total, pesoCobrable } = useCotizador(formData);
+  const { total, pesoCobrable, listo } = useCotizador(formData);
   const [mostrarExito, setMostrarExito] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const confirmarYEnviar = () => {
-    console.log("Enviando datos de Karsil...", formData);
+  const confirmarYEnviar = async () => {
+    if (loading) return;
 
-    setMostrarExito(true);
+    try {
+      setLoading(true);
+      await enviarCorreoEnvio(formData);
+      setMostrarExito(true);
+    } catch (error) {
+      setError(
+        "Error al enviar el correo. Inténtalo nuevamente." + error.message,
+      );
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const cerrarYReiniciar = () => {
     setMostrarExito(false);
-    window.location.href = "/"; 
+    window.location.href = "/";
   };
 
   return (
     <div className="container-fluid d-flex justify-content-center pb-5 px-2">
+      <AlertaFlotante mensaje={error} onClose={() => setError("")} />
+
       <NeumorphicContainer
         maxWidth="900px"
         className="mx-auto my-2 my-md-4 p-3 p-md-5"
@@ -73,13 +90,26 @@ const ResumenTotal = () => {
           </div>
 
           {/* ACCIONES FINALES */}
-          <p className="text-sm text-gray-400">
-            Peso cobrable: {pesoCobrable.toFixed(2)} kg
-          </p>
+          {listo ? (
+            <>
+              <p className="text-sm text-gray-400">
+                Peso cobrable: {pesoCobrable.toFixed(2)} kg
+              </p>
 
-          <p className="text-xl font-bold text-green-500">
-            Precio estimado: S/ {total}
-          </p>
+              <p className="text-xl font-bold text-green-500">
+                Precio estimado: S/ {total.toFixed(2)}
+              </p>
+            </>
+          ) : (
+            <p className="text-sm text-gray-400">
+              Completa los datos de origen, destino y paquete para ver el precio
+            </p>
+          )}
+          {!listo && (
+            <p className="text-sm text-yellow-500">
+              El precio se calculará cuando completes origen, destino y paquete
+            </p>
+          )}
 
           <p className="text-xs text-gray-500">
             * Precio referencial, sujeto a validación
@@ -89,9 +119,12 @@ const ResumenTotal = () => {
             <NavegacionPasos
               onSiguiente={confirmarYEnviar}
               onVolver={anteriorPaso}
-              textoSiguiente="CONFIRMAR ENVIO"
+              textoSiguiente={loading ? "Enviando..." : "CONFIRMAR ENVÍO"}
               mostrarVolver={true}
+              disabled={loading}
             />
+
+            {loading ? "Enviando..." : "Confirmar envío"}
 
             <p className="text-center text-muted small mt-3 px-3">
               Al confirmar, aceptas nuestros términos de servicio y políticas de
@@ -102,7 +135,7 @@ const ResumenTotal = () => {
       </NeumorphicContainer>
 
       <ModalConfirmacion
-        isOpen={mostrarExito} 
+        isOpen={mostrarExito}
         mensaje="¡Tu envío ha sido registrado!"
         submensaje="Un asesor de Karsil revisará los detalles y te contactará por WhatsApp en breve."
         onCerrar={cerrarYReiniciar}

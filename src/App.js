@@ -7,19 +7,25 @@ import Footer from 'components/ui/Footer/Footer';
 function App() {
   return (
     <Router>
-      <NavBar/>
-      <Suspense fallback={<div>Cargando página...</div>}>
-      <Routes>
-        {publicRoutes.map((route, index) => (
-          <Route 
-            key={index} 
-            path={route.path} 
-            element={<route.element />} 
-          />
-        ))}
-      </Routes>
-      </Suspense>
-      <Footer/>
+      <div className="min-h-screen flex flex-col">
+        <NavBar />
+
+        <main className="flex-1">
+          <Suspense fallback={<div>Cargando página...</div>}>
+            <Routes>
+              {publicRoutes.map((route, index) => (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={<route.element />}
+                />
+              ))}
+            </Routes>
+          </Suspense>
+        </main>
+
+        <Footer />
+      </div>
     </Router>
   );
 }
