@@ -20,7 +20,7 @@ const OrigenCard = (props) => {
   );
   const [resetKey, setResetKey] = useState(0);
   const [direccionMapa, setDireccionMapa] = useState(
-    formData[seccion].direccion || formData[seccion].ciudad || "",
+    formData[seccion].direccion || formData[seccion].agencia || "",
   );
 
   const opciones = [
@@ -33,7 +33,7 @@ const OrigenCard = (props) => {
     actualizarDatos(seccion, { tipo: nuevoTipo });
     setDireccionMapa("");
     nuevoTipo !== "agencia" + props.modalidad &&
-      actualizarDatos(seccion, { ciudad: "" });
+      actualizarDatos(seccion, { agencia: "" });
     nuevoTipo === "agencia" + props.modalidad &&
       actualizarDatos(seccion, {
         departamento: "",
@@ -45,10 +45,10 @@ const OrigenCard = (props) => {
     setResetKey((k) => k + 1);
   };
 
-  const manejarCambioCiudad = (e) => {
-    const ciudad = e.target.value;
-    tipoOrigen !== props.modalidad && setDireccionMapa(ciudad);
-    actualizarDatos(seccion, { ciudad: ciudad });
+  const manejarCambioAgencia = (e) => {
+    const agencia = e.target.value;
+    tipoOrigen !== props.modalidad && setDireccionMapa(agencia);
+    actualizarDatos(seccion, { agencia: agencia });
   };
 
   const manejarCambioDireccion = (e) => {
@@ -84,10 +84,10 @@ const OrigenCard = (props) => {
         {tipoOrigen !== props.modalidad && (
           <div className="w-100">
             <CustomSelect
-              placeholder="Selecciona una ciudad"
-              value={formData[seccion].ciudad || ""}
+              placeholder="Selecciona una agencia"
+              value={formData[seccion].agencia || ""}
               options={ciudadesOrigen}
-              onChange={(e) => {manejarCambioCiudad(e)}}
+              onChange={(e) => {manejarCambioAgencia(e)}}
             />
           </div>
         )}

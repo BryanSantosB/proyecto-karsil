@@ -5,12 +5,12 @@ export function esRutaDisponible(origen, destino) {
   const ciudadOrigen =
     origen.tipo === "recojo"
       ? origen.provincia
-      : origen.ciudad;
+      : origen.agencia;
 
   const ciudadDestino =
     destino.tipo === "entrega"
       ? destino.provincia
-      : destino.ciudad;
+      : destino.agencia;
 
   if (!ciudadOrigen || !ciudadDestino) return false;
 

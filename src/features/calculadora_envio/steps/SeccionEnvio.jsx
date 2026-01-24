@@ -26,7 +26,7 @@ const SeccionEnvio = () => {
     if (!esDireccionValida(origen.direccion)) return setError("Ingresa una dirección de recojo válida.");
     if (!origen.fecha) return setError("Selecciona una fecha para el recojo.");
   } else {
-    if (!origen.ciudad) return setError("Selecciona la agencia de origen.");
+    if (!origen.agencia) return setError("Selecciona la agencia de origen.");
   }
 
   // VALIDACIONES DE DESTINO
@@ -36,7 +36,7 @@ const SeccionEnvio = () => {
     if (!destino.distrito) return setError("Selecciona el distrito de destino.");
     if (!esDireccionValida(destino.direccion)) return setError("Ingresa una dirección de entrega válida.");
   } else {
-    if (!destino.ciudad) return setError("Selecciona la agencia de destino.");
+    if (!destino.agencia) return setError("Selecciona la agencia de destino.");
   }
 
   // VALIDACIONES DE RUTAS DISPONIBLES

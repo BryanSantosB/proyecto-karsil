@@ -10,7 +10,7 @@ export const FormProvider = ({ children }) => {
   const [formData, setFormData] = useState({
     origen: {
       tipo: "recojo", 
-      ciudad: "",
+      agencia: "",
       departamento: "",
       provincia: "",
       distrito: "",
@@ -19,7 +19,7 @@ export const FormProvider = ({ children }) => {
     },
     destino: {
       tipo: "entrega",
-      ciudad: "",
+      agencia: "",
       departamento: "",
       provincia: "",
       distrito: "",

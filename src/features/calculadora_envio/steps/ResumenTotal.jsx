@@ -24,6 +24,7 @@ const ResumenTotal = () => {
       setLoading(true);
       await enviarCorreoEnvio(formData);
       setMostrarExito(true);
+      console.log("Simulación de envío de correo con datos:", formData);
     } catch (error) {
       setError(
         "Error al enviar el correo. Inténtalo nuevamente." + error.message,
