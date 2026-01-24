@@ -16,6 +16,7 @@ const SeccionEnvio = () => {
   };
 
   const validarYContinuar = () => {
+    console.log(formData)
   const { origen, destino } = formData;
 
   // VALIDACIONES DE ORIGEN
@@ -38,7 +39,7 @@ const SeccionEnvio = () => {
   } else {
     if (!destino.agencia) return setError("Selecciona la agencia de destino.");
   }
-
+console.log("ORIGEN: ", origen, "DESTINO: ", destino);
   // VALIDACIONES DE RUTAS DISPONIBLES
   if (!esRutaDisponible(origen, destino)) {
     console.log("Ruta no disponible:", origen, destino);

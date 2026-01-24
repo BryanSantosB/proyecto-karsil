@@ -2,15 +2,17 @@ import { tarifarioAereo } from "../data/tarifarioAereo";
 
 export function esRutaDisponible(origen, destino) {
   // Resolver ciudades según tipo
-  const ciudadOrigen =
+  /* const ciudadOrigen =
     origen.tipo === "recojo"
       ? origen.provincia
-      : origen.agencia;
+      : origen.agencia; */
+  const ciudadOrigen = origen.agencia;
 
-  const ciudadDestino =
+  /* const ciudadDestino =
     destino.tipo === "entrega"
       ? destino.provincia
-      : destino.agencia;
+      : destino.agencia; */
+  const ciudadDestino = destino.agencia;
 
   if (!ciudadOrigen || !ciudadDestino) return false;
 
@@ -19,6 +21,8 @@ export function esRutaDisponible(origen, destino) {
 
   const origenEsLima = origenUpper.includes("LIMA");
   const destinoEsLima = destinoUpper.includes("LIMA");
+
+  console.log("Validando ruta:", origenUpper, "->", destinoUpper);
 
   // ❌ Lima → Lima
   if (origenEsLima && destinoEsLima) return false;

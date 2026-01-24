@@ -1,6 +1,6 @@
 import styles from './CustomSelect.module.css';
 
-const CustomSelect = ({ value, onChange, options, placeholder = "Seleccionar..."}) => {
+const CustomSelect = ({ value, onChange, options, placeholder = "Seleccionar...", val, lab}) => {
   return (
     <div className={styles.formGroup}>
       <select
@@ -10,8 +10,8 @@ const CustomSelect = ({ value, onChange, options, placeholder = "Seleccionar..."
       >
         <option value="">{placeholder}</option>
         {options.map((opt) => (
-          <option key={opt.value} value={opt.label}>
-            {opt.label}
+          <option key={val ? opt[val] : opt.value} value={val ? opt[val] : opt.value}>
+            {lab ? opt[lab] : opt.label}
           </option>
         ))}
       </select>

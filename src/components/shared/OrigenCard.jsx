@@ -46,10 +46,19 @@ const OrigenCard = (props) => {
   };
 
   const manejarCambioAgencia = (e) => {
+    console.log("Agencia", e.target)
     const agencia = e.target.value;
     tipoOrigen !== props.modalidad && setDireccionMapa(agencia);
     actualizarDatos(seccion, { agencia: agencia });
   };
+
+  const manejarCambioDepartamento = (e) => {
+    const indice = e.target.selectedIndex;
+    const departamento = e.target.options[indice].text;
+    console.log("Departamento seleccionado:", departamento);
+    actualizarDatos(seccion, { departamento: departamento });
+    manejarCambioAgencia(e);
+  }
 
   const manejarCambioDireccion = (e) => {
     const nuevaDireccion = e.target.value;
@@ -66,99 +75,114 @@ const OrigenCard = (props) => {
       className="mx-auto my-2 p-3 p-md-4"
     >
       <div className="mx-md-5 mt-3 mb-md-5">
-
         <h2 className="text-center mb-4 fw-bold text-uppercase fs-4">
-        {props.title}
-      </h2>
+          {props.title}
+        </h2>
         {/* Selector de Modalidad (Agencia/Domicilio) */}
-      <div className="mb-4">
-        <SelectorModalidad
-          opciones={opciones}
-          valorSeleccionado={tipoOrigen}
-          onChange={(nuevoValor) => cambiarTipoOrigen(nuevoValor)}
-        />
-      </div>
+        <div className="mb-4">
+          <SelectorModalidad
+            opciones={opciones}
+            valorSeleccionado={tipoOrigen}
+            onChange={(nuevoValor) => cambiarTipoOrigen(nuevoValor)}
+          />
+        </div>
 
-      {/* Contenedor de Formulario */}
-      <div className="d-flex flex-column align-items-center w-100 gap-2 mb-2">
-        {tipoOrigen !== props.modalidad && (
-          <div className="w-100">
-            <CustomSelect
-              placeholder="Selecciona una agencia"
-              value={formData[seccion].agencia || ""}
-              options={ciudadesOrigen}
-              onChange={(e) => {manejarCambioAgencia(e)}}
-            />
-          </div>
-        )}
-
-        {tipoOrigen === props.modalidad && (
-          <>
-            <div className="d-flex gap-2 w-100">
-              <div className="w-100">
-                <CustomInput
-                  type="text"
-                  placeholder="Departamento"
-                  value={formData[seccion].departamento || ""}
-                  onChange={(e) =>
-                    actualizarDatos(seccion, { departamento: e.target.value })
-                  }
-                />
-              </div>
-              <div className="w-100">
-                <CustomInput
-                  type="text"
-                  placeholder="Provincia"
-                  value={formData[seccion].provincia || ""}
-                  onChange={(e) =>
-                    actualizarDatos(seccion, { provincia: e.target.value })
-                  }
-                />
-              </div>
-              <div className="w-100">
-                <CustomInput
-                  type="text"
-                  placeholder="Distrito"
-                  value={formData[seccion].distrito || ""}
-                  onChange={(e) =>
-                    actualizarDatos(seccion, { distrito: e.target.value })
-                  }
-                />
-              </div>
-            </div>
+        {/* Contenedor de Formulario */}
+        <div className="d-flex flex-column align-items-center w-100 gap-2 mb-2">
+          {tipoOrigen !== props.modalidad && (
             <div className="w-100">
-              <CustomInput
-                type="text"
-                placeholder="Dirección exacta"
-                value={formData[seccion].direccion || ""}
-                onChange={manejarCambioDireccion}
+              <CustomSelect
+                placeholder="Selecciona una agencia"
+                value={formData[seccion].agencia || ""}
+                options={ciudadesOrigen}
+                onChange={(e) => {
+                  manejarCambioAgencia(e);
+                }}
+                val="label"
+                lab="label"
               />
             </div>
-          </>
-        )}
+          )}
 
-        {tipoOrigen === "recojo" && (
-          <div className="w-100">
-            <CustomSelect
-              placeholder="Fecha de Recojo"
-              value={formData[seccion].fecha || ""}
-              options={listaFechas}
-              onChange={(e) =>
-                actualizarDatos(seccion, { fecha: e.target.value })
-              }
-            />
+          {tipoOrigen === props.modalidad && (
+            <>
+              <div className="w-100">
+                  
+                </div>
+              <div className="d-flex gap-2 w-100">
+                <div className="w-100">
+                  {/* <CustomInput
+                    type="text"
+                    placeholder="Departamento"
+                    value={formData[seccion].departamento || ""}
+                    onChange={(e) =>
+                      actualizarDatos(seccion, { departamento: e.target.value })
+                    }
+                  /> */}
+                  <CustomSelect
+                    placeholder="Departamento"
+                    value={formData[seccion].agencia || ""}
+                    options={ciudadesOrigen}
+                    onChange={(e) => {
+                      manejarCambioDepartamento(e);
+                    }}
+                    val="label"
+                    lab="departamento"
+                  />
+                </div>
+                <div className="w-100">
+                  <CustomInput
+                    type="text"
+                    placeholder="Provincia"
+                    value={formData[seccion].provincia || ""}
+                    onChange={(e) =>
+                      actualizarDatos(seccion, { provincia: e.target.value })
+                    }
+                  />
+                </div>
+                <div className="w-100">
+                  <CustomInput
+                    type="text"
+                    placeholder="Distrito"
+                    value={formData[seccion].distrito || ""}
+                    onChange={(e) =>
+                      actualizarDatos(seccion, { distrito: e.target.value })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="w-100">
+                <CustomInput
+                  type="text"
+                  placeholder="Dirección exacta"
+                  value={formData[seccion].direccion || ""}
+                  onChange={manejarCambioDireccion}
+                />
+              </div>
+            </>
+          )}
+
+          {tipoOrigen === "recojo" && (
+            <div className="w-100">
+              <CustomSelect
+                placeholder="Fecha de Recojo"
+                value={formData[seccion].fecha || ""}
+                options={listaFechas}
+                onChange={(e) =>
+                  actualizarDatos(seccion, { fecha: e.target.value })
+                }
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Contenedor del Mapa */}
+        <div className="w-100 mt-auto">
+          <div className="ratio ratio-16x9 rounded-4 overflow-hidden shadow-sm">
+            <Mapa direccion={direccionMapa} resetKey={resetKey} />
           </div>
-        )}
-      </div>
-
-      {/* Contenedor del Mapa */}
-      <div className="w-100 mt-auto">
-        <div className="ratio ratio-16x9 rounded-4 overflow-hidden shadow-sm">
-          <Mapa direccion={direccionMapa} resetKey={resetKey} />
         </div>
       </div>
-      </div>
-      
     </NeumorphicContainer>
   );
 };

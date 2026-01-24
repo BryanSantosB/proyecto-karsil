@@ -4,7 +4,7 @@ import construirSeccion from "utils/construirSeccion";
 export const enviarCorreoEnvio = async (formData) => {
   const origenHTML = construirSeccion("Origen", {
     Tipo: formData.origen.tipo === "recojo" ? formData.origen?.tipo : "Agencia",
-    Ciudad: formData.origen?.ciudad,
+    Agencia: formData.origen?.agencia,
     Departamento: formData.origen?.departamento,
     Provincia: formData.origen?.provincia,
     Distrito: formData.origen?.distrito,
@@ -14,7 +14,7 @@ export const enviarCorreoEnvio = async (formData) => {
 
   const destinoHTML = construirSeccion("Destino", {
     Tipo: formData.destino?.tipo === "entrega" ? formData.destino?.tipo : "Agencia",
-    Ciudad: formData.destino?.ciudad,
+    Agencia: formData.destino?.agencia,
     Departamento: formData.destino?.departamento,
     Provincia: formData.destino?.provincia,
     Distrito: formData.destino?.distrito,

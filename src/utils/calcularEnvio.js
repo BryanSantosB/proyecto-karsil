@@ -8,15 +8,17 @@ const tarifarioActual = formData.paquete.tipoEnvio === 'aereo' ? tarifarioAereo 
 
 
   // 1. Resolver ciudades de origen y destino ----------------------
-  const ciudadOrigen =
+  /* const ciudadOrigen =
     formData.origen.tipo === "recojo"
       ? formData.origen.provincia || formData.origen.distrito
-      : formData.origen.agencia;
+      : formData.origen.agencia; */
+  const ciudadOrigen = formData.origen.agencia;
 
-  const ciudadDestino =
+  /* const ciudadDestino =
     formData.destino.tipo === "entrega"
       ? formData.destino.provincia || formData.destino.distrito
-      : formData.destino.agencia;
+      : formData.destino.agencia; */
+  const ciudadDestino = formData.destino.agencia;
 
   if (!ciudadOrigen || !ciudadDestino) {
     return { error: "Faltan datos de origen o destino" };
