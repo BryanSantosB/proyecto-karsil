@@ -20,6 +20,8 @@ const ResumenTotal = () => {
   const confirmarYEnviar = async () => {
     if (loading) return;
 
+    console.log("Datos a enviar:", formData);
+
     try {
       setLoading(true);
       await enviarCorreoEnvio(formData);
