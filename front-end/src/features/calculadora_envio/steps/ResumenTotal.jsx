@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "context/FormContext";
 import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
 import CardResumenRuta from "components/shared/CardResumenRuta";
 import InfoPaqueteGrid from "components/shared/InfoPaqueteGrid";
 import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
-import { useCotizador } from "hooks/useCotizador";
+//import { useCotizador } from "hooks/useCotizador";
+import { cotizarEnvio } from "services/cotizaciones";
+
 import ModalConfirmacion from "components/ui/ModalConfirmacion/ModalConfirmacion";
 import { enviarCorreoEnvio } from "services/sendEmainl";
 import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
@@ -12,15 +14,17 @@ import LoadingOverlay from "components/ui/LoadingOverlay/LoadingOverlay";
 
 const ResumenTotal = () => {
   const { formData, anteriorPaso } = useForm();
-  const { total, pesoCobrable, listo } = useCotizador(formData);
+  //const { total, pesoCobrable, listo } = useCotizador(formData);
+  const [cotizacion, setCotizacion] = useState(null);
+  const [cotizando, setCotizando] = useState(false);
+
   const [mostrarExito, setMostrarExito] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const confirmarYEnviar = async () => {
-    if (loading) return;
-
     console.log("Datos a enviar:", formData);
+    if (loading) return;
 
     try {
       setLoading(true);
@@ -36,6 +40,28 @@ const ResumenTotal = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const cotizar = async () => {
+      try {
+        setCotizando(true);
+        const res = await cotizarEnvio(formData);
+        setCotizacion(res);
+      } catch (err) {
+        setError(
+          err.response?.data?.error || "Error al calcular la cotización",
+        );
+        setCotizacion(null);
+      } finally {
+        setCotizando(false);
+      }
+    };
+
+    // solo cotiza si hay datos mínimos
+    if (formData?.origen && formData?.destino && formData?.paquete) {
+      cotizar();
+    }
+  }, [formData]);
 
   const cerrarYReiniciar = () => {
     setMostrarExito(false);
@@ -94,25 +120,25 @@ const ResumenTotal = () => {
           </div>
 
           {/* ACCIONES FINALES */}
-          {listo ? (
+          {cotizacion && (
             <>
               <p className="text-sm text-gray-400">
-                Peso cobrable: {pesoCobrable.toFixed(2)} kg
+                Peso cobrable: {cotizacion.pesoCobrable.toFixed(2)} kg
               </p>
 
               <p className="text-xl font-bold text-green-500">
-                Precio estimado: S/ {total.toFixed(2)}
+                Precio estimado: S/ {cotizacion.total.toFixed(2)}
               </p>
             </>
-          ) : (
+          )} 
+          {!cotizacion &&  !cotizando && (
             <p className="text-sm text-gray-400">
               Completa los datos de origen, destino y paquete para ver el precio
             </p>
           )}
-          {!listo && (
-            <p className="text-sm text-yellow-500">
-              El precio se calculará cuando completes origen, destino y paquete
-            </p>
+
+          {}{cotizando && (
+            <LoadingOverlay mensaje="Cargando Página..." />
           )}
 
           <p className="text-xs text-gray-500">

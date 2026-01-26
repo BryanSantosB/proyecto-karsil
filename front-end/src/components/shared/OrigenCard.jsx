@@ -1,6 +1,6 @@
 import { useForm } from "context/FormContext";
-import { useState } from "react";
-import { ciudadesOrigen } from "data/ciudadesOrigen";
+import { useEffect, useState } from "react";
+//import { ciudadesOrigen } from "data/ciudadesOrigen";
 import { listaFechas } from "data/fechasRecojo";
 import { useGoogleMaps } from "hooks/useGoogleMaps";
 import Mapa from "../shared/Mapa";
@@ -9,12 +9,15 @@ import CustomSelect from "../ui/CustomSelect/CustomSelect";
 import CustomInput from "../ui/CustomInput/CustomInput";
 import SelectorModalidad from "../ui/SelectorModalidad/SelectorModalidad";
 import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
+import { api } from "services/api";
 
 const OrigenCard = (props) => {
   const { formData, actualizarDatos } = useForm();
   const mapsLoaded = useGoogleMaps();
   const seccion = props.title.toLowerCase();
 
+  const [ciudadesOrigen, setCiudadesOrigen] = useState([]);
+  const [fechasRecojo, setFechasRecojo] = useState([]);
   const [tipoOrigen, setTipoOrigen] = useState(
     formData[seccion].tipo || props.modalidad,
   );
@@ -27,6 +30,16 @@ const OrigenCard = (props) => {
     { label: props.modalidadText, value: props.modalidad },
     { label: props.agenciaText, value: "agencia" + props.modalidad },
   ];
+
+  useEffect(() => {
+    api.get("/locations/ciudades-origen")
+      .then((res) => setCiudadesOrigen(res.data))
+      .catch(console.error);
+
+    api.get("/fechas/fechas-recojo")
+      .then((res) => setFechasRecojo(res.data))
+      .catch(console.error);
+  }, []);
 
   const cambiarTipoOrigen = (nuevoTipo) => {
     setTipoOrigen(nuevoTipo);
@@ -111,14 +124,6 @@ const OrigenCard = (props) => {
                 </div>
               <div className="d-flex gap-2 w-100">
                 <div className="w-100">
-                  {/* <CustomInput
-                    type="text"
-                    placeholder="Departamento"
-                    value={formData[seccion].departamento || ""}
-                    onChange={(e) =>
-                      actualizarDatos(seccion, { departamento: e.target.value })
-                    }
-                  /> */}
                   <CustomSelect
                     placeholder="Departamento"
                     value={formData[seccion].agencia || ""}
@@ -167,7 +172,7 @@ const OrigenCard = (props) => {
               <CustomSelect
                 placeholder="Fecha de Recojo"
                 value={formData[seccion].fecha || ""}
-                options={listaFechas}
+                options={fechasRecojo}
                 onChange={(e) =>
                   actualizarDatos(seccion, { fecha: e.target.value })
                 }
