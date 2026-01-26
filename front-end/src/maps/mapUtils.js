@@ -28,6 +28,25 @@ export const centrarPorDireccion = (direccion, map, marker, geocoder, zoom = 16)
   });
 };
 
+export const centrarPorCoordenadas = (
+  coords,
+  map,
+  marker,
+  zoom = 19,
+) => {
+  if (!coords?.lat || !coords?.lng) return;
+
+  const position = {
+    lat: Number(coords.lat),
+    lng: Number(coords.lng),
+  };
+
+  map.setCenter(position);
+  map.setZoom(zoom);
+  marker.setPosition(position);
+};
+
+
 export const resetMapa = (map, marker, center) => {
   if (!map || !marker) return;
 

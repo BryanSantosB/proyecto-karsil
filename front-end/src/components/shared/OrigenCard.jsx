@@ -10,6 +10,7 @@ import CustomInput from "../ui/CustomInput/CustomInput";
 import SelectorModalidad from "../ui/SelectorModalidad/SelectorModalidad";
 import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
 import { api } from "services/api";
+import { buscarPorAgencia } from "utils/buscarPorAgencia";
 
 const OrigenCard = (props) => {
   const { formData, actualizarDatos } = useForm();
@@ -25,6 +26,7 @@ const OrigenCard = (props) => {
   const [direccionMapa, setDireccionMapa] = useState(
     formData[seccion].direccion || formData[seccion].agencia || "",
   );
+  const [coordenadas, setCoordenadas] = useState(null);
 
   const opciones = [
     { label: props.modalidadText, value: props.modalidad },
@@ -61,8 +63,13 @@ const OrigenCard = (props) => {
   const manejarCambioAgencia = (e) => {
     console.log("Agencia", e.target)
     const agencia = e.target.value;
-    tipoOrigen !== props.modalidad && setDireccionMapa(agencia);
-    actualizarDatos(seccion, { agencia: agencia });
+    const direccionDelMapa = buscarPorAgencia(ciudadesOrigen, agencia)
+    console.log("Agencia seleccionada:", direccionDelMapa);
+    console.log("Coordenadas: ", direccionDelMapa.coordenadas);
+    tipoOrigen !== props.modalidad && setDireccionMapa(direccionDelMapa.value);
+    tipoOrigen !== props.modalidad && setCoordenadas(direccionDelMapa.coordenadas);
+    console.log("Agencia seleccionada:", direccionDelMapa);
+    actualizarDatos(seccion, { agencia: agencia }); 
   };
 
   const manejarCambioDepartamento = (e) => {
@@ -184,7 +191,7 @@ const OrigenCard = (props) => {
         {/* Contenedor del Mapa */}
         <div className="w-100 mt-auto">
           <div className="ratio ratio-16x9 rounded-4 overflow-hidden shadow-sm">
-            <Mapa direccion={direccionMapa} resetKey={resetKey} />
+            <Mapa direccion={direccionMapa} coordenadas={coordenadas} resetKey={resetKey} />
           </div>
         </div>
       </div>

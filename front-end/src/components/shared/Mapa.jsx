@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
-import { crearMapa, centrarPorDireccion, resetMapa } from "maps/mapUtils";
+import { crearMapa, centrarPorDireccion, centrarPorCoordenadas, resetMapa } from "maps/mapUtils";
 
 const peru = { lat: -9.19, lng: -75.0152 };
 
-const Mapa = ({ direccion, resetKey }) => {
+const Mapa = ({ direccion, coordenadas, resetKey }) => {
   const divRef = useRef(null);
 
   // refs del mapa
@@ -27,20 +27,32 @@ const Mapa = ({ direccion, resetKey }) => {
   // Reaccionar a dirección / reset
   useEffect(() => {
     if (!mapRef.current) return;
+    console.log("Mapa actualizado con:", { direccion, coordenadas, resetKey });
 
-    if (!direccion) {
-      resetMapa(mapRef.current, markerRef.current, peru);
+    // 1️⃣ prioridad: coordenadas exactas
+    if (coordenadas?.lat && coordenadas?.lng) {
+      centrarPorCoordenadas(
+        coordenadas,
+        mapRef.current,
+        markerRef.current,
+      );
       return;
     }
 
-    // Centrar por dirección
-    centrarPorDireccion(
-      direccion,
-      mapRef.current,
-      markerRef.current,
-      geocoderRef.current,
-    );
-  }, [direccion, resetKey]);
+    // 2️⃣ fallback: dirección
+    if (direccion) {
+      centrarPorDireccion(
+        direccion,
+        mapRef.current,
+        markerRef.current,
+        geocoderRef.current,
+      );
+      return;
+    }
+
+    // 3️⃣ reset
+    resetMapa(mapRef.current, markerRef.current, peru);
+  }, [direccion, coordenadas, resetKey]);
 
   return (
     <div
