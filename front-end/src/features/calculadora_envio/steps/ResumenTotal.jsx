@@ -12,6 +12,7 @@ import { enviarCorreoEnvio } from "services/sendEmainl";
 import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
 import LoadingOverlay from "components/ui/LoadingOverlay/LoadingOverlay";
 
+
 const ResumenTotal = () => {
   const { formData, anteriorPaso } = useForm();
   //const { total, pesoCobrable, listo } = useCotizador(formData);

@@ -1,7 +1,7 @@
 import { useForm } from "context/FormContext";
 import { useEffect, useState } from "react";
 //import { ciudadesOrigen } from "data/ciudadesOrigen";
-import { listaFechas } from "data/fechasRecojo";
+//import { listaFechas } from "data/fechasRecojo";
 import { useGoogleMaps } from "hooks/useGoogleMaps";
 import Mapa from "../shared/Mapa";
 import "./c_origen.css";
