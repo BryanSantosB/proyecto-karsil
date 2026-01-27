@@ -6,18 +6,18 @@ import ResumenTotal from "./steps/ResumenTotal.jsx";
 import { motion, AnimatePresence } from "framer-motion";
 import Stepper from "components/ui/Strepper/Stepper.jsx";
 import SeccionContacto from "./steps/SeccionContacto";
-import { useEffect } from "react";
+//import { useEffect } from "react";
 
 const ContenidoCalculadora = () => {
   const { paso } = useForm();
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth", 
-    });
-  }, [paso]);
+  // useEffect(() => {
+  //   window.scrollTo({
+  //     top: 0,
+  //     left: 0,
+  //     behavior: "smooth", 
+  //   });
+  // }, [paso]);
 
   const renderPaso = () => {
     switch (paso) {
@@ -31,7 +31,7 @@ const ContenidoCalculadora = () => {
   };
 
   return (
-    <div className="container py-2">
+    <div className="w-responsive container py-2 my-5 pt-5">
       {/* 1. Barra de pasos visual */}
       <Stepper pasoActual={paso} />
 

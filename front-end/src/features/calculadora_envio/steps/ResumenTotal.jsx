@@ -12,7 +12,6 @@ import LoadingOverlay from "components/ui/LoadingOverlay/LoadingOverlay";
 
 const ResumenTotal = () => {
   const { formData, anteriorPaso } = useForm();
-  //const { total, pesoCobrable, listo } = useCotizador(formData);
   const [cotizacion, setCotizacion] = useState(null);
   const [cotizando, setCotizando] = useState(false);
 
@@ -25,7 +24,6 @@ const ResumenTotal = () => {
 
     try {
       setLoading(true);
-      //await enviarCorreoEnvio(formData);
       await crearCotizacion(formData);
       setMostrarExito(true);
     } catch (error) {
