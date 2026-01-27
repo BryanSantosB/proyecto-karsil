@@ -13,7 +13,7 @@ export const FormProvider = ({ children }) => {
       agencia: "",
       departamento: "",
       provincia: "",
-      distrito: "",
+      distrito: "", 
       direccion: "",
       fecha: ""
     },
