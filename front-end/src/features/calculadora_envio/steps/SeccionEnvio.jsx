@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "context/FormContext";
 import OrigenCard from "components/shared/OrigenCard";
 import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
 import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
 import { esRutaDisponible } from "utils/validarRuta";
+import { api } from "services/api";
 
 const SeccionEnvio = () => {
   const { formData, siguientePaso, anteriorPaso, paso } = useForm();
   const [error, setError] = useState("");
+  const [ciudadesOrigen, setCiudadesOrigen] = useState([]);
+
+  useEffect(() => {
+    api.get("/locations/ciudades-origen")
+          .then((res) => setCiudadesOrigen(res.data))
+          .catch(console.error);
+  }, []);
 
   const esDireccionValida = (texto) => {
     if (!texto) return false;
@@ -41,7 +49,8 @@ const SeccionEnvio = () => {
   }
 console.log("ORIGEN: ", origen, "DESTINO: ", destino);
   // VALIDACIONES DE RUTAS DISPONIBLES
-  if (!esRutaDisponible(origen, destino)) {
+  console.log("¿Es ruta disponible?", esRutaDisponible(origen, destino, ciudadesOrigen));
+  if (!esRutaDisponible(origen, destino, ciudadesOrigen)) {
     console.log("Ruta no disponible:", origen, destino);
   return setError(
     "La ruta seleccionada no está disponible. Solo se realizan envíos Lima ↔ Provincia."

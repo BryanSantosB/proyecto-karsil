@@ -5,7 +5,7 @@ import CardResumenRuta from "components/shared/CardResumenRuta";
 import InfoPaqueteGrid from "components/shared/InfoPaqueteGrid";
 import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
 //import { useCotizador } from "hooks/useCotizador";
-import { cotizarEnvio } from "services/cotizaciones";
+import { cotizarEnvio, crearCotizacion } from "services/cotizaciones";
 
 import ModalConfirmacion from "components/ui/ModalConfirmacion/ModalConfirmacion";
 import { enviarCorreoEnvio } from "services/sendEmainl";
@@ -29,7 +29,8 @@ const ResumenTotal = () => {
 
     try {
       setLoading(true);
-      await enviarCorreoEnvio(formData);
+      //await enviarCorreoEnvio(formData);
+      await crearCotizacion(formData);
       setMostrarExito(true);
       console.log("Simulación de envío de correo con datos:", formData);
     } catch (error) {

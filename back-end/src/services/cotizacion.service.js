@@ -1,5 +1,5 @@
-const { tarifarioAereo } = require("../data/tarifarioAereo");
-const { tarifarioTerrestre } = require("../data/tarifarioTerrestre");
+const { tarifarioAereo } = require("../data/tarifarioAereo.js");
+const { tarifarioTerrestre } = require("../data/tarifarioTerrestre.js");
 
 exports.calcularEnvio = (formData) => {
   const tarifarioActual = formData.paquete.tipoEnvio === 'aereo' ? tarifarioAereo : tarifarioTerrestre;

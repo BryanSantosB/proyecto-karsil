@@ -1,3 +1,5 @@
+require("dotenv").config();
+console.log("¿Variable de puerto detectada?:", process.env.EMAIL_HOST);
 const express = require("express");
 const cors = require("cors");
 

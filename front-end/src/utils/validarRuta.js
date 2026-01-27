@@ -1,6 +1,5 @@
-import { tarifarioAereo } from "../data/tarifarioAereo";
 
-export function esRutaDisponible(origen, destino) {
+export function esRutaDisponible(origen, destino, tarifario) {
   // Resolver ciudades según tipo
   /* const ciudadOrigen =
     origen.tipo === "recojo"
@@ -35,6 +34,20 @@ export function esRutaDisponible(origen, destino) {
     ? destinoUpper
     : origenUpper;
 
+    console.log("Ciudad ruta:", ciudadRuta);
+    console.log("Tarifario:", tarifario[ciudadRuta]);
+    console.log("Existe en tarifario:", existeAgencia(ciudadRuta, tarifario));
+
   // ✔ Existe en tarifario
-  return Boolean(tarifarioAereo[ciudadRuta]);
+  return Boolean(existeAgencia(ciudadRuta, tarifario));
+}
+
+export function existeAgencia(agencia, lista) {
+  if (!agencia || !Array.isArray(lista)) return false;
+
+  const agenciaUpper = agencia.trim().toUpperCase();
+
+  return lista.some(item =>
+    item.label?.trim().toUpperCase() === agenciaUpper
+  );
 }

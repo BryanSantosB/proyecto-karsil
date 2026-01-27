@@ -1,4 +1,4 @@
-//FALTAN MAGDALENA, TUMBES, PIURA, Y JULIACA
+
 
 export const ciudadesOrigen = [
   {
@@ -72,7 +72,12 @@ export const ciudadesOrigen = [
     departamento: "TUMBES",
   },
   { label: "PIURA", value: "Av. Catacaos S/N - Piura", departamento: "PIURA" },
-  { label: "CUSCO", value: "San Sebastián - Cuzco", coordenadas: { lat: -13.524306637432256, lng: -71.97079824230762 }, departamento: "CUSCO" },
+  {
+    label: "CUSCO",
+    value: "San Sebastián - Cuzco",
+    coordenadas: { lat: -13.524306637432256, lng: -71.97079824230762 },
+    departamento: "CUSCO",
+  },
   {
     label: "JULIACA",
     value: "Jr. Atahualpa 176 - Juliaca",

@@ -17,7 +17,7 @@ const OrigenCard = (props) => {
   const mapsLoaded = useGoogleMaps();
   const seccion = props.title.toLowerCase();
 
-  const [ciudadesOrigen, setCiudadesOrigen] = useState([]);
+  const [ciudadesOrigen, setCiudadesOrigen] = useState(props.ciudadesOrigen || []);
   const [fechasRecojo, setFechasRecojo] = useState([]);
   const [tipoOrigen, setTipoOrigen] = useState(
     formData[seccion].tipo || props.modalidad,
