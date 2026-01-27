@@ -27,7 +27,6 @@ const Mapa = ({ direccion, coordenadas, resetKey }) => {
   // Reaccionar a dirección / reset
   useEffect(() => {
     if (!mapRef.current) return;
-    console.log("Mapa actualizado con:", { direccion, coordenadas, resetKey });
 
     // 1️⃣ prioridad: coordenadas exactas
     if (coordenadas?.lat && coordenadas?.lng) {

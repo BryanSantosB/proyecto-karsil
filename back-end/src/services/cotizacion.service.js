@@ -2,8 +2,10 @@ const { tarifarioAereo } = require("../data/tarifarioAereo.js");
 const { tarifarioTerrestre } = require("../data/tarifarioTerrestre.js");
 
 exports.calcularEnvio = (formData) => {
-  const tarifarioActual = formData.paquete.tipoEnvio === 'aereo' ? tarifarioAereo : tarifarioTerrestre;
-
+  const tarifarioActual =
+    formData.paquete.tipoEnvio === "aereo"
+      ? tarifarioAereo
+      : tarifarioTerrestre;
 
   // 1. Resolver ciudades de origen y destino ----------------------
   /* const ciudadOrigen =
@@ -55,18 +57,10 @@ exports.calcularEnvio = (formData) => {
 
   const pesoVolumetrico = (largo * ancho * alto) / factor;
 
-  console.log("Peso Real:", pesoReal);
-  console.log("Peso Volumétrico:", pesoVolumetrico);
-  
-
   const pesoCobrable = Math.max(pesoReal, pesoVolumetrico);
-
-  console.log("Peso Cobrable:", pesoCobrable);
 
   // 5. Cálculo del flete -----------------------------------------------
   let costoFlete;
-
-  console.log("Tarifa Carga:", tarifaCarga);
 
   if (pesoCobrable <= 1) {
     costoFlete = tarifaCarga.primerKg;
@@ -77,7 +71,7 @@ exports.calcularEnvio = (formData) => {
 
   // 6. Cálculo del reparto y entrega -----------------------------------------------
 
-  let costoRecojo = 0;  
+  let costoRecojo = 0;
   let costoReparto = 0;
 
   const repartoCfg = tarifasRuta.reparto;
@@ -104,15 +98,8 @@ exports.calcularEnvio = (formData) => {
   // Total de los servicios de reparto
   let costoTotalReparto = costoRecojo + costoReparto;
 
-  console.log("Costo Recojo:", costoRecojo);
-  console.log("Costo Reparto:", costoReparto);  
-
   // 7. Total -------------------------------------------------------------
   const total = costoFlete + costoTotalReparto;
-
-  console.log("Costo Flete:", costoFlete);
-  console.log("Costo Total Reparto:", costoTotalReparto);
-  console.log("Total:", total);
 
   return {
     ciudadRuta,

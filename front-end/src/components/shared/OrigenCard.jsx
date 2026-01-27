@@ -61,21 +61,16 @@ const OrigenCard = (props) => {
   };
 
   const manejarCambioAgencia = (e) => {
-    console.log("Agencia", e.target)
     const agencia = e.target.value;
     const direccionDelMapa = buscarPorAgencia(ciudadesOrigen, agencia)
-    console.log("Agencia seleccionada:", direccionDelMapa);
-    console.log("Coordenadas: ", direccionDelMapa.coordenadas);
     tipoOrigen !== props.modalidad && setDireccionMapa(direccionDelMapa.value);
     tipoOrigen !== props.modalidad && setCoordenadas(direccionDelMapa.coordenadas);
-    console.log("Agencia seleccionada:", direccionDelMapa);
     actualizarDatos(seccion, { agencia: agencia }); 
   };
 
   const manejarCambioDepartamento = (e) => {
     const indice = e.target.selectedIndex;
     const departamento = e.target.options[indice].text;
-    console.log("Departamento seleccionado:", departamento);
     actualizarDatos(seccion, { departamento: departamento });
     manejarCambioAgencia(e);
   }

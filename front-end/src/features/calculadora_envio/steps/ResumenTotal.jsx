@@ -4,11 +4,8 @@ import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
 import CardResumenRuta from "components/shared/CardResumenRuta";
 import InfoPaqueteGrid from "components/shared/InfoPaqueteGrid";
 import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
-//import { useCotizador } from "hooks/useCotizador";
 import { cotizarEnvio, crearCotizacion } from "services/cotizaciones";
-
 import ModalConfirmacion from "components/ui/ModalConfirmacion/ModalConfirmacion";
-import { enviarCorreoEnvio } from "services/sendEmainl";
 import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
 import LoadingOverlay from "components/ui/LoadingOverlay/LoadingOverlay";
 
@@ -24,7 +21,6 @@ const ResumenTotal = () => {
   const [error, setError] = useState("");
 
   const confirmarYEnviar = async () => {
-    console.log("Datos a enviar:", formData);
     if (loading) return;
 
     try {
@@ -32,7 +28,6 @@ const ResumenTotal = () => {
       //await enviarCorreoEnvio(formData);
       await crearCotizacion(formData);
       setMostrarExito(true);
-      console.log("Simulación de envío de correo con datos:", formData);
     } catch (error) {
       setError(
         "Error al enviar el correo. Inténtalo nuevamente." + error.message,

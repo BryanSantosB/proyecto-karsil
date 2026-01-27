@@ -21,8 +21,6 @@ export function esRutaDisponible(origen, destino, tarifario) {
   const origenEsLima = origenUpper.includes("LIMA");
   const destinoEsLima = destinoUpper.includes("LIMA");
 
-  console.log("Validando ruta:", origenUpper, "->", destinoUpper);
-
   // ❌ Lima → Lima
   if (origenEsLima && destinoEsLima) return false;
 
@@ -33,10 +31,6 @@ export function esRutaDisponible(origen, destino, tarifario) {
   const ciudadRuta = origenEsLima
     ? destinoUpper
     : origenUpper;
-
-    console.log("Ciudad ruta:", ciudadRuta);
-    console.log("Tarifario:", tarifario[ciudadRuta]);
-    console.log("Existe en tarifario:", existeAgencia(ciudadRuta, tarifario));
 
   // ✔ Existe en tarifario
   return Boolean(existeAgencia(ciudadRuta, tarifario));
