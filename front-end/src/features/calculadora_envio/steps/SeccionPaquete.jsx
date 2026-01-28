@@ -4,6 +4,7 @@ import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
 import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
 import CustomInput from "components/ui/CustomInput/CustomInput";
 import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
+import SelectorModalidad from "components/ui/SelectorModalidad/SelectorModalidad";
 
 const SeccionPaquete = () => {
   const { formData, actualizarDatos, siguientePaso, anteriorPaso } = useForm();
@@ -15,7 +16,14 @@ const SeccionPaquete = () => {
       setError("El peso debe ser una cantidad mayor a 0 kg.");
       return;
     }
-    if (!paquete.largo || paquete.largo <= 0 || !paquete.ancho || paquete.ancho <= 0 || !paquete.alto || paquete.alto <= 0) {
+    if (
+      !paquete.largo ||
+      paquete.largo <= 0 ||
+      !paquete.ancho ||
+      paquete.ancho <= 0 ||
+      !paquete.alto ||
+      paquete.alto <= 0
+    ) {
       setError("Todas las dimensiones deben ser mayores a 0 cm.");
       return;
     }
@@ -29,15 +37,34 @@ const SeccionPaquete = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    actualizarDatos('paquete', { [name]: value });
+    actualizarDatos("paquete", { [name]: value });
   };
 
+  const opcionesEnvio = [
+    {
+      label: "Aéreo",
+      value: "aereo",
+      icon: "http://localhost:4000/public/icons/icon_avion.png",
+    },
+    {
+      label: "Terrestre",
+      value: "terrestre",
+      icon: "http://localhost:4000/public/icons/icon_camion.png", // Puedes usar un emoji o una URL: "/icons/camion.png"
+    },
+  ];
+
   return (
-    <div className="w-full px-2 flex justify-center">
+    <div className="w-full px-2 flex justify-center py-8">
       <AlertaFlotante mensaje={error} onClose={() => setError("")} />
 
-      <NeumorphicContainer width="100%" maxWidth="800px" className="p-3 p-md-5 mt-3">
-        <h2 className="text-center mb-4 text-uppercase fw-bold fs-4 fs-md-2">Detalles</h2>
+      <NeumorphicContainer
+        width="100%"
+        maxWidth="800px"
+        className="p-3 p-md-5 mt-3"
+      >
+        <h2 className="text-center mb-4 text-uppercase fw-bold fs-4 fs-md-2">
+          Detalles
+        </h2>
 
         <div className="row mx-0 g-3">
           {/* Peso */}
@@ -47,7 +74,7 @@ const SeccionPaquete = () => {
               name="peso"
               type="number"
               placeholder="0.00"
-              value={formData.paquete.peso || ''}
+              value={formData.paquete.peso || ""}
               onChange={handleChange}
             />
           </div>
@@ -59,7 +86,7 @@ const SeccionPaquete = () => {
               name="largo"
               type="number"
               placeholder="0"
-              value={formData.paquete.largo || ''}
+              value={formData.paquete.largo || ""}
               onChange={handleChange}
             />
           </div>
@@ -69,7 +96,7 @@ const SeccionPaquete = () => {
               name="ancho"
               type="number"
               placeholder="0"
-              value={formData.paquete.ancho || ''}
+              value={formData.paquete.ancho || ""}
               onChange={handleChange}
             />
           </div>
@@ -79,44 +106,25 @@ const SeccionPaquete = () => {
               name="alto"
               type="number"
               placeholder="0"
-              value={formData.paquete.alto || ''}
+              value={formData.paquete.alto || ""}
               onChange={handleChange}
             />
           </div>
 
           {/* Opciones de Envío*/}
           <div className="col-12 mt-2">
-            <label className="d-block text-center mb-3 fw-bold text-muted small">MÉTODO DE ENVÍO</label>
+            <label className="d-block text-center mb-3 fw-bold text-muted small">
+              MÉTODO DE ENVÍO
+            </label>
             <div className="d-flex flex-column flex-md-row justify-content-center gap-3">
-              <label className="flex-fill mw-100">
-                <input
-                  type="radio"
-                  name="tipoEnvio"
-                  value="aereo"
-                  className="btn-check hidden"
-                  checked={formData.paquete.tipoEnvio === 'aereo'}
-                  onChange={handleChange}
-                />
-                <span className="btn btn-outline-primary w-100 py-3 rounded-pill border-0 shadow-sm d-flex align-items-center justify-content-center" 
-                      style={{ backgroundColor: formData.paquete.tipoEnvio === 'aereo' ? 'var(--color-primary)' : '#F8F9FA', color: formData.paquete.tipoEnvio === 'aereo' ? '#fff' : '#000', minHeight: '55px' }}>
-                  ✈️ Aéreo
-                </span>
-              </label>
-
-              <label className="flex-fill mw-100">
-                <input
-                  type="radio"
-                  name="tipoEnvio"
-                  value="terrestre"
-                  className="btn-check hidden"
-                  checked={formData.paquete.tipoEnvio === 'terrestre'}
-                  onChange={handleChange}
-                />
-                <span className="btn btn-outline-primary w-100 py-3 rounded-pill border-0 shadow-sm d-flex align-items-center justify-content-center"
-                      style={{ backgroundColor: formData.paquete.tipoEnvio === 'terrestre' ? 'var(--color-primary)' : '#F8F9FA', color: formData.paquete.tipoEnvio === 'terrestre' ? '#fff' : '#000', minHeight: '55px' }}>
-                  🚚 Terrestre
-                </span>
-              </label>
+              <SelectorModalidad
+                label="Tipo de Envío"
+                opciones={opcionesEnvio}
+                valorSeleccionado={formData.paquete.tipoEnvio}
+                onChange={(valor) =>
+                  actualizarDatos("paquete", { tipoEnvio: valor })
+                }
+              />
             </div>
           </div>
 

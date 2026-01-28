@@ -64,7 +64,7 @@ const ResumenTotal = () => {
   };
 
   return (
-    <div className="container-fluid d-flex justify-content-center pb-5 px-2">
+    <div className="container-fluid d-flex justify-content-center px-2 py-8">
       <AlertaFlotante mensaje={error} onClose={() => setError("")} />
 
       <NeumorphicContainer

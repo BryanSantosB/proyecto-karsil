@@ -84,7 +84,9 @@ export default function KarsilServices() {
             ))}
           </div>
 
-          <ButtonAction texto="Cotizar Envío" />
+          <div className="d-flex justify-content-center align-content-center">
+            <ButtonAction texto="Cotizar Envío" />
+          </div>
         </div>
       </div>
     </div>

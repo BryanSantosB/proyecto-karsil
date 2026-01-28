@@ -28,8 +28,8 @@ const OrigenCard = (props) => {
   const [coordenadas, setCoordenadas] = useState(null);
 
   const opciones = [
-    { label: props.modalidadText, value: props.modalidad },
-    { label: props.agenciaText, value: "agencia" + props.modalidad },
+    { label: props.modalidadText, value: props.modalidad, name: "modalidad", icon:"http://localhost:4000/public/icons/icon_caja.png" },
+    { label: props.agenciaText, value: "agencia" + props.modalidad, name: "modalidad", icon:"http://localhost:4000/public/icons/icon_agencia.png" },
   ];
 
   useEffect(() => {

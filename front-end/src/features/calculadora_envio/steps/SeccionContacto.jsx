@@ -36,7 +36,7 @@ const SeccionContacto = () => {
   };
 
   return (
-    <div className="w-full px-2 flex justify-center">
+    <div className="w-full px-2 flex justify-center py-8">
       <AlertaFlotante mensaje={error} onClose={() => setError("")} />
 
       <NeumorphicContainer width="100%" maxWidth="600px" className="p-4 p-md-5 mt-3">

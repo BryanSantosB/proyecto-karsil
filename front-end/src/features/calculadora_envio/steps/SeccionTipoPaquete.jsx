@@ -3,16 +3,17 @@ import { useForm } from "context/FormContext";
 import NavegacionPasos from 'components/ui/NavegacionPasos/NavegacionPasos';
 import AlertaFlotante from 'components/ui/AlertaFlotante/AlertaFlotante';
 import NeumorphicContainer from 'components/ui/NeumorphicContainer/NeumorphicContainer';
+import SelectorModalidad from 'components/ui/SelectorModalidad/SelectorModalidad';
 
 const SeccionTipoPaquete = () => {
   const { formData, actualizarDatos, siguientePaso, anteriorPaso } = useForm();
   const [error, setError] = useState("");
 
-  const tipos = [
-    { id: 'perecible', label: '🍎 Perecible' },
-    { id: 'valorizado', label: '💎 Valorizado' },
-    { id: 'general', label: '📦 General' },
-    { id: 'refrigerado', label: '❄️ Refrigerado' }
+  const opcionesCategorias = [
+    { value: 'perecible', label: 'Perecible', icon: "http://localhost:4000/public/icons/icon_manzana.png" },
+    { value: 'valorizado', label: 'Valorizado', icon: "http://localhost:4000/public/icons/icon_valorizado.png" },
+    { value: 'general', label: 'General', icon: "http://localhost:4000/public/icons/icon_caja.png" },
+    { value: 'refrigerado', label: 'Refrigerado', icon: "http://localhost:4000/public/icons/icon_refrigerado.png" }
   ];
 
   const seleccionarTipo = (id) => {
@@ -29,7 +30,7 @@ const SeccionTipoPaquete = () => {
   };
 
   return (
-    <div className="container-fluid px-2 d-flex justify-content-center">
+    <div className="container-fluid px-2 d-flex justify-content-center py-8">
       <AlertaFlotante mensaje={error} onClose={() => setError("")} />
 
       <NeumorphicContainer width="100%" maxWidth="800px" className="p-3 p-md-5 mt-3">
@@ -38,26 +39,13 @@ const SeccionTipoPaquete = () => {
         </h2>
 
         <div className="row g-3 g-md-4 justify-content-center">
-          {tipos.map((tipo) => (
-            <div key={tipo.id} className="col-12 col-md-6">
-              <button
-                type="button"
-                onClick={() => seleccionarTipo(tipo.id)}
-                className="btn w-100 py-3 rounded-pill border-0 shadow-sm transition-all"
-                style={{
-                  backgroundColor: formData.paquete.categoria === tipo.id ? 'var(--color-primary)' : '#F8F9FA',
-                  color: formData.paquete.categoria === tipo.id ? '#fff' : '#555',
-                  fontSize: '1rem',
-                  fontWeight: '600',
-                  border: formData.paquete.categoria === tipo.id ? 'none' : '2px solid #E1D5F5',
-                  transform: formData.paquete.categoria === tipo.id ? 'scale(1.02)' : 'scale(1)',
-                  boxShadow: formData.paquete.categoria === tipo.id ? '0 4px 15px rgba(142, 124, 195, 0.4)' : 'none'
-                }}
-              >
-                {tipo.label}
-              </button>
-            </div>
-          ))}
+          
+          <SelectorModalidad
+            label="Selecciona una Categoría"
+            opciones={opcionesCategorias}
+            valorSeleccionado={formData.paquete.categoria}
+            onChange={(id) => seleccionarTipo(id)}
+          />
 
           {/* Navegación */}
           <div className="col-12 mt-2">
