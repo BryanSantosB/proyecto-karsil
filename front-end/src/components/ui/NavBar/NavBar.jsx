@@ -27,11 +27,11 @@ const Navbar = () => {
   }, [open]);
 
   const navLinks = [
-    { name: "Inicio", href: "#inicio" },
-    { name: "Servicios", href: "#servicios" },
-    { name: "Cobertura", href: "#cobertura" },
-    { name: "Seguimiento", href: "#seguimiento" },
-    { name: "Contacto", href: "#contacto" },
+    { name: "Inicio", href: "/" },
+    { name: "Servicios", href: "/servicios" },
+    { name: "Cobertura", href: "/cobertura" },
+    { name: "Seguimiento", href: "/seguimiento" },
+    { name: "Contacto", href: "/contacto" },
   ];
 
   return (
@@ -45,7 +45,7 @@ const Navbar = () => {
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         <div className="flex justify-between items-center h-16 lg:h-20">
           {/* Logo - crece gradualmente */}
-          <a href="#inicio" className="flex items-center gap-2 lg:gap-3 group">
+          <a href={navLinks[0].href} className="flex items-center gap-2 lg:gap-3 group">
             <div className="relative">
               <img
                 src="http://localhost:4000/public/logo_big.png"

@@ -14,6 +14,9 @@ module.exports = {
         border: 'var(--color-border)',
         bg: 'var(--color-bg)',
       },
+      boxShadow: {
+        'neumorphic': '12px 12px 24px #cccccc, -12px -12px 24px #f4f4f4',
+      }
     },
   },
   plugins: [],

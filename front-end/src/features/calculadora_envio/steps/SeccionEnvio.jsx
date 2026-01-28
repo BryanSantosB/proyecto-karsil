@@ -71,7 +71,7 @@ const SeccionEnvio = () => {
   };
 
   return (
-    <div className="container-fluid px-2">
+    <div className="container-fluid px-2w-full max-w-6xl mx-auto px-4 py-8">
       <AlertaFlotante mensaje={error} onClose={() => setError("")} />
 
       <div className="row g-4 pb-2 justify-content-center align-items-stretch">

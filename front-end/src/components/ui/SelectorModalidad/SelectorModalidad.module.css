@@ -1,43 +1,42 @@
-.optionContainer {
-  width: 100%;
-  display: flex;
-  gap: 12px;
-  margin-bottom: 1rem;
-}
+  .optionContainer {
+    width: 100%;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 1rem;
+  }
 
-.optionLabel {
-  flex: 1;
-  cursor: pointer;
-}
+  .optionLabel {
+    flex: 1;
+    cursor: pointer;
+  }
 
-.optionLabel input {
-  display: none; /* Ocultamos el radio original */
-}
+  .optionLabel input {
+    display: none; 
+  }
 
-/* El cuadro que ve el usuario */
-.customRadio {
-  display: block;
-  text-align: center;
-  padding: 12px 15px;
-  border-radius: 50px; /* Redondeado igual que los botones */
-  border: 2px solid #E1D5F5;
-  font-weight: 600;
-  color: var(--color-primary);
-  background-color: #fff;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-}
+  .customRadio {
+    display: block;
+    text-align: center;
+    padding: 12px 15px;
+    border-radius: 50px; 
+    border: 2px solid #E1D5F5;
+    font-weight: 600;
+    color: var(--color-primary);
+    background-color: #fff;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+  }
 
-/* Efecto Hover */
-.optionLabel:hover .customRadio {
-  background-color: #f8f6ff;
-  border-color: var(--color-primary);
-}
+  /* Efecto Hover */
+  .optionLabel:hover .customRadio {
+    background-color: #f8f6ff;
+    border-color: var(--color-primary);
+  }
 
-/* Cuando el radio está seleccionado */
-.optionLabel input:checked + .customRadio {
-  background-color: var(--color-primary);
-  color: #fff;
-  border-color: var(--color-primary);
-  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
-}
+  /* Cuando el radio está seleccionado */
+  .optionLabel input:checked + .customRadio {
+    background-color: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+  }

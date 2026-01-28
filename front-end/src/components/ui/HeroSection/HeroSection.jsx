@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import ButtonAction from "../ButtonAction/ButtonAction";
+//import ButtonAction from "../ButtonAction/ButtonAction";
+import ButtonCotizar from "../ButtonAction/ButtonCotizar";
 
 export default function HeroSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -25,7 +26,7 @@ export default function HeroSection() {
       </div>
 
       {/* Contenedor principal con distribución mejorada */}
-      <div className="relative mx-auto w-full max-w-[1920px] px-4 py-32 sm:px-6 sm:py-40 lg:px-12 xl:px-16 2xl:px-24 lg:py-48">
+      <div className="relative mx-auto w-full max-w-[1920px] px-4 py-32 sm:px-6 sm:py-40 lg:px-12 xl:px-16 2xl:px-24 lg:py-32">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           
           {/* Columna izquierda - Contenido */}
@@ -172,26 +173,7 @@ export default function HeroSection() {
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
               }`}
             >
-              <ButtonAction texto="Cotizar ahora" />
-              
-              {/* <button className="group relative inline-flex items-center justify-center px-8 py-4 font-semibold text-primary-primary rounded-lg bg-white border-2 border-primary-primary hover:bg-primary-primary hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
-                <span className="flex items-center gap-2">
-                  Conocer más
-                  <svg
-                    className="w-5 h-5 transition-transform group-hover:translate-x-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
-                  </svg>
-                </span>
-              </button> */}
+              <ButtonCotizar texto="Cotizar ahora" />
             </div>
 
             {/* Stats Section - Mejorado para desktop */}
