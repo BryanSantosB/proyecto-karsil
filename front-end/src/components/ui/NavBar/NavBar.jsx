@@ -1,73 +1,113 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Detecta el scroll para cambiar el estilo del navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Cierra el menú móvil al cambiar el tamaño de la ventana
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768 && open) {
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [open]);
+
+  const navLinks = [
+    { name: "Inicio", href: "#inicio" },
+    { name: "Servicios", href: "#servicios" },
+    { name: "Cobertura", href: "#cobertura" },
+    { name: "Seguimiento", href: "#seguimiento" },
+    { name: "Contacto", href: "#contacto" },
+  ];
 
   return (
-    /* Mantenemos absolute para que flote sobre el Hero */
-    <nav className="absolute top-0 left-0 w-full z-50 bg-transparent">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-between items-center h-20">
-          
-          {/* Logo - Reemplazamos el texto por imagen */}
-          <div className="flex items-center gap-2">
-            <img 
-              src="http://localhost:4000/public/logo_big.png" // Ajusta la ruta según tu carpeta public
-              alt="Karsil Cargo Logo" 
-              className="h-12 w-auto object-contain" // Controla el tamaño aquí
-            />
-            <span className="hidden sm:block text-xs text-gray-400 uppercase tracking-widest font-medium">
-              Envíos Nacionales
-            </span>
-          </div>
+    <nav
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-white/95 backdrop-blur-sm shadow-md shadow-gray-900/5"
+          : "bg-white/95 backdrop-blur-sm shadow-md shadow-gray-900/5"
+      }`}
+    > 
+      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
+        <div className="flex justify-between items-center h-16 lg:h-20">
+          {/* Logo - crece gradualmente */}
+          <a href="#inicio" className="flex items-center gap-2 lg:gap-3 group">
+            <div className="relative">
+              <img
+                src="http://localhost:4000/public/logo_big.png"
+                alt="Karsil Cargo"
+                className="h-10 lg:h-12 xl:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              />
+              {/* Glow effect on hover */}
+              <div className="absolute inset-0 bg-primary-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+            </div>
+            <div className="hidden sm:block">
+              <span className="text-xs lg:text-sm uppercase tracking-widest font-medium text-gray-600 transition-colors duration-300">
+                Envíos Nacionales
+              </span>
+            </div>
+          </a>
 
-          {/* Desktop menu - Restauramos tus colores originales */}
-          <div className="hidden md:flex items-center gap-8">
-            {[
-              "Inicio",
-              "Servicios",
-              "Cobertura",
-              "Seguimiento",
-              "Contacto",
-            ].map((item) => (
+          {/* Desktop Navigation - tamaños más balanceados */}
+          <div className="hidden md:flex items-center gap-1 lg:gap-2 xl:gap-3">
+            {navLinks.map((link) => (
               <a
-                key={item}
-                href="/"
-                className="relative group text-primary-primary font-semibold transition hover:text-primary-light"
+                key={link.name}
+                href={link.href}
+                className="relative px-3 lg:px-4 xl:px-5 py-2 lg:py-2.5 text-sm lg:text-base xl:text-lg font-semibold text-primary-primary hover:text-primary-light transition-all duration-300 rounded-lg group hover:bg-primary-primary/5"
               >
-                {item}
-                <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-primary-primary transition-all duration-300 group-hover:w-full" />
+                {link.name}
+                {/* Animated underline */}
+                <span className="absolute left-3 lg:left-4 xl:left-5 right-3 lg:right-4 xl:right-5 bottom-1 lg:bottom-1.5 h-0.5 bg-primary-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </a>
             ))}
 
-            {/* CTA Original */}
+            {/* CTA Button - crece proporcionalmente */}
             <a
               href="/cotizar"
-              className="relative inline-flex items-center justify-center px-5 py-2 font-semibold text-white rounded-lg bg-primary-primary hover:bg-primary-light transition shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50"
+              className="ml-2 lg:ml-4 xl:ml-6 relative inline-flex items-center justify-center px-5 lg:px-6 xl:px-8 py-2 lg:py-2.5 xl:py-3 text-sm lg:text-base xl:text-lg font-semibold text-white rounded-lg bg-gradient-to-r from-primary-primary to-primary-light hover:from-primary-light hover:to-primary-primary transition-all duration-300 shadow-lg shadow-primary-primary/30 hover:shadow-primary-primary/50 hover:scale-105 active:scale-95 group"
             >
-              Cotizar
+              <span className="relative z-10">Cotizar</span>
+              {/* Shine effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 rounded-lg" />
             </a>
           </div>
 
-          {/* Mobile button - Restauramos color primario */}
+          {/* Mobile Hamburger Button */}
           <button
             onClick={() => setOpen(!open)}
-            className="md:hidden text-primary-primary focus:outline-none"
+            className="md:hidden relative w-10 h-10 flex items-center justify-center rounded-lg text-primary-primary hover:bg-primary-primary/10 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary-primary/50"
+            aria-label="Toggle menu"
+            aria-expanded={open}
           >
-            <div className="space-y-1">
+            <div className="w-6 h-5 flex flex-col justify-between">
               <span
-                className={`block h-0.5 w-6 bg-current transition ${
-                  open ? "rotate-45 translate-y-1.5" : ""
+                className={`block h-0.5 w-full bg-current rounded-full transition-all duration-300 ${
+                  open ? "rotate-45 translate-y-2" : ""
                 }`}
               />
               <span
-                className={`block h-0.5 w-6 bg-current transition ${
-                  open ? "opacity-0" : ""
+                className={`block h-0.5 w-full bg-current rounded-full transition-all duration-300 ${
+                  open ? "opacity-0 scale-0" : ""
                 }`}
               />
               <span
-                className={`block h-0.5 w-6 bg-current transition ${
-                  open ? "-rotate-45 -translate-y-1.5" : ""
+                className={`block h-0.5 w-full bg-current rounded-full transition-all duration-300 ${
+                  open ? "-rotate-45 -translate-y-2" : ""
                 }`}
               />
             </div>
@@ -75,34 +115,77 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu - Fondo oscuro para contraste */}
+      {/* Mobile Menu */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ${
-          open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          open ? "max-h-screen" : "max-h-0"
         }`}
       >
-        <div className="px-6 pb-6 pt-2 space-y-4 bg-gray-900/95 backdrop-blur-md">
-          {["Inicio", "Servicios", "Cobertura", "Seguimiento", "Contacto"].map(
-            (item) => (
+        <div className="bg-gray-900/98 backdrop-blur-lg border-t border-gray-800/50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-1">
+            {navLinks.map((link, index) => (
               <a
-                key={item}
-                href="/"
-                className="block text-gray-300 hover:text-white transition"
+                key={link.name}
+                href={link.href}
                 onClick={() => setOpen(false)}
+                className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200 font-medium"
+                style={{
+                  animationDelay: `${index * 50}ms`,
+                  animation: open
+                    ? "slideInFromRight 0.3s ease-out forwards"
+                    : "none",
+                }}
               >
-                {item}
+                {link.name}
               </a>
-            ),
-          )}
+            ))}
 
-          <a
-            href="/cotizar"
-            className="block text-center bg-primary-primary hover:bg-primary-light text-white font-semibold py-2 rounded-lg shadow-md transition"
-          >
-            Cotizar envío
-          </a>
+            {/* Mobile CTA */}
+            <div className="pt-2">
+              <a
+                href="/cotizar"
+                onClick={() => setOpen(false)}
+                className="block text-center bg-gradient-to-r from-primary-primary to-primary-light hover:from-primary-light hover:to-primary-primary text-white font-semibold py-3 px-4 rounded-lg shadow-lg shadow-primary-primary/30 hover:shadow-primary-primary/50 transition-all duration-300 hover:scale-[1.02] active:scale-95"
+              >
+                Cotizar envío
+              </a>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Overlay for mobile menu */}
+      {open && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm -z-10 md:hidden"
+          onClick={() => setOpen(false)}
+          style={{
+            animation: "fadeIn 0.3s ease-out",
+          }}
+        />
+      )}
+
+      <style jsx>{`
+        @keyframes slideInFromRight {
+          from {
+            opacity: 0;
+            transform: translateX(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+      `}</style>
     </nav>
   );
 };

@@ -2,7 +2,7 @@ import { useForm } from "context/FormContext";
 import { useEffect, useState } from "react";
 //import { ciudadesOrigen } from "data/ciudadesOrigen";
 //import { listaFechas } from "data/fechasRecojo";
-import { useGoogleMaps } from "hooks/useGoogleMaps";
+//import { useGoogleMaps } from "hooks/useGoogleMaps";
 import Mapa from "../shared/Mapa";
 import "./c_origen.css";
 import CustomSelect from "../ui/CustomSelect/CustomSelect";
@@ -14,7 +14,7 @@ import { buscarPorAgencia } from "utils/buscarPorAgencia";
 
 const OrigenCard = (props) => {
   const { formData, actualizarDatos } = useForm();
-  const mapsLoaded = useGoogleMaps();
+  //const mapsLoaded = useGoogleMaps();
   const seccion = props.title.toLowerCase();
 
   const [ciudadesOrigen, setCiudadesOrigen] = useState(props.ciudadesOrigen || []);
@@ -84,7 +84,7 @@ const OrigenCard = (props) => {
     actualizarDatos(seccion, { direccion: nuevaDireccion });
   };
 
-  if (!mapsLoaded) return <p>Cargando mapa...</p>;
+  /* if (!mapsLoaded) return <p>Cargando mapa...</p>; */
 
   return (
     <NeumorphicContainer

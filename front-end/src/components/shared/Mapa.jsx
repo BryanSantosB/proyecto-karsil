@@ -1,5 +1,10 @@
 import { useEffect, useRef } from "react";
-import { crearMapa, centrarPorDireccion, centrarPorCoordenadas, resetMapa } from "maps/mapUtils";
+import {
+  crearMapa,
+  centrarPorDireccion,
+  centrarPorCoordenadas,
+  resetMapa,
+} from "maps/mapUtils";
 
 const peru = { lat: -9.19, lng: -75.0152 };
 
@@ -13,7 +18,7 @@ const Mapa = ({ direccion, coordenadas, resetKey }) => {
 
   // Crear mapa (solo una vez)
   useEffect(() => {
-    if (!window.google) return;
+    if (!window.google?.maps) return;
     if (!divRef.current) return;
     if (mapRef.current) return;
 
@@ -22,7 +27,7 @@ const Mapa = ({ direccion, coordenadas, resetKey }) => {
     mapRef.current = map;
     markerRef.current = marker;
     geocoderRef.current = geocoder;
-  }, []);
+  }, [resetKey]);
 
   // Reaccionar a dirección / reset
   useEffect(() => {
@@ -30,11 +35,7 @@ const Mapa = ({ direccion, coordenadas, resetKey }) => {
 
     // 1️⃣ prioridad: coordenadas exactas
     if (coordenadas?.lat && coordenadas?.lng) {
-      centrarPorCoordenadas(
-        coordenadas,
-        mapRef.current,
-        markerRef.current,
-      );
+      centrarPorCoordenadas(coordenadas, mapRef.current, markerRef.current);
       return;
     }
 
