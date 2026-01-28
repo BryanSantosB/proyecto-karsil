@@ -9,12 +9,13 @@ const SelectorModalidad = ({ opciones, valorSeleccionado, onChange, label }) => 
         </label>
       )}
 
-      <div className="flex w-full gap-3">
+      {/* Contenedor: Columna en móvil, Fila en escritorio */}
+      <div className="flex flex-col md:flex-row w-full gap-3">
         {opciones.map((opcion) => {
           const isSelected = valorSeleccionado === opcion.value;
           
           return (
-            <label key={opcion.value} className="flex-1 cursor-pointer group">
+            <label key={opcion.value} className="w-full md:flex-1 cursor-pointer group">
               <input
                 type="radio"
                 name="modalidad"
@@ -28,6 +29,7 @@ const SelectorModalidad = ({ opciones, valorSeleccionado, onChange, label }) => 
                 w-full h-14 sm:h-12 flex items-center justify-center
                 px-3 py-2 text-base font-medium
                 border-2 rounded-xl transition-all duration-200
+                /* Recuperamos tus estilos originales */
                 ${isSelected 
                   ? 'border-primary-primary bg-primary-primary text-white ring-4 ring-primary-primary/10' 
                   : 'border-gray-100 bg-white text-gray-500 hover:border-gray-300 hover:text-gray-700'

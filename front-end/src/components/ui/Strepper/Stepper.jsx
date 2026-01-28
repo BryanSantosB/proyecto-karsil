@@ -1,44 +1,65 @@
 const Stepper = ({ pasoActual }) => {
-  const pasos = [1, 2, 3, 4, 5];
-  const nombres = ["Ruta", "Paquete", "Categoría", "Datos", "Cotización"];
+  const pasos = [
+    { id: 1, nombre: "Ruta" },
+    { id: 2, nombre: "Paquete" },
+    { id: 3, nombre: "Categoría" },
+    { id: 4, nombre: "Datos" },
+    { id: 5, nombre: "Cotización" },
+  ];
 
   return (
-   <div className="d-flex justify-content-center w-100">
-    <div className="d-flex justify-content-between position-relative mb-5 w-responsive mx-3">
-      {/* Línea de fondo */}
-      <div className="position-absolute top-50 start-0 translate-middle-y w-100" 
-           style={{ height: '2px', backgroundColor: '#e0e0e0', zIndex: 0 }}></div>
-      
-      {/* Línea de progreso activa */}
-      <div className="position-absolute top-50 start-0 translate-middle-y transition-all" 
-           style={{ 
-             height: '2px', 
-             backgroundColor: 'var(--color-primary)', 
-             zIndex: 0, 
-             width: `${((pasoActual - 1) / (pasos.length - 1)) * 100}%`,
-             transition: 'width 0.4s ease'
-           }}></div>  
+    <div className="w-full py-4 px-2">
+      <div className="relative flex items-center justify-between w-full max-w-4xl mx-auto">
+        
+        {/* Línea de fondo (Gris) */}
+        <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 -translate-y-1/2" />
 
-      {pasos.map((p, index) => (
-        <div key={p} className="position-relative d-flex flex-column align-items-center" style={{ zIndex: 1 }}>
-          <div className={`rounded-circle d-flex align-items-center justify-content-center shadow-sm transition-all`}
-               style={{
-                 width: '40px',
-                 height: '40px',
-                 backgroundColor: p <= pasoActual ? 'var(--color-primary)' : '#fff',
-                 color: p <= pasoActual ? '#fff' : 'var(--color-primary)',
-                 border: `2px solid var(--color-primary)`,
-                 fontWeight: 'bold'
-               }}>
-            {p < pasoActual ? '✓' : p}
-          </div>
-          <span className="position-absolute top-100 mt-2 small fw-bold text-muted text-nowrap">
-            {nombres[index]}
-          </span>
-        </div>
-      ))}
+        {/* Línea de progreso activa */}
+        <div 
+          className="absolute top-1/2 left-0 h-0.5 bg-slate-800 transition-all duration-500 ease-in-out -translate-y-1/2"
+          style={{ width: `${((pasoActual - 1) / (pasos.length - 1)) * 100}%` }}
+        />
+
+        {/* Círculos y Etiquetas */}
+        {pasos.map((paso) => {
+          const isActive = paso.id <= pasoActual;
+          const isCompleted = paso.id < pasoActual;
+
+          return (
+            <div key={paso.id} className="relative z-10 flex flex-column items-center">
+              {/* Círculo */}
+              <div
+                className={`
+                  flex items-center justify-center rounded-full border-2 transition-all duration-300
+                  w-8 h-8 text-xs       /* Móvil */
+                  md:w-10 md:h-10 md:text-sm /* Desktop */
+                  ${isActive 
+                    ? "bg-slate-800 border-slate-800 text-white shadow-md" 
+                    : "bg-white border-gray-300 text-primary-primary"}
+                `}
+              >
+                {isCompleted ? (
+                  <span className="font-bold text-lg">✓</span>
+                ) : (
+                  <span className="font-bold">{paso.id}</span>
+                )}
+              </div>
+
+              {/* Texto (Nombre del paso) */}
+              <div className="absolute top-full mt-2 flex flex-col items-center">
+                <span className={`
+                  whitespace-nowrap font-medium transition-colors duration-300
+                  text-[10px] md:text-xs /* Texto más pequeño en móvil */
+                  ${isActive ? "text-slate-800" : "text-gray-400"}
+                `}>
+                  {paso.nombre}
+                </span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
-   </div> 
   );
 };
 
