@@ -12,7 +12,7 @@ export default function Footer() {
                         <div className="lg:col-span-4">
                             <div className="flex items-center gap-3 mb-4">
                                 <img 
-                                    src="http://localhost:4000/public/logo_big.png" 
+                                    src={`${process.env.REACT_APP_API_UR}/public/logo_big.png`} 
                                     alt="Karsil Cargo Logo" 
                                     className="h-12 w-auto object-contain brightness-0 invert"
                                 />

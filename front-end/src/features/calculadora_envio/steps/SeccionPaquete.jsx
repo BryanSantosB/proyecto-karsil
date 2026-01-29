@@ -44,12 +44,12 @@ const SeccionPaquete = () => {
     {
       label: "Aéreo",
       value: "aereo",
-      icon: "http://localhost:4000/public/icons/icon_avion.png",
+      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_avion.png`,
     },
     {
       label: "Terrestre",
       value: "terrestre",
-      icon: "http://localhost:4000/public/icons/icon_camion.png", // Puedes usar un emoji o una URL: "/icons/camion.png"
+      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_camion.png`, // Puedes usar un emoji o una URL: "/icons/camion.png"
     },
   ];
 

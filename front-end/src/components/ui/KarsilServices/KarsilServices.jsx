@@ -4,29 +4,29 @@ import ButtonAction from "../ButtonAction/ButtonAction";
 export default function KarsilServices() {
   const services = [
     {
-      icon: "http://localhost:4000/public/icons/icon_camion.png",
+      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_camion.png`,
       title: "Envíos terrestres",
       description:
         "Transporte terrestre confiable y seguro para tus mercancías",
     },
     {
-      icon: "http://localhost:4000/public/icons/icon_avion.png",
+      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_avion.png`,
       title: "Envíos aéreos",
       description:
         "Entrega rápida y eficiente a nivel nacional e internacional",
     },
     {
-      icon: "http://localhost:4000/public/icons/icon_casa.png",
+      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_casa.png`,
       title: "Recojo a domicilio",
       description: "Recogemos tu carga directamente en tu ubicación",
     },
     {
-      icon: "http://localhost:4000/public/icons/icon_caja.png",
+      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_caja.png`,
       title: "Entrega a domicilio",
       description: "Llevamos tus productos hasta la puerta de tu destino",
     },
     {
-      icon: "http://localhost:4000/public/icons/icon_refrigerado.png",
+      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_refrigerado.png`,
       title: "Carga especial",
       description:
         "Perecible, refrigerado y valorizado con cuidado especializado",

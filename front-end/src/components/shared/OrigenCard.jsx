@@ -28,9 +28,11 @@ const OrigenCard = (props) => {
   const [coordenadas, setCoordenadas] = useState(null);
 
   const opciones = [
-    { label: props.modalidadText, value: props.modalidad, name: "modalidad", icon:"http://localhost:4000/public/icons/icon_caja.png" },
-    { label: props.agenciaText, value: "agencia" + props.modalidad, name: "modalidad", icon:"http://localhost:4000/public/icons/icon_agencia.png" },
+    { label: props.modalidadText, value: props.modalidad, name: "modalidad", icon:`${process.env.REACT_APP_API_UR}/public/icons/icon_caja.png` },
+    { label: props.agenciaText, value: "agencia" + props.modalidad, name: "modalidad", icon:`${process.env.REACT_APP_API_UR}/public/icons/icon_agencia.png` },
   ];
+
+  console.log(`Dominio: ${process.env.REACT_APP_API_UR}`);
 
   useEffect(() => {
     api

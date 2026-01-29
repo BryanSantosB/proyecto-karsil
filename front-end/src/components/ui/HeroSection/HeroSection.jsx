@@ -4,6 +4,7 @@ import ButtonCotizar from "../ButtonAction/ButtonCotizar";
 
 export default function HeroSection() {
   const [isVisible, setIsVisible] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_UR;
 
   useEffect(() => {
     setIsVisible(true);
@@ -11,10 +12,17 @@ export default function HeroSection() {
 
   return (
     <section
-      className="relative bg-cover bg-center bg-no-repeat min-h-screen flex items-center
-                 bg-[url('http://localhost:4000/public/imghero/movil_without_icon.png')] 
-                 md:bg-[url('http://localhost:4000/public/imghero/small_without_icon.png')] 
-                 lg:bg-[url('http://localhost:4000/public/imghero/large_without_icon.png')]"
+      className="
+        relative bg-cover bg-center bg-no-repeat min-h-screen flex items-center
+        bg-[image:var(--bg-mobile)]
+        md:bg-[image:var(--bg-tablet)]
+        lg:bg-[image:var(--bg-desktop)]
+      "
+      style={{
+        '--bg-mobile': `url(${apiUrl}/public/imghero/movil_without_icon.png)`,
+        '--bg-tablet': `url(${apiUrl}/public/imghero/small_without_icon.png)`,
+        '--bg-desktop': `url(${apiUrl}/public/imghero/large_without_icon.png)`,
+      }}
     >
       {/* Gradient Overlay - más suave en desktop para que se vea la imagen */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/85 via-white/70 to-transparent md:bg-gradient-to-r md:from-white/80 md:via-white/50 md:to-transparent"></div>

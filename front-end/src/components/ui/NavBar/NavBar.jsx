@@ -48,7 +48,7 @@ const Navbar = () => {
           <a href={navLinks[0].href} className="flex items-center gap-2 lg:gap-3 group">
             <div className="relative">
               <img
-                src="http://localhost:4000/public/logo_big_v2.png"
+                src={`${process.env.REACT_APP_API_UR}/public/logo_big_v2.png`}
                 alt="Karsil Cargo"
                 className="h-10 lg:h-12 xl:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               />

@@ -10,10 +10,10 @@ const SeccionTipoPaquete = () => {
   const [error, setError] = useState("");
 
   const opcionesCategorias = [
-    { value: 'perecible', label: 'Perecible', icon: "http://localhost:4000/public/icons/icon_manzana.png" },
-    { value: 'valorizado', label: 'Valorizado', icon: "http://localhost:4000/public/icons/icon_valorizado.png" },
-    { value: 'general', label: 'General', icon: "http://localhost:4000/public/icons/icon_caja.png" },
-    { value: 'refrigerado', label: 'Refrigerado', icon: "http://localhost:4000/public/icons/icon_refrigerado.png" }
+    { value: 'perecible', label: 'Perecible', icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_manzana.png` },
+    { value: 'valorizado', label: 'Valorizado', icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_valorizado.png` },
+    { value: 'general', label: 'General', icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_caja.png` },
+    { value: 'refrigerado', label: 'Refrigerado', icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_refrigerado.png` }
   ];
 
   const seleccionarTipo = (id) => {
