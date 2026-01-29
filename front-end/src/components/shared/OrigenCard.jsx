@@ -45,7 +45,7 @@ const OrigenCard = (props) => {
       .then((res) => setFechasRecojo(res.data))
       .catch(console.error);
 
-    cambiarTipoOrigen("agencia" + props.modalidad);
+    cambiarTipoOrigen(formData[seccion].departamento ? formData[seccion].tipo : "agencia" + props.modalidad);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
