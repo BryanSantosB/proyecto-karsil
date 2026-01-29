@@ -35,12 +35,14 @@ const Mapa = ({ direccion, coordenadas, resetKey }) => {
 
     // 1️⃣ prioridad: coordenadas exactas
     if (coordenadas?.lat && coordenadas?.lng) {
+      console.log("CENTRANDO POR COORDENADAS");
       centrarPorCoordenadas(coordenadas, mapRef.current, markerRef.current);
       return;
     }
 
     // 2️⃣ fallback: dirección
     if (direccion) {
+      console.log("CENTRANDO POR DIRECCION");
       centrarPorDireccion(
         direccion,
         mapRef.current,

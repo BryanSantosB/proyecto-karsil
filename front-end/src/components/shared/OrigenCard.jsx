@@ -18,16 +18,16 @@ const OrigenCard = (props) => {
   );
 
   const [fechasRecojo, setFechasRecojo] = useState([]);
+  const [tipoOrigen, setTipoOrigen] = useState(
+    formData[seccion].tipo || props.modalidad,
+  );
 
-  const valorInicial = formData[seccion].agencia
+  /* const valorInicial = formData[seccion].agencia
     ? formData[seccion].tipo
-    : "agencia" + props.modalidad; // 👈 2da opción
+    : "agencia" + props.modalidad; 
 
-  const [tipoOrigen, setTipoOrigen] = useState(valorInicial);
+  const [tipoOrigen, setTipoOrigen] = useState(valorInicial); */
 
-  // const [tipoOrigen, setTipoOrigen] = useState(
-  //   formData[seccion].tipo || props.modalidad,
-  // );
   const [resetKey, setResetKey] = useState(0);
   const [direccionMapa, setDireccionMapa] = useState(
     formData[seccion].direccion || formData[seccion].agencia || "",
@@ -60,18 +60,19 @@ const OrigenCard = (props) => {
       .then((res) => setFechasRecojo(res.data))
       .catch(console.error);
 
-    actualizarDatos(seccion, {
-      tipo: "agencia" + props.modalidad,
-    });
-    console.log("DATOS COMPLETOS: ", formData);
+    // actualizarDatos(seccion, {
+    //   tipo: "agencia" + props.modalidad,
+    // });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const cambiarTipoOrigen = (nuevoTipo) => {
+    console.log("CAMBIANDO TIPO DE ORIGEN A:", nuevoTipo);
     setTipoOrigen(nuevoTipo);
     actualizarDatos(seccion, { tipo: nuevoTipo });
     setDireccionMapa("");
-    nuevoTipo !== "agencia" + props.modalidad &&
+    setCoordenadas(null);
+    nuevoTipo === props.modalidad &&
       actualizarDatos(seccion, { agencia: "" });
     nuevoTipo === "agencia" + props.modalidad &&
       actualizarDatos(seccion, {
@@ -81,7 +82,10 @@ const OrigenCard = (props) => {
         direccion: "",
         fecha: "",
       });
+
     setResetKey((k) => k + 1);
+    console.log("SET KEY: ", resetKey);
+    console.log(formData)
   };
 
   const manejarCambioAgencia = (e) => {
@@ -91,14 +95,12 @@ const OrigenCard = (props) => {
     tipoOrigen !== props.modalidad &&
       setCoordenadas(direccionDelMapa.coordenadas);
     actualizarDatos(seccion, { agencia: agencia });
-    console.log("AGENCIA SELECCIONADA:", agencia);
   };
 
   const manejarCambioDepartamento = (e) => {
     const indice = e.target.selectedIndex;
     const departamento = e.target.options[indice].text;
     actualizarDatos(seccion, { departamento: departamento });
-    console.log("DEPARTAMENTO SELECCIONADO:", departamento);
     manejarCambioAgencia(e);
   };
 
@@ -107,8 +109,6 @@ const OrigenCard = (props) => {
     setDireccionMapa(nuevaDireccion);
     actualizarDatos(seccion, { direccion: nuevaDireccion });
   };
-
-  /* if (!mapsLoaded) return <p>Cargando mapa...</p>; */
 
   return (
     <NeumorphicContainer
