@@ -18,6 +18,7 @@ const SeccionEnvio = () => {
       .catch(console.error);
   }, []);
 
+
   const esDireccionValida = (texto) => {
     if (!texto) return false;
     const regexBasura = /([a-z])\1{3,}/i;
@@ -67,6 +68,7 @@ const SeccionEnvio = () => {
 
     // Si pasa todos los filtros
     setError("");
+    console.log("Data actual: ", formData)
     siguientePaso();
   };
 

@@ -11,16 +11,23 @@ import { buscarPorAgencia } from "utils/buscarPorAgencia";
 
 const OrigenCard = (props) => {
   const { formData, actualizarDatos } = useForm();
-  //const mapsLoaded = useGoogleMaps();
   const seccion = props.title.toLowerCase();
 
   const [ciudadesOrigen, setCiudadesOrigen] = useState(
     props.ciudadesOrigen || [],
   );
+
   const [fechasRecojo, setFechasRecojo] = useState([]);
-  const [tipoOrigen, setTipoOrigen] = useState(
-    formData[seccion].tipo || props.modalidad,
-  );
+
+  const valorInicial = formData[seccion].agencia
+    ? formData[seccion].tipo
+    : "agencia" + props.modalidad; // 👈 2da opción
+
+  const [tipoOrigen, setTipoOrigen] = useState(valorInicial);
+
+  // const [tipoOrigen, setTipoOrigen] = useState(
+  //   formData[seccion].tipo || props.modalidad,
+  // );
   const [resetKey, setResetKey] = useState(0);
   const [direccionMapa, setDireccionMapa] = useState(
     formData[seccion].direccion || formData[seccion].agencia || "",
@@ -28,11 +35,19 @@ const OrigenCard = (props) => {
   const [coordenadas, setCoordenadas] = useState(null);
 
   const opciones = [
-    { label: props.modalidadText, value: props.modalidad, name: "modalidad", icon:`${process.env.REACT_APP_API_UR}/public/icons/icon_caja.png` },
-    { label: props.agenciaText, value: "agencia" + props.modalidad, name: "modalidad", icon:`${process.env.REACT_APP_API_UR}/public/icons/icon_agencia.png` },
+    {
+      label: props.modalidadText,
+      value: props.modalidad,
+      name: "modalidad",
+      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_caja.png`,
+    },
+    {
+      label: props.agenciaText,
+      value: "agencia" + props.modalidad,
+      name: "modalidad",
+      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_agencia.png`,
+    },
   ];
-
-  console.log(`Dominio: ${process.env.REACT_APP_API_UR}`);
 
   useEffect(() => {
     api
@@ -45,7 +60,10 @@ const OrigenCard = (props) => {
       .then((res) => setFechasRecojo(res.data))
       .catch(console.error);
 
-    cambiarTipoOrigen(formData[seccion].departamento ? formData[seccion].tipo : "agencia" + props.modalidad);
+    actualizarDatos(seccion, {
+      tipo: "agencia" + props.modalidad,
+    });
+    console.log("DATOS COMPLETOS: ", formData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -73,12 +91,14 @@ const OrigenCard = (props) => {
     tipoOrigen !== props.modalidad &&
       setCoordenadas(direccionDelMapa.coordenadas);
     actualizarDatos(seccion, { agencia: agencia });
+    console.log("AGENCIA SELECCIONADA:", agencia);
   };
 
   const manejarCambioDepartamento = (e) => {
     const indice = e.target.selectedIndex;
     const departamento = e.target.options[indice].text;
     actualizarDatos(seccion, { departamento: departamento });
+    console.log("DEPARTAMENTO SELECCIONADO:", departamento);
     manejarCambioAgencia(e);
   };
 
