@@ -18,15 +18,15 @@ const OrigenCard = (props) => {
   );
 
   const [fechasRecojo, setFechasRecojo] = useState([]);
-  const [tipoOrigen, setTipoOrigen] = useState(
+  /* const [tipoOrigen, setTipoOrigen] = useState(
     formData[seccion].tipo || props.modalidad,
-  );
+  ); */
 
-  /* const valorInicial = formData[seccion].agencia
+  const valorInicial = formData[seccion].agencia
     ? formData[seccion].tipo
     : "agencia" + props.modalidad; 
 
-  const [tipoOrigen, setTipoOrigen] = useState(valorInicial); */
+  const [tipoOrigen, setTipoOrigen] = useState(valorInicial);
 
   const [resetKey, setResetKey] = useState(0);
   const [direccionMapa, setDireccionMapa] = useState(
@@ -60,9 +60,9 @@ const OrigenCard = (props) => {
       .then((res) => setFechasRecojo(res.data))
       .catch(console.error);
 
-    // actualizarDatos(seccion, {
-    //   tipo: "agencia" + props.modalidad,
-    // });
+    actualizarDatos(seccion, {
+      tipo: "agencia" + props.modalidad,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
