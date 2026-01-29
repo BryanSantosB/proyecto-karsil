@@ -36,3 +36,39 @@ export async function enviarCorreoCotizacion({
     html,
   });
 }
+
+export const enviarCorreoContacto = async (
+  nombre,
+  correo,
+  telefono,
+  mensaje,
+) => {
+  const transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: Number(process.env.EMAIL_PORT),
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  await transporter.sendMail({
+    from: `"Formulario Web" <${process.env.EMAIL_USER}>`,
+    to: process.env.EMAIL_USER,
+    replyTo: correo, 
+    subject: "Nuevo mensaje desde la web",
+    html: `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+        <h2>Nuevo mensaje de contacto</h2>
+        <p><strong>Nombre:</strong> ${nombre}</p>
+        <p><strong>Correo:</strong> ${correo}</p>
+        <p><strong>Teléfono:</strong> ${telefono || "No proporcionado"}</p>
+        <hr />
+        <p><strong>Mensaje:</strong></p>
+        <p>${mensaje}</p>
+      </div>
+    `,
+  });
+};
+
