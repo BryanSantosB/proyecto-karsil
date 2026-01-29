@@ -1,3 +1,4 @@
+import { ContactUs } from "components/ui/ContactUs/ContactUs";
 import HeroSection from "components/ui/HeroSection/HeroSection";
 import KarsilServices from "components/ui/KarsilServices/KarsilServices";
 import WhyKarsil from "components/ui/KarsilServices/WhyKarsil";
@@ -9,6 +10,7 @@ function HomePage() {
       <HeroSection />
       <KarsilServices />
       <WhyKarsil />
+      <ContactUs />
       <CalculadoraEnvio />
     </div>
   );
