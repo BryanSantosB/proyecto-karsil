@@ -5,6 +5,8 @@
 import { useState } from "react";
 import { CONTACT_DATA } from "./contactUs_Data";
 import { api } from "services/api";
+import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
+import ModalConfirmacion from "../ModalConfirmacion/ModalConfirmacion";
 // ============================================
 // COMPONENTE UI (Solo presentación)
 // ============================================
@@ -12,6 +14,8 @@ import { api } from "services/api";
 export const ContactUs = () => {
 
   const [formValues, setFormValues] = useState({});
+  const [enviando, setEnviando] = useState(false);
+  const [mostrarExito, setMostrarExito] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -24,16 +28,23 @@ export const ContactUs = () => {
     console.log(formValues);
   };
 
+  const cerrarYReiniciar = () => {
+    setMostrarExito(false);
+    window.location.href = "/";
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Aquí iría la lógica de envío del formulario
     console.log("Formulario enviado: ", formValues);
+    setEnviando(true)
     try {
         await api.post("/correo/contacto", formValues);
-        alert("Mensaje enviado correctamente");
+        setMostrarExito(true);
     } catch (error) {
         alert("Error al enviar el mensaje: ", error.message);
+    } finally {
+        setEnviando(false);
     }
   };
 
@@ -42,6 +53,18 @@ export const ContactUs = () => {
       className="relative min-h-screen bg-cover bg-center flex items-center"
       style={{ backgroundImage: `url('${CONTACT_DATA.backgroundImage}')` }}
     >
+
+      {}{enviando && (
+        <LoadingOverlay mensaje="Cargando Página..." />
+      )}
+
+      <ModalConfirmacion
+        isOpen={mostrarExito}
+        mensaje="¡Tu envío ha sido registrado!"
+        submensaje="Un asesor de Karsil revisará los detalles y te contactará por WhatsApp en breve."
+        onCerrar={cerrarYReiniciar}
+      />
+
       {/* Overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900/95 via-gray-900/90 to-primary-primary/80" />
 
