@@ -10,6 +10,7 @@ const SeccionEnvio = () => {
   const { formData, siguientePaso, anteriorPaso, paso } = useForm();
   const [error, setError] = useState("");
   const [ciudadesOrigen, setCiudadesOrigen] = useState([]);
+  const [isLocked, setIsLocked] = useState(false);
 
   useEffect(() => {
     api
@@ -26,6 +27,9 @@ const SeccionEnvio = () => {
   };
 
   const validarYContinuar = () => {
+    if (isLocked) return;
+    setIsLocked(true);
+
     const { origen, destino } = formData;
 
     // VALIDACIONES DE ORIGEN

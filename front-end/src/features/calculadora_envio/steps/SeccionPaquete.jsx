@@ -9,8 +9,12 @@ import SelectorModalidad from "components/ui/SelectorModalidad/SelectorModalidad
 const SeccionPaquete = () => {
   const { formData, actualizarDatos, siguientePaso, anteriorPaso } = useForm();
   const [error, setError] = useState("");
+  const [isLocked, setIsLocked] = useState(false);
 
   const validarYContinuar = () => {
+    if (isLocked) return;
+    setIsLocked(true);
+
     const { paquete } = formData;
     if (!paquete.peso || paquete.peso <= 0) {
       setError("El peso debe ser una cantidad mayor a 0 kg.");

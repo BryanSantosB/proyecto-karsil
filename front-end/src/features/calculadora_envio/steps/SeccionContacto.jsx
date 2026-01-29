@@ -8,8 +8,12 @@ import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicCon
 const SeccionContacto = () => {
   const { formData, actualizarDatos, siguientePaso, anteriorPaso } = useForm();
   const [error, setError] = useState("");
+  const [isLocked, setIsLocked] = useState(false);
 
   const validarYContinuar = () => {
+    if (isLocked) return;
+    setIsLocked(true);
+
     const { contacto } = formData;
     
     // Validación de Teléfono (9 dígitos en Perú)

@@ -8,6 +8,7 @@ import SelectorModalidad from 'components/ui/SelectorModalidad/SelectorModalidad
 const SeccionTipoPaquete = () => {
   const { formData, actualizarDatos, siguientePaso, anteriorPaso } = useForm();
   const [error, setError] = useState("");
+  const [isLocked, setIsLocked] = useState(false);
 
   const opcionesCategorias = [
     { value: 'perecible', label: 'Perecible', icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_manzana.png` },
@@ -21,6 +22,9 @@ const SeccionTipoPaquete = () => {
   };
 
   const validarYContinuar = () => {
+    if (isLocked) return;
+    setIsLocked(true);
+
     if (!formData.paquete.categoria) {
       setError("Por favor, selecciona un tipo de paquete para continuar.");
       return;
