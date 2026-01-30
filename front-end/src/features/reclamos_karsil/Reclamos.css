@@ -1,0 +1,103 @@
+.reclamos-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.karsil-logo h1 {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Animación para los pasos */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.row.g-3 > * {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Estilos para textareas */
+textarea.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+/* Estilos para checkboxes */
+.form-check-input:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.form-check-input:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilos para la zona de drag & drop */
+.border.rounded.p-4:hover {
+  background: #e7f3ff !important;
+  border-color: #0056b3 !important;
+}
+
+/* Estilos para los archivos cargados */
+.list-group-item {
+  transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+  transform: translateX(5px);
+}
+
+/* Responsive mejoras */
+@media (max-width: 768px) {
+  .karsil-logo h1 {
+    font-size: 1.5rem;
+  }
+  
+  .d-flex.gap-3 {
+    gap: 0.5rem !important;
+  }
+  
+  .rounded-circle {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* Estilos para alertas personalizadas */
+.alert {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mejora visual para inputs en focus */
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Iconos de Bootstrap (si no los tienes, puedes omitir esto) */
+.bi {
+  display: inline-block;
+  vertical-align: middle;
+}
