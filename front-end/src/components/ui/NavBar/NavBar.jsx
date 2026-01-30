@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { AnclaNav } from "../AnclaNav/AnclaNav";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -27,11 +29,10 @@ const Navbar = () => {
   }, [open]);
 
   const navLinks = [
-    { name: "Inicio", href: "/" },
-    { name: "Servicios", href: "/servicios" },
-    { name: "Cobertura", href: "/cobertura" },
-    { name: "Seguimiento", href: "/seguimiento" },
-    { name: "Contacto", href: "/contacto" },
+    { name: "Inicio", to: "/", scrollTo: "hero" },
+    { name: "Servicios", to: "/", scrollTo: "servicios" },
+    { name: "Beneficios", to: "/", scrollTo: "beneficios" },
+    { name: "Contacto", to: "/", scrollTo: "contactus" },
   ];
 
   return (
@@ -41,11 +42,14 @@ const Navbar = () => {
           ? "bg-white/95 backdrop-blur-sm shadow-md shadow-gray-900/5"
           : "bg-white/95 backdrop-blur-sm shadow-md shadow-gray-900/5"
       }`}
-    > 
+    >
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         <div className="flex justify-between items-center h-16 lg:h-20">
           {/* Logo - crece gradualmente */}
-          <a href={navLinks[0].href} className="flex items-center gap-2 lg:gap-3 group">
+          <a
+            href={navLinks[0].href}
+            className="flex items-center gap-2 lg:gap-3 group"
+          >
             <div className="relative">
               <img
                 src={`${process.env.REACT_APP_API_UR}/public/logo_big_v2.png`}
@@ -65,26 +69,16 @@ const Navbar = () => {
           {/* Desktop Navigation - tamaños más balanceados */}
           <div className="hidden md:flex items-center gap-1 lg:gap-2 xl:gap-3">
             {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="relative px-3 lg:px-4 xl:px-5 py-2 lg:py-2.5 text-sm lg:text-base xl:text-lg font-semibold text-primary-primary hover:text-primary-light transition-all duration-300 rounded-lg group hover:bg-primary-primary/5"
-              >
-                {link.name}
-                {/* Animated underline */}
-                <span className="absolute left-3 lg:left-4 xl:left-5 right-3 lg:right-4 xl:right-5 bottom-1 lg:bottom-1.5 h-0.5 bg-primary-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-              </a>
+              <AnclaNav key={link.name} link={link} />
             ))}
 
-            {/* CTA Button - crece proporcionalmente */}
-            <a
-              href="/cotizar"
+            <Link
+              to="/cotizar"
               className="ml-2 lg:ml-4 xl:ml-6 relative inline-flex items-center justify-center px-5 lg:px-6 xl:px-8 py-2 lg:py-2.5 xl:py-3 text-sm lg:text-base xl:text-lg font-semibold text-white rounded-lg bg-gradient-to-r from-primary-primary to-primary-light hover:from-primary-light hover:to-primary-primary transition-all duration-300 shadow-lg shadow-primary-primary/30 hover:shadow-primary-primary/50 hover:scale-105 active:scale-95 group"
             >
               <span className="relative z-10">Cotizar</span>
               {/* Shine effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 rounded-lg" />
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Hamburger Button */}

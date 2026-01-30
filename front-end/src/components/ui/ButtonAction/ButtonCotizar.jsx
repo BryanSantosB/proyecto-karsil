@@ -1,4 +1,4 @@
-export default function ButtonCotizar({ texto, ...props }) {
+export default function ButtonCotizar({onclick, texto, ...props }) {
   return (
     <div className="text-center mt-12">
       <button 
@@ -14,6 +14,7 @@ export default function ButtonCotizar({ texto, ...props }) {
           active:scale-95
           overflow-hidden group
         "
+        onclick={onclick}
       >
         {/* Efecto de brillo al pasar el mouse */}
         <span className="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>

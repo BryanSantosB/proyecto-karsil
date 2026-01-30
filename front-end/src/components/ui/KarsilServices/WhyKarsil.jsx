@@ -1,6 +1,6 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
-export default function WhyKarsil() {
+const WhyKarsil = forwardRef((props, ref) => {
   const benefits = [
     {
       icon: "✅",
@@ -35,7 +35,7 @@ export default function WhyKarsil() {
   ];
 
   return (
-    <div className="d-flex justify-content-center w-100">
+    <div className="d-flex justify-content-center w-100" ref={ref}>
       <div className="w-responsive bg-white py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header Section */}
@@ -106,4 +106,6 @@ export default function WhyKarsil() {
       </div>
     </div>
   );
-}
+});
+
+export default WhyKarsil;

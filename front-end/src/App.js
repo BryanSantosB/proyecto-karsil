@@ -5,12 +5,14 @@ import React, { Suspense } from 'react';
 import Footer from 'components/ui/Footer/Footer';
 import LoadingOverlay from 'components/ui/LoadingOverlay/LoadingOverlay';
 import { useGoogleMaps } from 'hooks/useGoogleMaps';
+import ScrollToTop from 'components/ui/ScrollToTop/ScrollToTop';
 
 function App() {
   const mapsLoaded = useGoogleMaps();
   if (!mapsLoaded) return <p>Cargando mapas...</p>;
   return (
     <Router>
+      <ScrollToTop />
       <div className="min-h-screen flex flex-col">
         <NavBar />
 

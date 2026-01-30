@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 //import ButtonAction from "../ButtonAction/ButtonAction";
 import ButtonCotizar from "../ButtonAction/ButtonCotizar";
+import { useNavigate } from "react-router-dom";
 
-export default function HeroSection() {
+const HeroSection = forwardRef((props, ref) => {
   const [isVisible, setIsVisible] = useState(false);
   const apiUrl = process.env.REACT_APP_API_UR;
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
@@ -23,6 +25,7 @@ export default function HeroSection() {
         '--bg-tablet': `url(${apiUrl}/public/imghero/small_v2.png)`,
         '--bg-desktop': `url(${apiUrl}/public/imghero/large_v2.png)`,
       }}
+      ref={ref}
     >
       {/* Gradient Overlay - más suave en desktop para que se vea la imagen */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/85 via-white/70 to-transparent md:bg-gradient-to-r md:from-white/80 md:via-white/50 md:to-transparent"></div>
@@ -181,7 +184,7 @@ export default function HeroSection() {
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
               }`}
             >
-              <ButtonCotizar texto="Cotizar ahora" />
+              <ButtonCotizar texto="Cotizar ahora" onClick={() => navigate("/cotizar")} />
             </div>
 
             {/* Stats Section - Mejorado para desktop */}
@@ -303,4 +306,6 @@ export default function HeroSection() {
       `}</style>
     </section>
   );
-}
+});
+
+export default HeroSection;

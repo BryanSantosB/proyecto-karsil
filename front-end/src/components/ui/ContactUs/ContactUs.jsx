@@ -2,7 +2,7 @@
 // DATOS DEL COMPONENTE (Fácil de editar)
 // ============================================
 
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { CONTACT_DATA } from "./contactUs_Data";
 import { api } from "services/api";
 import LoadingOverlay from "../LoadingOverlay/LoadingOverlay";
@@ -11,7 +11,7 @@ import ModalConfirmacion from "../ModalConfirmacion/ModalConfirmacion";
 // COMPONENTE UI (Solo presentación)
 // ============================================
 
-export const ContactUs = () => {
+export const ContactUs = forwardRef((props, ref) => {
 
   const [formValues, setFormValues] = useState({});
   const [enviando, setEnviando] = useState(false);
@@ -52,6 +52,7 @@ export const ContactUs = () => {
     <section
       className="relative min-h-screen bg-cover bg-center flex items-center"
       style={{ backgroundImage: `url('${CONTACT_DATA.backgroundImage}')` }}
+      ref={ref}
     >
 
       {}{enviando && (
@@ -306,4 +307,4 @@ export const ContactUs = () => {
       </div>
     </section>
   );
-};
+});
