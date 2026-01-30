@@ -19,9 +19,9 @@ export default function HeroSection() {
         lg:bg-[image:var(--bg-desktop)]
       "
       style={{
-        '--bg-mobile': `url(${apiUrl}/public/imghero/movil_without_icon.png)`,
-        '--bg-tablet': `url(${apiUrl}/public/imghero/small_without_icon.png)`,
-        '--bg-desktop': `url(${apiUrl}/public/imghero/large_without_icon.png)`,
+        '--bg-mobile': `url(${apiUrl}/public/imghero/movil_v2.png)`,
+        '--bg-tablet': `url(${apiUrl}/public/imghero/small_v2.png)`,
+        '--bg-desktop': `url(${apiUrl}/public/imghero/large_v2.png)`,
       }}
     >
       {/* Gradient Overlay - más suave en desktop para que se vea la imagen */}
