@@ -16,7 +16,8 @@ const SeccionPaquete = () => {
     setIsLocked(true);
 
     const { paquete } = formData;
-    if (!paquete.peso || paquete.peso <= 0) {
+    try {
+      if (!paquete.peso || paquete.peso <= 0) {
       setError("El peso debe ser una cantidad mayor a 0 kg.");
       return;
     }
@@ -37,6 +38,11 @@ const SeccionPaquete = () => {
     }
     setError("");
     siguientePaso();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLocked(false);
+    }
   };
 
   const handleChange = (e) => {

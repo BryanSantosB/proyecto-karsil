@@ -19,7 +19,6 @@ const SeccionEnvio = () => {
       .catch(console.error);
   }, []);
 
-
   const esDireccionValida = (texto) => {
     if (!texto) return false;
     const regexBasura = /([a-z])\1{3,}/i;
@@ -30,50 +29,57 @@ const SeccionEnvio = () => {
     if (isLocked) return;
     setIsLocked(true);
 
-    const { origen, destino } = formData;
+    try {
+      const { origen, destino } = formData;
 
-    // VALIDACIONES DE ORIGEN
-    if (origen.tipo === "recojo") {
-      if (!origen.departamento)
-        return setError("Selecciona el departamento de origen.");
-      if (!origen.provincia)
-        return setError("Selecciona la provincia de origen.");
-      if (!origen.distrito)
-        return setError("Selecciona el distrito de origen.");
-      if (!esDireccionValida(origen.direccion))
-        return setError("Ingresa una dirección de recojo válida.");
-      if (!origen.fecha)
-        return setError("Selecciona una fecha para el recojo.");
-    } else {
-      if (!origen.agencia) return setError("Selecciona la agencia de origen.");
-    }
+      // VALIDACIONES DE ORIGEN
+      if (origen.tipo === "recojo") {
+        if (!origen.departamento)
+          return setError("Selecciona el departamento de origen.");
+        if (!origen.provincia)
+          return setError("Selecciona la provincia de origen.");
+        if (!origen.distrito)
+          return setError("Selecciona el distrito de origen.");
+        if (!esDireccionValida(origen.direccion))
+          return setError("Ingresa una dirección de recojo válida.");
+        if (!origen.fecha)
+          return setError("Selecciona una fecha para el recojo.");
+      } else {
+        if (!origen.agencia)
+          return setError("Selecciona la agencia de origen.");
+      }
 
-    // VALIDACIONES DE DESTINO
-    if (destino.tipo === "entrega") {
-      if (!destino.departamento)
-        return setError("Selecciona el departamento de destino.");
-      if (!destino.provincia)
-        return setError("Selecciona la provincia de destino.");
-      if (!destino.distrito)
-        return setError("Selecciona el distrito de destino.");
-      if (!esDireccionValida(destino.direccion))
-        return setError("Ingresa una dirección de entrega válida.");
-    } else {
-      if (!destino.agencia)
-        return setError("Selecciona la agencia de destino.");
-    }
-    // VALIDACIONES DE RUTAS DISPONIBLES
-    if (!esRutaDisponible(origen, destino, ciudadesOrigen)) {
-      console.log("Ruta no disponible:", origen, destino);
-      return setError(
-        "La ruta seleccionada no está disponible. Solo se realizan envíos Lima ↔ Provincia.",
-      );
-    }
+      // VALIDACIONES DE DESTINO
+      if (destino.tipo === "entrega") {
+        if (!destino.departamento)
+          return setError("Selecciona el departamento de destino.");
+        if (!destino.provincia)
+          return setError("Selecciona la provincia de destino.");
+        if (!destino.distrito)
+          return setError("Selecciona el distrito de destino.");
+        if (!esDireccionValida(destino.direccion))
+          return setError("Ingresa una dirección de entrega válida.");
+      } else {
+        if (!destino.agencia)
+          return setError("Selecciona la agencia de destino.");
+      }
+      // VALIDACIONES DE RUTAS DISPONIBLES
+      if (!esRutaDisponible(origen, destino, ciudadesOrigen)) {
+        console.log("Ruta no disponible:", origen, destino);
+        return setError(
+          "La ruta seleccionada no está disponible. Solo se realizan envíos Lima ↔ Provincia.",
+        );
+      }
 
-    // Si pasa todos los filtros
-    setError("");
-    console.log("Data actual: ", formData)
-    siguientePaso();
+      // Si pasa todos los filtros
+      setError("");
+      console.log("Data actual: ", formData);
+      siguientePaso();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLocked(false);
+    }
   };
 
   return (

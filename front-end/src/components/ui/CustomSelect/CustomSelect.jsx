@@ -13,6 +13,8 @@ const CustomSelect = ({
   errorMessage = "",
   ...props 
 }) => {
+  const safeOptions = Array.isArray(options) ? options : [];
+
   return (
     <div className="flex flex-col gap-2 w-full font-sans">
       {label && (
@@ -42,7 +44,7 @@ const CustomSelect = ({
           {...props}
         >
           <option value="" disabled hidden>{placeholder}</option>
-          {options.map((opt) => (
+          {safeOptions.map((opt) => (
             <option 
               key={val ? opt[val] : opt.value} 
               value={val ? opt[val] : opt.value}

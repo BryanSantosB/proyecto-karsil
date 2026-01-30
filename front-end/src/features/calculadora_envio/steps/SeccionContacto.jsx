@@ -14,7 +14,8 @@ const SeccionContacto = () => {
     if (isLocked) return;
     setIsLocked(true);
 
-    const { contacto } = formData;
+    try {
+      const { contacto } = formData;
     
     // Validación de Teléfono (9 dígitos en Perú)
     const phoneRegex = /^9\d{8}$/;
@@ -32,6 +33,11 @@ const SeccionContacto = () => {
 
     setError("");
     siguientePaso(); 
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLocked(false);
+    }
   };
 
   const handleChange = (e) => {

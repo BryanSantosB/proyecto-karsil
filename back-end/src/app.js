@@ -15,6 +15,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(cors({
+  origin: [
+    "https://karsil-front.trycloudflare.com",
+    "http://localhost:3000"
+  ],
+  credentials: true
+}));
+
+
 app.use("/public", express.static(path.join(__dirname, "../src/public")));
 
 // routes
