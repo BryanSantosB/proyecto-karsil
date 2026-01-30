@@ -4,7 +4,7 @@ import generarEmailCotizacion from "../utils/cotizacion.html.email.js";
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
   port: Number(process.env.EMAIL_PORT),
-  secure: false, // true solo para 465
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -43,16 +43,7 @@ export const enviarCorreoContacto = async (
   telefono,
   mensaje,
 ) => {
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: Number(process.env.EMAIL_PORT),
-    secure: false,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
+  
   await transporter.sendMail({
     from: `"Formulario Web" <${process.env.EMAIL_USER}>`,
     to: process.env.EMAIL_USER,
