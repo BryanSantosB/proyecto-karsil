@@ -10,8 +10,8 @@ export function buscarPorAgencia(lista, agencia) {
   return (
     lista.find(
       (item) =>
-        typeof item.label === "string" &&
-        item.label.toLowerCase() === agencia.toLowerCase(),
+        typeof item.nombre === "string" &&
+        item.nombre.toLowerCase() === agencia.toLowerCase(),
     ) || null
   );
 }

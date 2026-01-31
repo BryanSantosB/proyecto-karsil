@@ -17,6 +17,8 @@ const OrigenCard = (props) => {
     props.ciudadesOrigen || [],
   );
 
+  const [ciudades, setCiudades] = useState([]);
+
   const [fechasRecojo, setFechasRecojo] = useState([]);
   /* const [tipoOrigen, setTipoOrigen] = useState(
     formData[seccion].tipo || props.modalidad,
@@ -24,7 +26,7 @@ const OrigenCard = (props) => {
 
   const valorInicial = formData[seccion].agencia
     ? formData[seccion].tipo
-    : "agencia" + props.modalidad; 
+    : "agencia" + props.modalidad;
 
   const [tipoOrigen, setTipoOrigen] = useState(valorInicial);
 
@@ -60,6 +62,14 @@ const OrigenCard = (props) => {
       .then((res) => setFechasRecojo(res.data))
       .catch(console.error);
 
+    api
+      .get("/ciudades/")
+      .then((res) => {
+        //setCiudadesOrigen(res.data.data);
+        setCiudades(res.data.data);
+      })
+      .catch(console.error);
+
     actualizarDatos(seccion, {
       tipo: "agencia" + props.modalidad,
     });
@@ -67,13 +77,15 @@ const OrigenCard = (props) => {
   }, []);
 
   const cambiarTipoOrigen = (nuevoTipo) => {
+    console.log("CIUDADES: ", ciudades);
+    console.log("CIUDADES ORIGEN: ", ciudadesOrigen);
+
     console.log("CAMBIANDO TIPO DE ORIGEN A:", nuevoTipo);
     setTipoOrigen(nuevoTipo);
     actualizarDatos(seccion, { tipo: nuevoTipo });
     setDireccionMapa("");
     setCoordenadas(null);
-    nuevoTipo === props.modalidad &&
-      actualizarDatos(seccion, { agencia: "" });
+    nuevoTipo === props.modalidad && actualizarDatos(seccion, { agencia: "" });
     nuevoTipo === "agencia" + props.modalidad &&
       actualizarDatos(seccion, {
         departamento: "",
@@ -85,15 +97,22 @@ const OrigenCard = (props) => {
 
     setResetKey((k) => k + 1);
     console.log("SET KEY: ", resetKey);
-    console.log(formData)
+    console.log(formData);
   };
 
   const manejarCambioAgencia = (e) => {
     const agencia = e.target.value;
-    const direccionDelMapa = buscarPorAgencia(ciudadesOrigen, agencia);
-    tipoOrigen !== props.modalidad && setDireccionMapa(direccionDelMapa.value);
+    console.log("AGENCIA: ", agencia);
+    const direccionDelMapa = buscarPorAgencia(ciudades, agencia);
+    console.log("DIRECCION DEL MAPA: ", direccionDelMapa);
+    const latAndlog = {
+      lat: direccionDelMapa.latitud || null, 
+      lng: direccionDelMapa.longitud || null,
+    }
+    tipoOrigen !== props.modalidad && setDireccionMapa(direccionDelMapa.direccion);
     tipoOrigen !== props.modalidad &&
-      setCoordenadas(direccionDelMapa.coordenadas);
+    
+      setCoordenadas(latAndlog);
     actualizarDatos(seccion, { agencia: agencia });
   };
 
@@ -136,12 +155,12 @@ const OrigenCard = (props) => {
               <CustomSelect
                 placeholder="Selecciona una agencia"
                 value={formData[seccion].agencia || ""}
-                options={ciudadesOrigen}
+                options={ciudades}
                 onChange={(e) => {
                   manejarCambioAgencia(e);
                 }}
-                val="label"
-                lab="label"
+                val="nombre"
+                lab="nombre"
               />
             </div>
           )}
