@@ -6,7 +6,8 @@ import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicCon
 import { api } from "services/api";
 
 const ResumenConfirmacion = () => {
-  const { datosReclamo, archivosEvidencia, anteriorPaso, resetearFormulario } = useReclamo();
+  const { datosReclamo, archivosEvidencia, anteriorPaso, resetearFormulario } =
+    useReclamo();
   const [error, setError] = useState("");
   const [exito, setExito] = useState("");
   const [isLocked, setIsLocked] = useState(false);
@@ -24,47 +25,34 @@ const ResumenConfirmacion = () => {
 
   const enviarReclamo = async () => {
     setIsLocked(true);
+
     try {
       const formData = new FormData();
 
-      Object.keys(datosReclamo).forEach((key) => {
-        formData.append(key, datosReclamo[key]);
+      Object.entries(datosReclamo).forEach(([key, value]) => {
+        if (value !== null && value !== undefined) {
+          formData.append(key, value);
+        }
       });
 
-      archivosEvidencia.forEach((archivo, index) => {
-        formData.append(`evidencia_${index}`, archivo);
+      archivosEvidencia.forEach((archivo) => {
+        formData.append("evidencias", archivo);
       });
 
-      console.log("DATOS DEL RECLAMO", datosReclamo);
+      // Debug REAL de FormData
+      for (const [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
 
-//       const response = await api.post("/reclamos/crear", formData, {
-//         headers: {
-//           "Content-Type": "multipart/form-data",
-//         },
-//       });
+      const response = await api.post("/reclamos", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-//       if (response.data.success) {
-//         setExito(
-//           `¡Reclamo enviado exitosamente!
-          
-// Número de reclamo: ${response.data.numeroReclamo}
-
-// Recibirás un correo electrónico a ${datosReclamo.email} con el cargo de recepción y las instrucciones de seguimiento.
-
-// Nuestro equipo se pondrá en contacto contigo en un plazo máximo de 48 horas hábiles.`
-//         );
-
-//         setTimeout(() => {
-//           resetearFormulario();
-//           setExito("");
-//         }, 8000);
-//       }
-    } catch (err) {
-      console.error("Error al enviar reclamo:", err);
-      setError(
-        err.response?.data?.mensaje ||
-          "Hubo un error al enviar el reclamo. Por favor, verifica tu conexión e intenta nuevamente."
-      );
+      console.log("Reclamo creado:", response.data);
+    } catch (error) {
+      console.error("Error al enviar reclamo:", error);
     } finally {
       setIsLocked(false);
     }
@@ -72,10 +60,24 @@ const ResumenConfirmacion = () => {
 
   return (
     <div className="w-full px-2 flex justify-center py-8">
-      <AlertaFlotante mensaje={error} onClose={() => setError("")} tipo="error" />
-      {exito && <AlertaFlotante mensaje={exito} onClose={() => setExito("")} tipo="success" />}
+      <AlertaFlotante
+        mensaje={error}
+        onClose={() => setError("")}
+        tipo="error"
+      />
+      {exito && (
+        <AlertaFlotante
+          mensaje={exito}
+          onClose={() => setExito("")}
+          tipo="success"
+        />
+      )}
 
-      <NeumorphicContainer width="100%" maxWidth="900px" className="p-3 p-md-5 mt-3">
+      <NeumorphicContainer
+        width="100%"
+        maxWidth="900px"
+        className="p-3 p-md-5 mt-3"
+      >
         {/* Título del paso */}
         <div className="mb-6">
           <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-xl p-4 border-l-4 border-green-500">
@@ -99,10 +101,12 @@ const ResumenConfirmacion = () => {
             <div className="flex items-start gap-3">
               <div className="text-2xl">✓</div>
               <div>
-                <strong className="text-green-900">Revisa tu información antes de enviar</strong>
+                <strong className="text-green-900">
+                  Revisa tu información antes de enviar
+                </strong>
                 <p className="text-sm text-green-800 mt-1">
-                  Verifica que todos los datos sean correctos. Una vez enviado, no podrás
-                  modificar el reclamo.
+                  Verifica que todos los datos sean correctos. Una vez enviado,
+                  no podrás modificar el reclamo.
                 </p>
               </div>
             </div>
@@ -116,19 +120,27 @@ const ResumenConfirmacion = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
               <div>
                 <p className="text-gray-600">Nombre:</p>
-                <p className="font-semibold text-gray-800">{datosReclamo.nombreCompleto}</p>
+                <p className="font-semibold text-gray-800">
+                  {datosReclamo.nombreCompleto}
+                </p>
               </div>
               <div>
                 <p className="text-gray-600">{datosReclamo.tipoDocumento}:</p>
-                <p className="font-semibold text-gray-800">{datosReclamo.numeroDocumento}</p>
+                <p className="font-semibold text-gray-800">
+                  {datosReclamo.numeroDocumento}
+                </p>
               </div>
               <div>
                 <p className="text-gray-600">Email:</p>
-                <p className="font-semibold text-gray-800">{datosReclamo.email}</p>
+                <p className="font-semibold text-gray-800">
+                  {datosReclamo.email}
+                </p>
               </div>
               <div>
                 <p className="text-gray-600">Teléfono:</p>
-                <p className="font-semibold text-gray-800">{datosReclamo.telefono}</p>
+                <p className="font-semibold text-gray-800">
+                  {datosReclamo.telefono}
+                </p>
               </div>
             </div>
           </div>
@@ -141,21 +153,29 @@ const ResumenConfirmacion = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
               <div>
                 <p className="text-gray-600">N° Guía:</p>
-                <p className="font-semibold text-gray-800">{datosReclamo.numeroGuia}</p>
+                <p className="font-semibold text-gray-800">
+                  {datosReclamo.numeroGuia}
+                </p>
               </div>
               <div>
                 <p className="text-gray-600">Fecha:</p>
                 <p className="font-semibold text-gray-800">
-                  {new Date(datosReclamo.fechaServicio).toLocaleDateString("es-PE")}
+                  {new Date(datosReclamo.fechaServicio).toLocaleDateString(
+                    "es-PE",
+                  )}
                 </p>
               </div>
               <div>
                 <p className="text-gray-600">Tipo de Servicio:</p>
-                <p className="font-semibold text-gray-800">{datosReclamo.tipoServicio}</p>
+                <p className="font-semibold text-gray-800">
+                  {datosReclamo.tipoServicio}
+                </p>
               </div>
               <div>
                 <p className="text-gray-600">Oficina:</p>
-                <p className="font-semibold text-gray-800">{datosReclamo.oficina}</p>
+                <p className="font-semibold text-gray-800">
+                  {datosReclamo.oficina}
+                </p>
               </div>
             </div>
           </div>
@@ -169,7 +189,8 @@ const ResumenConfirmacion = () => {
               <div>
                 <p className="text-gray-600">Motivo:</p>
                 <p className="font-semibold text-gray-800">
-                  {motivosMap[datosReclamo.motivoReclamo] || datosReclamo.motivoReclamo}
+                  {motivosMap[datosReclamo.motivoReclamo] ||
+                    datosReclamo.motivoReclamo}
                 </p>
               </div>
               <div>
@@ -183,7 +204,9 @@ const ResumenConfirmacion = () => {
               {datosReclamo.montoReclamado && (
                 <div>
                   <p className="text-gray-600">Monto reclamado:</p>
-                  <p className="font-semibold text-gray-800">S/ {datosReclamo.montoReclamado}</p>
+                  <p className="font-semibold text-gray-800">
+                    S/ {datosReclamo.montoReclamado}
+                  </p>
                 </div>
               )}
             </div>
@@ -196,7 +219,9 @@ const ResumenConfirmacion = () => {
             </h5>
             <div className="space-y-3 text-sm">
               <div>
-                <p className="text-gray-600 mb-2">Archivos adjuntos: {archivosEvidencia.length}</p>
+                <p className="text-gray-600 mb-2">
+                  Archivos adjuntos: {archivosEvidencia.length}
+                </p>
                 <ul className="space-y-1 text-gray-800">
                   {archivosEvidencia.map((archivo, index) => (
                     <li key={index} className="flex items-center gap-2">
@@ -220,7 +245,9 @@ const ResumenConfirmacion = () => {
               </div>
               <div>
                 <p className="text-gray-600">Firma:</p>
-                <p className="font-semibold text-gray-800">{datosReclamo.firmaDigital}</p>
+                <p className="font-semibold text-gray-800">
+                  {datosReclamo.firmaDigital}
+                </p>
               </div>
             </div>
           </div>
@@ -232,8 +259,9 @@ const ResumenConfirmacion = () => {
               <div className="text-sm">
                 <strong className="text-blue-900">Nota:</strong>
                 <p className="text-blue-800 mt-1">
-                  Al confirmar, aceptas que la información proporcionada es verídica y autorizas
-                  el procesamiento de tu reclamo conforme a nuestras políticas de privacidad.
+                  Al confirmar, aceptas que la información proporcionada es
+                  verídica y autorizas el procesamiento de tu reclamo conforme a
+                  nuestras políticas de privacidad.
                 </p>
               </div>
             </div>
@@ -256,7 +284,8 @@ const ResumenConfirmacion = () => {
             <strong>¿Necesitas ayuda?</strong> Comunícate con nosotros
           </p>
           <p className="text-sm text-gray-500">
-            📞 Central telefónica: (01) 555-5555 | 📧 reclamos@karsilcargo.com.pe
+            📞 Central telefónica: (01) 555-5555 | 📧
+            reclamos@karsilcargo.com.pe
           </p>
         </div>
       </NeumorphicContainer>

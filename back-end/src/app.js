@@ -13,6 +13,7 @@ const correoRoutes = require("./routes/correo.routes");
 const ciudadesRoutes = require("./routes/ciudades.routes");
 const modalidadesEnvioRoutes = require("./routes/modalidadEnvio.routes");
 const tiposPaquetesRoutes = require("./routes/paquetes.routes");
+const reclamosRoutes = require("./routes/reclamos.routes");
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use("/api/correo", correoRoutes);
 app.use("/api/ciudades", ciudadesRoutes);
 app.use("/api/modalidades", modalidadesEnvioRoutes);
 app.use("/api/paquetes", tiposPaquetesRoutes);
+app.use("/api/reclamos", reclamosRoutes);
 
 
 // PRUEBA
