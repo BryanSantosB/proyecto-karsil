@@ -73,7 +73,6 @@ const SeccionEnvio = () => {
 
       // Si pasa todos los filtros
       setError("");
-      console.log("Data actual: ", formData);
       siguientePaso();
     } catch (error) {
       console.error(error);

@@ -8,7 +8,7 @@ import ModalConfirmacion from "components/ui/ModalConfirmacion/ModalConfirmacion
 import LoadingOverlay from "components/ui/LoadingOverlay/LoadingOverlay";
 
 const ResumenConfirmacion = () => {
-  const { datosReclamo, archivosEvidencia, anteriorPaso, resetearFormulario } =
+  const { datosReclamo, archivosEvidencia, anteriorPaso } =
     useReclamo();
   const [error, setError] = useState("");
   const [exito, setExito] = useState("");
