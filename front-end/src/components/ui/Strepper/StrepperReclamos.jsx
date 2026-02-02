@@ -29,7 +29,16 @@ const StepperReclamos = ({ pasoActual, title, message, pasos }) => {
                   }
                 `}
               >
-                {paso.num < pasoActual ? "✓" : paso.icono}
+                {paso.num < pasoActual ? "✓" : 
+                  <img 
+                    src={process.env.REACT_APP_API_UR+paso.icono} 
+                    alt="" 
+                    className={`w-6 h-6 object-contain transition-all duration-200 `}
+                    /* 'brightness-0 invert' es un truco de CSS para volver 
+                       iconos negros a blanco cuando el fondo es oscuro 
+                    */
+                  />
+                }
               </div>
               <p className="text-xs mt-2 font-medium text-gray-600">
                 {paso.titulo}
