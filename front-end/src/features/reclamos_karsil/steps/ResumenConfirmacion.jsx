@@ -4,6 +4,8 @@ import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
 import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
 import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
 import { api } from "services/api";
+import ModalConfirmacion from "components/ui/ModalConfirmacion/ModalConfirmacion";
+import LoadingOverlay from "components/ui/LoadingOverlay/LoadingOverlay";
 
 const ResumenConfirmacion = () => {
   const { datosReclamo, archivosEvidencia, anteriorPaso, resetearFormulario } =
@@ -11,6 +13,9 @@ const ResumenConfirmacion = () => {
   const [error, setError] = useState("");
   const [exito, setExito] = useState("");
   const [isLocked, setIsLocked] = useState(false);
+  const [mostrarExito, setMostrarExito] = useState(false);
+  const [submensaje, setSubmensaje] = useState("");
+
 
   const motivosMap = {
     demora_entrega: "Demora en la entrega",
@@ -50,12 +55,20 @@ const ResumenConfirmacion = () => {
         },
       });
 
+      setSubmensaje(response.data.numeroReclamo);
+      setMostrarExito(true);
+
       console.log("Reclamo creado:", response.data);
     } catch (error) {
       console.error("Error al enviar reclamo:", error);
     } finally {
       setIsLocked(false);
     }
+  };
+
+  const cerrarYReiniciar = () => {
+    setMostrarExito(false);
+    window.location.href = "/";
   };
 
   return (
@@ -289,6 +302,16 @@ const ResumenConfirmacion = () => {
           </p>
         </div>
       </NeumorphicContainer>
+
+      {isLocked && <LoadingOverlay mensaje="Registrando reclamo..." />}
+
+      <ModalConfirmacion
+        isOpen={mostrarExito}
+        mensaje="¡Tu reclamo ha sido registrado!"
+        submensaje={submensaje}
+        onCerrar={cerrarYReiniciar}
+      />
+
     </div>
   );
 };
