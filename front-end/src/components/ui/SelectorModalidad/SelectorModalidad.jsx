@@ -36,7 +36,7 @@ const SelectorModalidad = ({ opciones, valorSeleccionado, onChange, label }) => 
                 {/* Renderizado del Icono */}
                 {opcion.icon && (
                   <img 
-                    src={opcion.icon} 
+                    src={process.env.REACT_APP_API_UR+opcion.icon} 
                     alt="" 
                     className={`w-6 h-6 object-contain transition-all duration-200 `}
                     /* 'brightness-0 invert' es un truco de CSS para volver 
@@ -45,7 +45,7 @@ const SelectorModalidad = ({ opciones, valorSeleccionado, onChange, label }) => 
                   />
                 )}
                 
-                <span>{opcion.label}</span>
+                <span>{opcion.nombre}</span>
               </div>
             </label>
           );

@@ -19,10 +19,7 @@ const OrigenCard = (props) => {
 
   const [ciudades, setCiudades] = useState([]);
 
-  const [fechasRecojo, setFechasRecojo] = useState([]);
-  /* const [tipoOrigen, setTipoOrigen] = useState(
-    formData[seccion].tipo || props.modalidad,
-  ); */
+  const [fechas, setFechas] = useState([]);
 
   const valorInicial = formData[seccion].agencia
     ? formData[seccion].tipo
@@ -38,16 +35,16 @@ const OrigenCard = (props) => {
 
   const opciones = [
     {
-      label: props.modalidadText,
+      nombre: props.modalidadText,
       value: props.modalidad,
       name: "modalidad",
-      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_caja.png`,
+      icon: `/public/icons/icon_caja.png`,
     },
     {
-      label: props.agenciaText,
+      nombre: props.agenciaText,
       value: "agencia" + props.modalidad,
       name: "modalidad",
-      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_agencia.png`,
+      icon: `/public/icons/icon_agencia.png`,
     },
   ];
 
@@ -58,15 +55,21 @@ const OrigenCard = (props) => {
       .catch(console.error);
 
     api
-      .get("/fechas/fechas-recojo")
-      .then((res) => setFechasRecojo(res.data))
+      .get("/ciudades/")
+      .then((res) => {
+        setCiudades(res.data.data);
+      })
       .catch(console.error);
 
     api
-      .get("/ciudades/")
+      .get("/fechas/fechas")
       .then((res) => {
-        //setCiudadesOrigen(res.data.data);
-        setCiudades(res.data.data);
+        const fechasData = res.data.data;
+        const fechasNormalizadas = fechasData.map((f) => ({
+          ...f,
+          fecha: f.fecha.split("T")[0],
+        }));
+        setFechas(fechasNormalizadas);
       })
       .catch(console.error);
 
@@ -101,19 +104,28 @@ const OrigenCard = (props) => {
   };
 
   const manejarCambioAgencia = (e) => {
+    console.log("CIUDADES: ", ciudades);
+    console.log("FECHAS: ", fechas);
+
     const agencia = e.target.value;
+
+    // Buscas el objeto en tu lista original de datos
+    const itemOriginal = ciudades.find((a) => a.nombre === agencia);
+
+    console.log("ID DE LA AGENCIA", itemOriginal.id);
+
     console.log("AGENCIA: ", agencia);
     const direccionDelMapa = buscarPorAgencia(ciudades, agencia);
     console.log("DIRECCION DEL MAPA: ", direccionDelMapa);
     const latAndlog = {
-      lat: direccionDelMapa.latitud || null, 
+      lat: direccionDelMapa.latitud || null,
       lng: direccionDelMapa.longitud || null,
-    }
-    tipoOrigen !== props.modalidad && setDireccionMapa(direccionDelMapa.direccion);
+    };
     tipoOrigen !== props.modalidad &&
-    
-      setCoordenadas(latAndlog);
+      setDireccionMapa(direccionDelMapa.direccion);
+    tipoOrigen !== props.modalidad && setCoordenadas(latAndlog);
     actualizarDatos(seccion, { agencia: agencia });
+    actualizarDatos(seccion, { agenciaCiudadId: itemOriginal.id });
   };
 
   const manejarCambioDepartamento = (e) => {
@@ -127,6 +139,14 @@ const OrigenCard = (props) => {
     const nuevaDireccion = e.target.value;
     setDireccionMapa(nuevaDireccion);
     actualizarDatos(seccion, { direccion: nuevaDireccion });
+  };
+
+  const actualizarFechas = (e) => {
+    const fechaSeleccionada = e.target.value;
+    const fechaOriginal = fechas.find((a) => a.fecha === fechaSeleccionada);
+
+    console.log(fechaOriginal.id);
+    actualizarDatos(seccion, { fecha: fechaSeleccionada });
   };
 
   return (
@@ -173,10 +193,10 @@ const OrigenCard = (props) => {
                   <CustomSelect
                     placeholder="Departamento"
                     value={formData[seccion].agencia || ""}
-                    options={ciudadesOrigen}
+                    options={ciudades}
                     onChange={(e) => manejarCambioDepartamento(e)}
-                    val="label"
-                    lab="departamento"
+                    val="nombre"
+                    lab="departamento.nombre"
                   />
                 </div>
 
@@ -218,10 +238,10 @@ const OrigenCard = (props) => {
               <CustomSelect
                 placeholder="Fecha de Recojo"
                 value={formData[seccion].fecha || ""}
-                options={fechasRecojo}
-                onChange={(e) =>
-                  actualizarDatos(seccion, { fecha: e.target.value })
-                }
+                options={fechas}
+                onChange={actualizarFechas}
+                val="fecha"
+                lab="fecha"
               />
             </div>
           )}

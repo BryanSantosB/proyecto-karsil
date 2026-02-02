@@ -11,15 +11,17 @@ export const FormProvider = ({ children }) => {
     origen: {
       tipo: "recojo", 
       agencia: "",
+      agenciaCiudadId: "",
       departamento: "",
       provincia: "",
       distrito: "", 
       direccion: "",
-      fecha: ""
+      fecha: "",
     },
     destino: {
       tipo: "entrega",
       agencia: "",
+      agenciaCiudadId: "",
       departamento: "",
       provincia: "",
       distrito: "",
@@ -28,7 +30,9 @@ export const FormProvider = ({ children }) => {
     paquete: {
       peso: "", largo: "", ancho: "", alto: "", 
       tipoEnvio: "",
-      categoria: ""
+      tipoEnvioId: "",
+      categoria: "",
+      categoriaId: "",
     },
     contacto: { 
       telefono: '', 

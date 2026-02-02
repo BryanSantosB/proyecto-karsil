@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "context/FormContext";
 import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
 import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
 import CustomInput from "components/ui/CustomInput/CustomInput";
 import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
 import SelectorModalidad from "components/ui/SelectorModalidad/SelectorModalidad";
+import { api } from "services/api";
 
 const SeccionPaquete = () => {
   const { formData, actualizarDatos, siguientePaso, anteriorPaso } = useForm();
   const [error, setError] = useState("");
   const [isLocked, setIsLocked] = useState(false);
+  const [modalidadesEnvio, setModalidadesEnvio] = useState([]);
 
   const validarYContinuar = () => {
     if (isLocked) return;
@@ -18,26 +20,26 @@ const SeccionPaquete = () => {
     const { paquete } = formData;
     try {
       if (!paquete.peso || paquete.peso <= 0) {
-      setError("El peso debe ser una cantidad mayor a 0 kg.");
-      return;
-    }
-    if (
-      !paquete.largo ||
-      paquete.largo <= 0 ||
-      !paquete.ancho ||
-      paquete.ancho <= 0 ||
-      !paquete.alto ||
-      paquete.alto <= 0
-    ) {
-      setError("Todas las dimensiones deben ser mayores a 0 cm.");
-      return;
-    }
-    if (!paquete.tipoEnvio) {
-      setError("Debes seleccionar un método de envío.");
-      return;
-    }
-    setError("");
-    siguientePaso();
+        setError("El peso debe ser una cantidad mayor a 0 kg.");
+        return;
+      }
+      if (
+        !paquete.largo ||
+        paquete.largo <= 0 ||
+        !paquete.ancho ||
+        paquete.ancho <= 0 ||
+        !paquete.alto ||
+        paquete.alto <= 0
+      ) {
+        setError("Todas las dimensiones deben ser mayores a 0 cm.");
+        return;
+      }
+      if (!paquete.tipoEnvio) {
+        setError("Debes seleccionar un método de envío.");
+        return;
+      }
+      setError("");
+      siguientePaso();
     } catch (error) {
       console.error(error);
     } finally {
@@ -45,23 +47,28 @@ const SeccionPaquete = () => {
     }
   };
 
+  useEffect(() => {
+    api
+      .get("/modalidades/")
+      .then((response) => {
+        setModalidadesEnvio(response.data.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // eslint-disable-next-line
+  }, []);
+
+  const actualizarModalidadEnvio = (modalidad) => {
+    actualizarDatos("paquete", { tipoEnvio: modalidad });
+    const itemOriginal = modalidadesEnvio.find((a) => a.value === modalidad);
+    actualizarDatos("paquete", { tipoEnvioId: itemOriginal.id });
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     actualizarDatos("paquete", { [name]: value });
   };
-
-  const opcionesEnvio = [
-    {
-      label: "Aéreo",
-      value: "aereo",
-      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_avion.png`,
-    },
-    {
-      label: "Terrestre",
-      value: "terrestre",
-      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_camion.png`, // Puedes usar un emoji o una URL: "/icons/camion.png"
-    },
-  ];
 
   return (
     <div className="w-full px-2 flex justify-center py-8">
@@ -129,11 +136,9 @@ const SeccionPaquete = () => {
             <div className="d-flex flex-column flex-md-row justify-content-center gap-3">
               <SelectorModalidad
                 label="Tipo de Envío"
-                opciones={opcionesEnvio}
+                opciones={modalidadesEnvio}
                 valorSeleccionado={formData.paquete.tipoEnvio}
-                onChange={(valor) =>
-                  actualizarDatos("paquete", { tipoEnvio: valor })
-                }
+                onChange={actualizarModalidadEnvio}
               />
             </div>
           </div>

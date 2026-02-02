@@ -18,7 +18,9 @@ export const ReclamoProvider = ({ children }) => {
     numeroGuia: "",
     fechaServicio: "",
     tipoServicio: "",
+    tipoServicioId: "",
     oficina: "",
+    oficinaId: "",
     
     // Paso 3: Detalle de la Reclamación
     motivoReclamo: "",

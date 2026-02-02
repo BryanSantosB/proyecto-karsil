@@ -1,40 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "context/FormContext";
 import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
 import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
 import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
 import SelectorModalidad from "components/ui/SelectorModalidad/SelectorModalidad";
+import { api } from "services/api";
 
 const SeccionTipoPaquete = () => {
   const { formData, actualizarDatos, siguientePaso, anteriorPaso } = useForm();
   const [error, setError] = useState("");
   const [isLocked, setIsLocked] = useState(false);
+  const [tiposPaquete, setTiposPaquete] = useState([]);
 
-  const opcionesCategorias = [
-    {
-      value: "perecible",
-      label: "Perecible",
-      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_manzana.png`,
-    },
-    {
-      value: "valorizado",
-      label: "Valorizado",
-      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_valorizado.png`,
-    },
-    {
-      value: "general",
-      label: "General",
-      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_caja.png`,
-    },
-    {
-      value: "refrigerado",
-      label: "Refrigerado",
-      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_refrigerado.png`,
-    },
-  ];
-
-  const seleccionarTipo = (id) => {
-    actualizarDatos("paquete", { categoria: id });
+  const seleccionarTipo = (value) => {
+    actualizarDatos("paquete", { categoria: value });
+    const itemOriginal = tiposPaquete.find((a) => a.value === value);
+    actualizarDatos("paquete", { categoriaId: itemOriginal.id });
   };
 
   const validarYContinuar = () => {
@@ -55,6 +36,18 @@ const SeccionTipoPaquete = () => {
     }
   };
 
+  useEffect(() => {
+    api
+      .get("/paquetes/tipos")
+      .then((response) => {
+        //actualizarDatos("paquete", response.data);
+        setTiposPaquete(response.data.data);
+      })
+      .catch ((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <div className="container-fluid px-2 d-flex justify-content-center py-8">
       <AlertaFlotante mensaje={error} onClose={() => setError("")} />
@@ -71,9 +64,9 @@ const SeccionTipoPaquete = () => {
         <div className="row g-3 g-md-4 justify-content-center">
           <SelectorModalidad
             label="Selecciona una Categoría"
-            opciones={opcionesCategorias}
+            opciones={tiposPaquete}
             valorSeleccionado={formData.paquete.categoria}
-            onChange={(id) => seleccionarTipo(id)}
+            onChange={(value) => seleccionarTipo(value)}
           />
 
           {/* Navegación */}

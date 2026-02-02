@@ -15,6 +15,12 @@ const CustomSelect = ({
 }) => {
   const safeOptions = Array.isArray(options) ? options : [];
 
+  const getNestedValue = (obj, path) => {
+    if (!path) return undefined;
+    return path.split('.').reduce((acc, key) => acc?.[key], obj);
+  };
+
+
   return (
     <div className="flex flex-col gap-2 w-full font-sans">
       {label && (
@@ -46,11 +52,11 @@ const CustomSelect = ({
           <option value="" disabled hidden>{placeholder}</option>
           {safeOptions.map((opt) => (
             <option 
-              key={val ? opt[val] : opt.value} 
-              value={val ? opt[val] : opt.value}
+              key={val ? getNestedValue(opt, val) : opt.value}
+              value={val ? getNestedValue(opt, val) : opt.value}
               className="text-gray-900"
             >
-              {lab ? opt[lab] : opt.label}
+              {lab ? getNestedValue(opt, lab) : opt.label}
             </option>
           ))}
         </select>

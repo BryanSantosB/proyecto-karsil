@@ -13,19 +13,19 @@ const DatosCliente = () => {
 
   const opcionesTipoDocumento = [
     {
-      label: "DNI",
+      nombre: "DNI",
       value: "DNI",
-      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_caja.png`,
+      icon: `/public/icons/icon_caja.png`,
     },
     {
-      label: "RUC",
+      nombre: "RUC",
       value: "RUC",
-      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_agencia.png`,
+      icon: `/public/icons/icon_agencia.png`,
     },
     {
-      label: "Pasaporte",
+      nombre: "Pasaporte",
       value: "Pasaporte",
-      icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_avion.png`,
+      icon: `/public/icons/icon_avion.png`,
     },
   ];
 

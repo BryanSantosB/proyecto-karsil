@@ -35,28 +35,30 @@ const ResumenConfirmacion = () => {
         formData.append(`evidencia_${index}`, archivo);
       });
 
-      const response = await api.post("/reclamos/crear", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      console.log("DATOS DEL RECLAMO", datosReclamo);
 
-      if (response.data.success) {
-        setExito(
-          `¡Reclamo enviado exitosamente!
+//       const response = await api.post("/reclamos/crear", formData, {
+//         headers: {
+//           "Content-Type": "multipart/form-data",
+//         },
+//       });
+
+//       if (response.data.success) {
+//         setExito(
+//           `¡Reclamo enviado exitosamente!
           
-Número de reclamo: ${response.data.numeroReclamo}
+// Número de reclamo: ${response.data.numeroReclamo}
 
-Recibirás un correo electrónico a ${datosReclamo.email} con el cargo de recepción y las instrucciones de seguimiento.
+// Recibirás un correo electrónico a ${datosReclamo.email} con el cargo de recepción y las instrucciones de seguimiento.
 
-Nuestro equipo se pondrá en contacto contigo en un plazo máximo de 48 horas hábiles.`
-        );
+// Nuestro equipo se pondrá en contacto contigo en un plazo máximo de 48 horas hábiles.`
+//         );
 
-        setTimeout(() => {
-          resetearFormulario();
-          setExito("");
-        }, 8000);
-      }
+//         setTimeout(() => {
+//           resetearFormulario();
+//           setExito("");
+//         }, 8000);
+//       }
     } catch (err) {
       console.error("Error al enviar reclamo:", err);
       setError(

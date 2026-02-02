@@ -1,37 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useReclamo } from "context/ReclamoContext";
 import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
 import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
 import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
 import CustomInput from "components/ui/CustomInput/CustomInput";
 import CustomSelect from "components/ui/CustomSelect/CustomSelect";
+import { api } from "services/api";
 
 const InformacionServicio = () => {
   const { datosReclamo, actualizarDatos, siguientePaso, anteriorPaso } = useReclamo();
   const [error, setError] = useState("");
   const [isLocked, setIsLocked] = useState(false);
+  const [ciudades, setCiudades] = useState([]);
+  const [tiposPaquete, setTiposPaquete] = useState([]);
 
-  const tiposServicio = [
-    { value: "", label: "Selecciona un tipo de servicio" },
-    { value: "carga_pesada", label: "Carga Pesada" },
-    { value: "courier", label: "Courier" },
-    { value: "local", label: "Envío Local" },
-    { value: "nacional", label: "Envío Nacional" },
-    { value: "internacional", label: "Envío Internacional" },
-  ];
+  useEffect(() => {
+    api
+      .get("/ciudades")
+      .then((res) => {
+        setCiudades(res.data.data);
+      }).catch((err) => {
+        console.error(err);
+      });
 
-  const oficinas = [
-    { value: "", label: "Selecciona una oficina" },
-    { value: "lima_centro", label: "Lima Centro - Av. Abancay 123" },
-    { value: "callao", label: "Callao - Av. Colonial 456" },
-    { value: "san_isidro", label: "San Isidro - Av. Javier Prado 789" },
-    { value: "miraflores", label: "Miraflores - Av. Larco 321" },
-    { value: "arequipa", label: "Arequipa - Calle Mercaderes 654" },
-    { value: "cusco", label: "Cusco - Av. La Cultura 987" },
-    { value: "trujillo", label: "Trujillo - Av. España 147" },
-    { value: "piura", label: "Piura - Av. Grau 258" },
-    { value: "chiclayo", label: "Chiclayo - Av. Balta 369" },
-  ];
+    api
+      .get("/paquetes/tipos")
+      .then((res) => {
+        setTiposPaquete(res.data.data);
+      }).catch((err) => {
+        console.error(err);
+      })
+  }, []);
 
   const validarYContinuar = () => {
     if (isLocked) return;
@@ -81,6 +80,20 @@ const InformacionServicio = () => {
     } finally {
       setIsLocked(false);
     }
+  };
+
+  const handleChangeOficina = (e) => {
+    console.log("TIPOS PAQUETE: ", tiposPaquete)
+    handleChange("oficina", e.target.value)
+    const oficinaOriginal = ciudades.find((a) => a.nombre === e.target.value);
+    console.log(oficinaOriginal);
+    handleChange("oficinaId", oficinaOriginal.id)
+  };
+
+  const handleChangeTipoServicio = (e) => {
+    handleChange("tipoServicio", e.target.value)
+    const tipoServiceOriginal = tiposPaquete.find((a) => a.nombre === e.target.value);
+    handleChange("tipoServicioId", tipoServiceOriginal.id)
   };
 
   const handleChange = (campo, valor) => {
@@ -145,8 +158,10 @@ const InformacionServicio = () => {
             <CustomSelect
               placeholder="Tipo de Servicio"
               value={datosReclamo.tipoServicio}
-              options={tiposServicio}
-              onChange={(e) => handleChange("tipoServicio", e.target.value)}
+              options={tiposPaquete}
+              val="nombre"
+              lab="nombre"
+              onChange={handleChangeTipoServicio}
             />
           </div>
 
@@ -156,10 +171,12 @@ const InformacionServicio = () => {
               Oficina de Atención *
             </label>
             <CustomSelect
-              placeholder="Oficina"
+              placeholder="Selecciona una oficina"
               value={datosReclamo.oficina}
-              options={oficinas}
-              onChange={(e) => handleChange("oficina", e.target.value)}
+              options={ciudades}
+              val="nombre"
+              lab="nombre"
+              onChange={handleChangeOficina}
             />
           </div>
 

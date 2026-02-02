@@ -11,6 +11,8 @@ const fechasRecojoRoutes = require("./routes/fechas_recojo.routes");
 const cotizacionRoutes = require("./routes/cotizacion.routes");
 const correoRoutes = require("./routes/correo.routes");
 const ciudadesRoutes = require("./routes/ciudades.routes");
+const modalidadesEnvioRoutes = require("./routes/modalidadEnvio.routes");
+const tiposPaquetesRoutes = require("./routes/paquetes.routes");
 
 const app = express();
 
@@ -35,6 +37,8 @@ app.use("/api/fechas", fechasRecojoRoutes);
 app.use("/api/cotizaciones", cotizacionRoutes);
 app.use("/api/correo", correoRoutes);
 app.use("/api/ciudades", ciudadesRoutes);
+app.use("/api/modalidades", modalidadesEnvioRoutes);
+app.use("/api/paquetes", tiposPaquetesRoutes);
 
 
 // PRUEBA
