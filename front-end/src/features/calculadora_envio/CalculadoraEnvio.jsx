@@ -4,8 +4,9 @@ import SeccionPaquete from "./steps/SeccionPaquete.jsx";
 import SeccionTipoPaquete from "./steps/SeccionTipoPaquete.jsx";
 import ResumenTotal from "./steps/ResumenTotal.jsx";
 import { motion, AnimatePresence } from "framer-motion";
-import Stepper from "components/ui/Strepper/Stepper.jsx";
 import SeccionContacto from "./steps/SeccionContacto";
+import StepperReclamos from "components/ui/Strepper/StrepperReclamos";
+import { pasosCotizacion } from "data/pasosStreppers";
 //import { useEffect } from "react";
 
 const ContenidoCalculadora = () => {
@@ -33,7 +34,8 @@ const ContenidoCalculadora = () => {
   return (
     <div className="w-responsive container py-2 my-5 pt-5">
       {/* 1. Barra de pasos visual */}
-      <Stepper pasoActual={paso} />
+      <StepperReclamos pasoActual={paso} pasos={pasosCotizacion} title="Gestor Dinámico de Cotizaciones" message="Automatización de flujos y vinculación de datos técnicos para una selección de agencias precisa y eficiente." />
+
 
       {/* 2. Animación de transición entre componentes */}
       <AnimatePresence mode="wait">

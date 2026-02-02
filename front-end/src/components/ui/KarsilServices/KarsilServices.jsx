@@ -1,5 +1,6 @@
 import React, { forwardRef } from "react";
 import ButtonAction from "../ButtonAction/ButtonAction";
+import TitleLandingPage from "../TitleLandingPage/TitleLandingPage";
 
 const KarsilServices = forwardRef((props, ref) => {
   const services = [
@@ -39,15 +40,10 @@ const KarsilServices = forwardRef((props, ref) => {
         <div className="max-w-7xl mx-auto">
 
           {/* Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-semibold text-gray-900 mb-4 tracking-tight">
-              Nuestros Servicios
-            </h2>
-            <div className="w-24 h-1 bg-primary-primary mx-auto mb-6"></div>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Soluciones logísticas integrales diseñadas para optimizar sus operaciones de transporte y distribución
-            </p>
-          </div>
+          <TitleLandingPage
+            title="Nuestros Servicios"
+            message="Soluciones logísticas integrales diseñadas para optimizar sus operaciones de transporte y distribución"
+          />
 
           {/* Services Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">

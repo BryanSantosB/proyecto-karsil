@@ -50,7 +50,7 @@ export const ContactUs = forwardRef((props, ref) => {
 
   return (
     <section
-      className="relative min-h-screen bg-cover bg-center flex items-center"
+      className="relative min-h-screen bg-cover bg-center flex items-center mb-5"
       style={{ backgroundImage: `url('${CONTACT_DATA.backgroundImage}')` }}
       ref={ref}
     >

@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import TitleLandingPage from "../TitleLandingPage/TitleLandingPage";
 
 const WhyKarsil = forwardRef((props, ref) => {
   const benefits = [
@@ -39,16 +40,11 @@ const WhyKarsil = forwardRef((props, ref) => {
       <div className="w-responsive bg-white py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header Section */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-semibold text-gray-900 mb-4 tracking-tight">
-              ¿Por qué elegir Karsil?
-            </h2>
-            <div className="w-24 h-1 bg-primary-primary mx-auto mb-6"></div>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Somos su aliado estratégico en logística, comprometidos con la
-              excelencia y su satisfacción
-            </p>
-          </div>
+          <TitleLandingPage
+            title="¿Por qué elegir Karsil?"
+            message="Somos su aliado estratégico en logística, comprometidos con la
+              excelencia y su satisfacción"
+          />
 
           {/* Benefits List */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-16">

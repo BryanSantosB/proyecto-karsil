@@ -1,11 +1,5 @@
-const Stepper = ({ pasoActual }) => {
-  const pasos = [
-    { id: 1, nombre: "Ruta" },
-    { id: 2, nombre: "Paquete" },
-    { id: 3, nombre: "Categoría" },
-    { id: 4, nombre: "Datos" },
-    { id: 5, nombre: "Cotización" },
-  ];
+const Stepper = ({ pasoActual, pasos }) => {
+  
 
   return (
     <div className="w-full py-4 px-2">
