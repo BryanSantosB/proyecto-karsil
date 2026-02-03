@@ -41,7 +41,16 @@ export const FormProvider = ({ children }) => {
   });
 
   // Funciones para movernos entre pasos
-  const siguientePaso = () => setPaso((prev) => prev + 1);
+  // En FormContext.jsx
+const [isTransitioning, setIsTransitioning] = useState(false);
+
+const siguientePaso = () => {
+  if (isTransitioning) return;
+  setIsTransitioning(true);
+  setPaso(prev => prev + 1);
+  // Desbloquear después de la transición
+  setTimeout(() => setIsTransitioning(false), 400); // 400ms > 300ms de tu animación
+};
   const anteriorPaso = () => setPaso((prev) => prev - 1);
 
   // Función para actualizar datos de forma dinámica

@@ -5,6 +5,7 @@ const ReclamoContext = createContext();
 export const ReclamoProvider = ({ children }) => {
   const [paso, setPaso] = useState(1);
   const [archivosEvidencia, setArchivosEvidencia] = useState([]);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   
   const [datosReclamo, setDatosReclamo] = useState({
     // Paso 1: Datos del Cliente
@@ -47,15 +48,25 @@ export const ReclamoProvider = ({ children }) => {
   };
 
   const siguientePaso = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setPaso((prev) => Math.min(prev + 1, 5));
+    // Desbloquear después de la transición (ajusta el tiempo según tu animación)
+    setTimeout(() => setIsTransitioning(false), 400);
   };
 
   const anteriorPaso = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setPaso((prev) => Math.max(prev - 1, 1));
+    setTimeout(() => setIsTransitioning(false), 400);
   };
 
   const irAPaso = (numeroPaso) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setPaso(numeroPaso);
+    setTimeout(() => setIsTransitioning(false), 400);
   };
 
   const resetearFormulario = () => {
@@ -77,6 +88,7 @@ export const ReclamoProvider = ({ children }) => {
     });
     setArchivosEvidencia([]);
     setPaso(1);
+    setIsTransitioning(false); // Reset del lock también
   };
 
   const agregarArchivo = (archivo) => {
@@ -95,6 +107,7 @@ export const ReclamoProvider = ({ children }) => {
     paso,
     datosReclamo,
     archivosEvidencia,
+    isTransitioning, // Exponemos el estado por si necesitas usarlo en los componentes
     actualizarDatos,
     actualizarMultiplesDatos,
     siguientePaso,
