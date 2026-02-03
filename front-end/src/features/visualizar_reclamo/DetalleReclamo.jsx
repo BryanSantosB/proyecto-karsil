@@ -66,7 +66,7 @@ const DetalleReclamo = ({ reclamo, onCerrar }) => {
 
   const obtenerUrlArchivo = (rutaArchivo) => {
     // Ajusta esta URL base según tu configuración del backend
-    const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
+    const baseUrl = process.env.REACT_APP_API_UR;
     return `${baseUrl}/${rutaArchivo.replace(/\\/g, "/")}`;
   };
 

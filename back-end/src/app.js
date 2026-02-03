@@ -30,6 +30,7 @@ app.use(cors({
 
 
 app.use("/public", express.static(path.join(__dirname, "../src/public")));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // routes
 app.use("/api/health", healthRoutes);
