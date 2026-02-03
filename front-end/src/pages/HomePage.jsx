@@ -35,7 +35,6 @@ function HomePage() {
       <WhyKarsil ref={sectionRefs.beneficios} />
       <ContactUs ref={sectionRefs.contactus} />
       {/* <ReclamosKarsil /> */}
-      <LibroReclamos />
       <CalculadoraEnvio />
     </div>
   );
