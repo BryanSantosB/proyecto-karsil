@@ -5,30 +5,42 @@ const ModalConfirmacion = ({ isOpen, mensaje, submensaje, onCerrar }) => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 bg-black/40 backdrop-blur-sm">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="bg-[#F0F2F5] rounded-[30px] p-6 p-md-8 shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] max-w-sm w-full text-center"
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          transition={{ duration: 0.2 }}
+          className="bg-white rounded-xl p-8 shadow-2xl max-w-md w-full"
         >
-          {/* Icono Neumórfico con Check */}
-          <div className="mx-auto flex items-center justify-center h-20 w-20 ">
-             <span className="text-4xl">✅</span>
+          {/* Icono de éxito */}
+          <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-primary-primary/10 mb-4">
+            <img
+              src={process.env.REACT_APP_API_UR + "/public/icons/icon_check.png"}
+              alt=""
+              className={`w-8 h-8 object-contain transition-all duration-200 `}
+            />
           </div>
 
-          <h3 className="text-2xl fw-bold text-gray-800 mb-2">
+          {/* Título */}
+          <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">
             ¡Éxito!
           </h3>
-          
-          <p className="text-muted mb-6">
-            {mensaje || "El proceso se completó correctamente."}
-            {submensaje && <span className="d-block mt-2 small">{submensaje}</span>}
-          </p>
 
+          {/* Mensaje */}
+          <div className="text-center mb-6">
+            <p className="text-gray-600 text-base leading-relaxed">
+              {mensaje || "El proceso se completó correctamente."}
+            </p>
+            {submensaje && (
+              <p className="text-gray-500 text-sm mt-2">{submensaje}</p>
+            )}
+          </div>
+
+          {/* Botón */}
           <button
             onClick={onCerrar}
-            className="w-full py-3 rounded-pill fw-bold transition-all shadow-[6px_6px_12px_#bebebe,-6px_-6px_12px_#ffffff] active:shadow-[inset_4px_4px_8px_#bebebe,inset_-4px_-4px_8px_#ffffff] bg-[var(--color-primary)] text-[var(--color-text-light)]"
+            className="w-full py-3 px-4 rounded-lg font-semibold text-white bg-primary-primary hover:bg-primary-primary/90 active:bg-primary-primary/80 transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-primary/50 focus:ring-offset-2"
           >
             Entendido
           </button>
