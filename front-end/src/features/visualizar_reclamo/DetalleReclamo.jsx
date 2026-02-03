@@ -170,11 +170,11 @@ const DetalleReclamo = ({ reclamo, onCerrar }) => {
           />
           <InfoItem 
             label="Tipo de Servicio" 
-            value={`ID: ${reclamo.tipo_servicio_id}`} 
+            value={`ID: ${reclamo.tipo_servicio.nombre}`} 
           />
           <InfoItem 
             label="Oficina" 
-            value={`ID: ${reclamo.oficina_id}`} 
+            value={`ID: ${reclamo.oficina.nombre}`} 
           />
         </div>
       </NeumorphicContainer>

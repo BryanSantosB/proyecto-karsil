@@ -119,8 +119,27 @@ export const obtenerReclamoPorNumero = async (numeroReclamo) => {
       r.numero_guia,
       r.fecha_servicio,
 
-      r.tipo_servicio_id,
-      r.oficina_id,
+      -- Objeto completo de tipo_servicio
+      json_build_object(
+        'id', ts.id,
+        'nombre', ts.nombre,
+        'value', ts.value,
+        'icon', ts.icon
+      ) as tipo_servicio,
+
+      -- Objeto completo de oficina con departamento incluido
+      json_build_object(
+        'id', c.id,
+        'nombre', c.nombre,
+        'direccion', c.direccion,
+        'latitud', c.latitud,
+        'longitud', c.longitud,
+        'departamento_id', c.departamento_id,
+        'departamento', json_build_object(
+          'id', d.id,
+          'nombre', d.nombre
+        )
+      ) as oficina,
 
       r.motivo_reclamo,
       r.descripcion,
@@ -129,6 +148,9 @@ export const obtenerReclamoPorNumero = async (numeroReclamo) => {
       r.acepta_politicas,
       r.firma_digital
     FROM reclamos r
+    LEFT JOIN tipos_envio ts ON r.tipo_servicio_id = ts.id
+    LEFT JOIN ciudades c ON r.oficina_id = c.id
+    LEFT JOIN departamentos d ON c.departamento_id = d.id
     WHERE r.numero_reclamo = $1
   `;
 
@@ -140,7 +162,6 @@ export const obtenerReclamoPorNumero = async (numeroReclamo) => {
     SELECT
       id,
       nombre_original,
-      ruta_archivo,
       ruta_archivo,
       tipo_mime,
       tamaño_bytes,
