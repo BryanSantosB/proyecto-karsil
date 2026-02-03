@@ -7,6 +7,7 @@ import ResumenConfirmacion from "./steps/ResumenConfirmacion.jsx";
 import { motion, AnimatePresence } from "framer-motion";
 import StepperReclamos from "components/ui/Strepper/StrepperReclamos.jsx";
 import { pasosReclamo } from "data/pasosStreppers.js";
+import ButtonFlotante from "components/ui/ButtonFlotante/ButtonFlotante.jsx";
 
 const ContenidoLibroReclamos = () => {
   const { paso } = useReclamo();
@@ -29,7 +30,7 @@ const ContenidoLibroReclamos = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 py-8 my-5">
+    <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 py-8 my-16">
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Barra de pasos visual */}
         <StepperReclamos pasoActual={paso} pasos={pasosReclamo} title="Libro de reclamaciones" message="Conforme a lo establecido en el Código de Protección y Defensa del Consumidor" />
@@ -47,6 +48,9 @@ const ContenidoLibroReclamos = () => {
           </motion.div>
         </AnimatePresence>
       </div>
+
+      <ButtonFlotante />
+
     </div>
   );
 };

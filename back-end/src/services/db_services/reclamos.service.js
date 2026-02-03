@@ -102,3 +102,62 @@ export const crearReclamoService = async (data, archivos) => {
     client.release();
   }
 };
+
+export const obtenerReclamoPorNumero = async (numeroReclamo) => {
+  const reclamoQuery = `
+    SELECT
+      r.id,
+      r.numero_reclamo,
+      r.fecha_creacion,
+
+      r.nombre_completo,
+      r.tipo_documento,
+      r.numero_documento,
+      r.email,
+      r.telefono,
+
+      r.numero_guia,
+      r.fecha_servicio,
+
+      r.tipo_servicio_id,
+      r.oficina_id,
+
+      r.motivo_reclamo,
+      r.descripcion,
+      r.monto_reclamado,
+
+      r.acepta_politicas,
+      r.firma_digital
+    FROM reclamos r
+    WHERE r.numero_reclamo = $1
+  `;
+
+  const reclamoResult = await pool.query(reclamoQuery, [numeroReclamo]);
+
+  if (reclamoResult.rows.length === 0) return null;
+
+  const evidenciasQuery = `
+    SELECT
+      id,
+      nombre_original,
+      ruta_archivo,
+      ruta_archivo,
+      tipo_mime,
+      tamaño_bytes,
+      fecha_subida
+    FROM evidencias_reclamo
+    WHERE reclamo_id = $1
+  `;
+
+  const evidenciasResult = await pool.query(
+    evidenciasQuery,
+    [reclamoResult.rows[0].id]
+  );
+
+  return {
+    ...reclamoResult.rows[0],
+    evidencias: evidenciasResult.rows,
+  };
+};
+
+

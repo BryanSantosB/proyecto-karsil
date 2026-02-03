@@ -1,4 +1,5 @@
 import LibroReclamos from 'features/reclamos_karsil/LibroReclamaciones';
+import ConsultaReclamo from 'features/visualizar_reclamo/ConsultaReclamo';
 import { lazy } from 'react';
 
 // El navegador solo descargará estos archivos cuando el usuario entre a la ruta
@@ -23,8 +24,14 @@ export const publicRoutes = [
     title: "Reclamaciones"
   },
   {
+    path: "/consultar-reclamo",
+    element: ConsultaReclamo,
+    title: "Consultar Reclamo"
+  },
+  {
     path: "*",
     element: NotFound,
     title: "404 - No encontrado"
-  }
+  },
+  
 ];

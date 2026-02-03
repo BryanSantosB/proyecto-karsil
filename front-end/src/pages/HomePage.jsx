@@ -3,8 +3,6 @@ import HeroSection from "components/ui/HeroSection/HeroSection";
 import KarsilServices from "components/ui/KarsilServices/KarsilServices";
 import WhyKarsil from "components/ui/KarsilServices/WhyKarsil";
 import CalculadoraEnvio from "features/calculadora_envio/CalculadoraEnvio";
-import LibroReclamos from "features/reclamos_karsil/LibroReclamaciones";
-//import ReclamosKarsil from "features/reclamos_karsil/ReclamosKarsil";
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
