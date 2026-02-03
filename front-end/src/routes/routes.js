@@ -1,5 +1,4 @@
-// src/routes/routes.js
-// src/routes/routes.js
+import LibroReclamos from 'features/reclamos_karsil/LibroReclamaciones';
 import { lazy } from 'react';
 
 // El navegador solo descargará estos archivos cuando el usuario entre a la ruta
@@ -17,6 +16,11 @@ export const publicRoutes = [
     path: "/cotizar",
     element: CotizacionPage,
     title: "Calculadora de Envío"
+  },
+  {
+    path: "/libro-de-reclamaciones",
+    element: LibroReclamos,
+    title: "Reclamaciones"
   },
   {
     path: "*",

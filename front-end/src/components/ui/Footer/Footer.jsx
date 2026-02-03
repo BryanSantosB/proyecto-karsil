@@ -109,9 +109,9 @@ export default function Footer() {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/" className="text-sm hover:text-primary-light transition-colors duration-200 flex items-center gap-2 group">
+                                    <a href="/libro-de-reclamaciones" className="text-sm hover:text-primary-light transition-colors duration-200 flex items-center gap-2 group">
                                         <span className="text-primary-primary group-hover:translate-x-1 transition-transform">›</span>
-                                        Blog
+                                        Libro de reclamaciones
                                     </a>
                                 </li>
                                 <li>
