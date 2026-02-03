@@ -61,8 +61,8 @@ export const ContactUs = forwardRef((props, ref) => {
 
       <ModalConfirmacion
         isOpen={mostrarExito}
-        mensaje="¡Tu envío ha sido registrado!"
-        submensaje="Un asesor de Karsil revisará los detalles y te contactará por WhatsApp en breve."
+        mensaje="¡Tu consulta ha sido registrada!"
+        submensaje="Un asesor de Karsil te contactará por WhatsApp en breve."
         onCerrar={cerrarYReiniciar}
       />
 

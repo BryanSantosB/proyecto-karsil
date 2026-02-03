@@ -1,8 +1,12 @@
 import React, { forwardRef } from "react";
 import ButtonAction from "../ButtonAction/ButtonAction";
 import TitleLandingPage from "../TitleLandingPage/TitleLandingPage";
+import { useNavigate } from "react-router-dom";
 
 const KarsilServices = forwardRef((props, ref) => {
+
+  const navigate = useNavigate();
+
   const services = [
     {
       icon: `${process.env.REACT_APP_API_UR}/public/icons/icon_camion.png`,
@@ -81,7 +85,7 @@ const KarsilServices = forwardRef((props, ref) => {
           </div>
 
           <div className="d-flex justify-content-center align-content-center">
-            <ButtonAction texto="Cotizar Envío" />
+            <ButtonAction texto="Cotizar Envío" onClick={() => navigate("/cotizar")} />
           </div>
         </div>
       </div>

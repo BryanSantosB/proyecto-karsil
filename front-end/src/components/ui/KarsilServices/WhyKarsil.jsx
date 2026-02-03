@@ -1,5 +1,6 @@
 import React, { forwardRef } from "react";
 import TitleLandingPage from "../TitleLandingPage/TitleLandingPage";
+import { Link } from "react-router-dom";
 
 const WhyKarsil = forwardRef((props, ref) => {
   const benefits = [
@@ -94,9 +95,13 @@ const WhyKarsil = forwardRef((props, ref) => {
             <p className="text-gray-600 mb-6 text-lg">
               Únase a miles de empresas que confían en nosotros
             </p>
-            <button className="bg-primary-primary hover:opacity-90 text-white font-semibold py-3 px-10 rounded-lg transition-all duration-300">
-              Comenzar ahora
-            </button>
+            <Link
+              to="/cotizar"
+              className="ml-2 lg:ml-4 xl:ml-6 relative inline-flex items-center justify-center px-5 lg:px-6 xl:px-8 py-2 lg:py-2.5 xl:py-3 text-sm lg:text-base xl:text-lg font-semibold text-white rounded-lg bg-gradient-to-r from-primary-primary to-primary-light hover:from-primary-light hover:to-primary-primary transition-all duration-300 shadow-lg shadow-primary-primary/30 hover:shadow-primary-primary/50 hover:scale-105 active:scale-95 group"
+            >
+              <span className="relative z-10">Comenzar ahora</span>
+              {/* Shine effect */}
+            </Link>
           </div>
         </div>
       </div>
