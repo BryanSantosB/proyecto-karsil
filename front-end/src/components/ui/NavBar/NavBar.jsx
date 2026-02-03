@@ -47,7 +47,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16 lg:h-20">
           {/* Logo - crece gradualmente */}
           <a
-            href={navLinks[0].href}
+            href="/"
             className="flex items-center gap-2 lg:gap-3 group"
           >
             <div className="relative">
