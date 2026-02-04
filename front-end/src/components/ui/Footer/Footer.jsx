@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Footer() {
     return (
         <>
@@ -109,10 +111,10 @@ export default function Footer() {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/libro-de-reclamaciones" className="text-sm hover:text-primary-light transition-colors duration-200 flex items-center gap-2 group">
+                                    <Link to="/libro-de-reclamaciones" className="text-sm hover:text-primary-light transition-colors duration-200 flex items-center gap-2 group">
                                         <span className="text-primary-primary group-hover:translate-x-1 transition-transform">›</span>
                                         Libro de reclamaciones
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
                                     <a href="7" className="text-sm hover:text-primary-light transition-colors duration-200 flex items-center gap-2 group">
@@ -190,15 +192,15 @@ export default function Footer() {
                         <p className="text-indigo-100 text-sm mb-4">
                             Cotiza tu envío ahora y recibe una respuesta en minutos
                         </p>
-                        <a 
-                            href="/cotizar" 
+                        <Link 
+                            to="/cotizar" 
                             className="inline-flex items-center gap-2 bg-white text-primary-primary font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105 shadow-lg"
                         >
                             Cotizar envío
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
-                        </a>
+                        </Link>
                     </div>
                 </div>
 

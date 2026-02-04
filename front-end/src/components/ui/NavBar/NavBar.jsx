@@ -122,7 +122,7 @@ const Navbar = () => {
                 key={link.name}
                 to={link.to}
                 state={link.scrollTo ? { scrollTo: link.scrollTo } : undefined}
-                onClick={() => setOpen(false)} // 👈 Agrega esto
+                onClick={() => setOpen(false)} 
                 className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200 font-medium"
                 style={{
                   animationDelay: `${index * 50}ms`,
@@ -138,7 +138,7 @@ const Navbar = () => {
             {/* Mobile CTA */}
             <div className="pt-2">
               <Link
-                to="/cotizar" // 👈 Cambiado de <a> a <Link> para consistencia
+                to="/cotizar"
                 onClick={() => setOpen(false)}
                 className="block text-center bg-gradient-to-r from-primary-primary to-primary-light hover:from-primary-light hover:to-primary-primary text-white font-semibold py-3 px-4 rounded-lg shadow-lg shadow-primary-primary/30 hover:shadow-primary-primary/50 transition-all duration-300 hover:scale-[1.02] active:scale-95"
               >
