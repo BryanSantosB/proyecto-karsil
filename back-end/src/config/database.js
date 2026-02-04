@@ -1,10 +1,5 @@
-const { Pool } = require("pg");
-
 const { Pool } = require('pg');
 
-// Esta línea es la clave: 
-// En Render usará DATABASE_URL. En tu PC, como no existe esa variable, 
-// usará los valores individuales de tu .env local.
 const pool = new Pool(
   process.env.DATABASE_URL 
     ? { 
