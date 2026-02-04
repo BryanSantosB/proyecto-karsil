@@ -55,7 +55,15 @@ const ResumenConfirmacion = () => {
         },
       });
 
+      let correo = datosReclamo.email;
+      let numeroReclamo = response.data.numeroReclamo;
+
+      console.log("RESPONSE CORREO: ", response.data, "Y NUMERO: ", numeroReclamo);
+
+      const rescorreo = await api.post("/correo/numeroReclamo", {correo, numeroReclamo})
+
       setSubmensaje(response.data.numeroReclamo);
+      console.log("RESPONSE CORREO: ", rescorreo.data);
       setMostrarExito(true);
 
       console.log("Reclamo creado:", response.data);
