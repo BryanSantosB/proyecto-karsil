@@ -14,6 +14,7 @@ const ciudadesRoutes = require("./routes/ciudades.routes");
 const modalidadesEnvioRoutes = require("./routes/modalidadEnvio.routes");
 const tiposPaquetesRoutes = require("./routes/paquetes.routes");
 const reclamosRoutes = require("./routes/reclamos.routes");
+const authRoutes = require("./auth/auth.routes");
 
 const app = express();
 
@@ -43,7 +44,12 @@ app.use("/api/ciudades", ciudadesRoutes);
 app.use("/api/modalidades", modalidadesEnvioRoutes);
 app.use("/api/paquetes", tiposPaquetesRoutes);
 app.use("/api/reclamos", reclamosRoutes);
+app.use("/api/auth", authRoutes);
 
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ message: "Error interno del servidor" });
+});
 
 // PRUEBA
 app.get("/prueba", async (req, res) => {
