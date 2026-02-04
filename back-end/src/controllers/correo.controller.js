@@ -1,4 +1,4 @@
-import { enviarCorreoContacto, enviarCorreoNumeroReclamo } from "../services/email.service.js";
+import { enviarCorreoContacto } from "../services/email.service.js";
 
 export const enviarEmailContacto = async (req, res) => {
   const { fullName, email, phone, message } = req.body;
