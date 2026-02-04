@@ -1,13 +1,16 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import generarEmailCotizacion from "../utils/cotizacion.html.email.js";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const EMAIL_FROM = process.env.EMAIL_FROM;
-const EMAIL_INTERNAL = process.env.EMAIL_INTERNAL;
+const transporter = nodemailer.createTransport({
+  host: process.env.EMAIL_HOST,
+  port: Number(process.env.EMAIL_PORT),
+  secure: false,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
-/* =========================
-   COTIZACIÓN
-========================= */
 export async function enviarCorreoCotizacion({
   cliente,
   origen,
@@ -15,6 +18,7 @@ export async function enviarCorreoCotizacion({
   paquete,
   resultado,
 }) {
+
   const html = generarEmailCotizacion({
     cliente,
     origen,
@@ -23,63 +27,39 @@ export async function enviarCorreoCotizacion({
     resultado,
   });
 
-  await resend.emails.send({
-    from: EMAIL_FROM,
-    to: cliente.email,
-    cc: EMAIL_INTERNAL,
+  await transporter.sendMail({
+    from: `"Karsil Envíos" <${process.env.EMAIL_USER}>`,
+    replyTo: process.env.EMAIL_USER,
+    to: cliente.email, // cliente
+    cc: process.env.EMAIL_USER, // asesoría interna
     subject: "Cotización de tu envío - Karsil",
     html,
   });
 }
 
-/* =========================
-   CONTACTO WEB
-========================= */
 export const enviarCorreoContacto = async (
   nombre,
   correo,
   telefono,
-  mensaje
+  mensaje,
 ) => {
-  await resend.emails.send({
-    from: EMAIL_FROM,
-    to: EMAIL_INTERNAL,
-    reply_to: correo,
+  
+  await transporter.sendMail({
+    from: `"Formulario Web" <${process.env.EMAIL_USER}>`,
+    to: process.env.EMAIL_USER,
+    replyTo: correo, 
     subject: "Nuevo mensaje desde la web",
     html: `
-      <div style="font-family: Arial, sans-serif;">
+      <div style="font-family: Arial, sans-serif; line-height: 1.6;">
         <h2>Nuevo mensaje de contacto</h2>
         <p><strong>Nombre:</strong> ${nombre}</p>
         <p><strong>Correo:</strong> ${correo}</p>
         <p><strong>Teléfono:</strong> ${telefono || "No proporcionado"}</p>
         <hr />
+        <p><strong>Mensaje:</strong></p>
         <p>${mensaje}</p>
       </div>
     `,
   });
 };
 
-/* =========================
-   NÚMERO DE RECLAMO
-========================= */
-export const enviarCorreoNumeroReclamo = async (
-  correo,
-  numeroReclamo
-) => {
-  await resend.emails.send({
-    from: EMAIL_FROM,
-    to: correo,
-    subject: "Confirmación de registro de reclamo",
-    html: `
-      <div style="font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px;">
-        <div style="max-width: 600px; margin: auto; background: #fff; padding: 20px;">
-          <h2>Reclamo registrado con éxito</h2>
-          <p>Tu número de reclamo es:</p>
-          <div style="font-size: 20px; font-weight: bold; color: #007bff;">
-            ${numeroReclamo}
-          </div>
-        </div>
-      </div>
-    `,
-  });
-};

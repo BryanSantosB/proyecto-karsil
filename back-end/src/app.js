@@ -21,7 +21,10 @@ app.use(cors());
 app.use(express.json());
 
 app.use(cors({
-  origin: 'https://karsilcargo.onrender.com', // No uses '*' por seguridad
+  origin: [
+    "https://karsil-front.trycloudflare.com",
+    "http://localhost:3000"
+  ], // No uses '*' por seguridad
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
