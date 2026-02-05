@@ -1,15 +1,15 @@
-const pool = require("../../config/database.js");
+import pool from "../../config/database.js";
 
 /**
  * Obtener todas las ciudades con su departamento
  */
-async function obtenerCiudades() {
+export async function obtenerCiudades() {
   const query = `
-    SELECT
-      c.id,
-      c.nombre,
-      c.direccion,
-      c.latitud,
+    SELECT 
+      c.id, 
+      c.nombre, 
+      c.direccion, 
+      c.latitud, 
       c.longitud,
       json_build_object(
         'id', d.id,
@@ -27,13 +27,13 @@ async function obtenerCiudades() {
 /**
  * Obtener ciudad por ID con su departamento
  */
-async function obtenerCiudadPorId(id) {
+export async function obtenerCiudadPorId(id) {
   const query = `
-    SELECT
-      c.id,
-      c.nombre,
-      c.direccion,
-      c.latitud,
+    SELECT 
+      c.id, 
+      c.nombre, 
+      c.direccion, 
+      c.latitud, 
       c.longitud,
       json_build_object(
         'id', d.id,
@@ -51,13 +51,13 @@ async function obtenerCiudadPorId(id) {
 /**
  * Obtener ciudades por departamento
  */
-async function obtenerCiudadesPorDepartamento(departamentoId) {
+export async function obtenerCiudadesPorDepartamento(departamentoId) {
   const query = `
-    SELECT
-      c.id,
-      c.nombre,
-      c.direccion,
-      c.latitud,
+    SELECT 
+      c.id, 
+      c.nombre, 
+      c.direccion, 
+      c.latitud, 
       c.longitud
     FROM ciudades c
     WHERE c.departamento_id = $1
@@ -67,9 +67,3 @@ async function obtenerCiudadesPorDepartamento(departamentoId) {
   const { rows } = await pool.query(query, [departamentoId]);
   return rows;
 }
-
-module.exports = {
-  obtenerCiudades,
-  obtenerCiudadPorId,
-  obtenerCiudadesPorDepartamento,
-};

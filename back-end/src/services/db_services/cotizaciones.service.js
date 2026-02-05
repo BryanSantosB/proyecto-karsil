@@ -1,4 +1,4 @@
-const pool = require("../../config/database.js");
+import pool from "../../config/database.js";
 
 /**
  * Crear cotización
@@ -133,7 +133,7 @@ async function eliminarCotizacion(id) {
   return rowCount > 0;
 }
 
-module.exports = {
+export {
   crearCotizacion,
   obtenerCotizaciones,
   obtenerCotizacionPorId,

@@ -1,12 +1,15 @@
-const pool = require("../../config/database");
+import pool from "../../config/database.js";
 
-exports.getTipoPaquete = async () => {
+/**
+ * Obtener todos los tipos de paquetes (envío)
+ */
+export async function getTipoPaquete() {
   const query = `
-    SELECT
-      t.id,
-      t.nombre,
-      t.value,
-      t.icon
+    SELECT 
+      t.id, 
+      t.nombre, 
+      t.value, 
+      t.icon 
     FROM tipos_envio t;
   `;
 

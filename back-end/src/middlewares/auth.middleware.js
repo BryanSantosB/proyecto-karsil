@@ -1,6 +1,6 @@
 // src/middlewares/auth.middleware.js
-const { verifyToken } = require("../utils/jwt");
-const { findUserById } = require("../models/user.model");
+import { verifyToken } from "../utils/jwt.js";
+import { findUserById } from "../models/user.model.js";
 
 async function authMiddleware(req, res, next) {
   const header = req.headers.authorization;
@@ -26,4 +26,4 @@ async function authMiddleware(req, res, next) {
   }
 }
 
-module.exports = { authMiddleware };
+export { authMiddleware };

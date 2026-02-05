@@ -1,11 +1,10 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const controller = require("../controllers/cotizacion.controller.js");
-const { cotizarEnvio, crearCotizacion } = require("../controllers/cotizacion.controller");
+import * as controller from "../controllers/cotizacion.controller.js";
+import { cotizarEnvio, crearCotizacion } from "../controllers/cotizacion.controller.js";
 
 router.post("/", cotizarEnvio);
 router.post("/crear", crearCotizacion);
-
 
 router.post("/", controller.crear);
 router.get("/", controller.listar);
@@ -13,7 +12,4 @@ router.get("/:id", controller.obtenerPorId);
 router.put("/:id", controller.actualizar);
 router.delete("/:id", controller.eliminar);
 
-module.exports = router;
-
-
-module.exports = router;
+export default router;

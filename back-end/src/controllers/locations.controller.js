@@ -1,5 +1,5 @@
-const { getCiudadesOrigen } = require("../services/locations.service");
+import { getCiudadesOrigen } from "../services/locations.service.js";
 
-exports.listCiudadesOrigen = (req, res) => {
+export const listCiudadesOrigen = (req, res) => {
   res.json(getCiudadesOrigen());
 };

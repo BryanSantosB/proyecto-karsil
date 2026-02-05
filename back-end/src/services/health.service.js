@@ -1,4 +1,4 @@
-exports.getHealthStatus = () => {
+export const getHealthStatus = () => {
   return {
     status: "ok",
     service: "Karsil API",

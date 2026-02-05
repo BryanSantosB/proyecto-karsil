@@ -1,7 +1,7 @@
 // src/services/auth.service.js
-const { findUserByEmail } = require("../models/user.model");
-const { comparePassword } = require("../utils/password");
-const { signToken } = require("../utils/jwt");
+import { findUserByEmail } from "../models/user.models.js";
+import { comparePassword } from "../utils/password.js";
+import { signToken } from "../utils/jwt.js";
 
 async function login(email, password) {
   const user = await findUserByEmail(email);
@@ -28,4 +28,4 @@ async function login(email, password) {
   };
 }
 
-module.exports = { login };
+export { login };

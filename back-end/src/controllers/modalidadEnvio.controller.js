@@ -1,6 +1,6 @@
-const { getModalidadEnvio } = require("../services/db_services/modadlidadEnvio.service");
+import { getModalidadEnvio } from "../services/db_services/modadlidadEnvio.service.js";
 
-exports.listarModalidadEnvio = async function (req, res) {
+export async function listarModalidadEnvio(req, res) {
   try {
     const modalidades = await getModalidadEnvio();
     res.json({ ok: true, data: modalidades });

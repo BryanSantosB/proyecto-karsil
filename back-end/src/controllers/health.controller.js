@@ -1,6 +1,6 @@
-const { getHealthStatus } = require("../services/health.service");
+import { getHealthStatus } from "../services/health.service.js";
 
-exports.healthCheck = (req, res) => {
+export const healthCheck = (req, res) => {
   const status = getHealthStatus();
   res.json(status);
 };

@@ -1,5 +1,5 @@
-const { ciudadesOrigen } = require("../data/ciudadesOrigen");
+import { ciudadesOrigen } from "../data/ciudadesOrigen.js";
 
-exports.getCiudadesOrigen = () => {
+export const getCiudadesOrigen = () => {
   return ciudadesOrigen;
 };

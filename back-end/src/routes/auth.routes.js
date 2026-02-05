@@ -1,7 +1,7 @@
 // src/routes/auth.routes.js
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const { login } = require("../services/auth.service");
+import { login } from "../services/auth.service.js";
 
 router.post("/login", async (req, res) => {
   try {
@@ -13,4 +13,4 @@ router.post("/login", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

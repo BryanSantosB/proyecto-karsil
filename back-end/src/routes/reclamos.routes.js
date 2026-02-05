@@ -1,11 +1,8 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const upload = require("../config/multer");
-const { crearReclamo, getReclamoById } = require("../controllers/reclamos.controller");
-
-console.log("UPLOAD:", upload);
-console.log("CONTROLLER:", crearReclamo);
+import upload from "../config/multer.js";
+import { crearReclamo, getReclamoById } from "../controllers/reclamos.controller.js";
 
 router.post(
   "/",
@@ -15,4 +12,4 @@ router.post(
 
 router.get("/:numeroReclamo", getReclamoById);
 
-module.exports = router;
+export default router;

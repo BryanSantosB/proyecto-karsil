@@ -1,4 +1,5 @@
-const { Pool } = require('pg');
+import pkg from 'pg';
+const { Pool } = pkg;
 
 export const pool = new Pool(
   process.env.DATABASE_URL 
@@ -24,4 +25,4 @@ pool.on("error", (err) => {
   process.exit(1);
 });
 
-module.exports = pool;
+export default pool;

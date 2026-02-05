@@ -1,6 +1,6 @@
-const { getTipoPaquete } = require("../services/db_services/paquetes.service");
+import { getTipoPaquete } from "../services/db_services/paquetes.service.js";
 
-exports.listarTiposPaquete = async function (req, res) {
+export async function listarTiposPaquete(req, res) {
   try {
     const tiposPaquete = await getTipoPaquete();
     res.json({ ok: true, data: tiposPaquete });

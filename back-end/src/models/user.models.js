@@ -1,5 +1,5 @@
 // src/models/user.model.js
-const pool = require("../config/database");
+import pool from "../config/database.js";
 
 async function findUserByEmail(email) {
   const { rows } = await pool.query(
@@ -27,7 +27,7 @@ async function findUserById(id) {
   return rows[0];
 }
 
-module.exports = {
+export {
   findUserByEmail,
   findUserById,
 };

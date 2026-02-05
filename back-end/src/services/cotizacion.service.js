@@ -1,23 +1,14 @@
-const { tarifarioAereo } = require("../data/tarifarioAereo.js");
-const { tarifarioTerrestre } = require("../data/tarifarioTerrestre.js");
+import { tarifarioAereo } from "../data/tarifarioAereo.js";
+import { tarifarioTerrestre } from "../data/tarifarioTerrestre.js";
 
-exports.calcularEnvio = (formData) => {
+export const calcularEnvio = (formData) => {
   const tarifarioActual =
     formData.paquete.tipoEnvio === "aereo"
       ? tarifarioAereo
       : tarifarioTerrestre;
 
   // 1. Resolver ciudades de origen y destino ----------------------
-  /* const ciudadOrigen =
-    formData.origen.tipo === "recojo"
-      ? formData.origen.provincia || formData.origen.distrito
-      : formData.origen.agencia; */
   const ciudadOrigen = formData.origen.agencia;
-
-  /* const ciudadDestino =
-    formData.destino.tipo === "entrega"
-      ? formData.destino.provincia || formData.destino.distrito
-      : formData.destino.agencia; */
   const ciudadDestino = formData.destino.agencia;
 
   if (!ciudadOrigen || !ciudadDestino) {
@@ -70,7 +61,6 @@ exports.calcularEnvio = (formData) => {
   }
 
   // 6. Cálculo del reparto y entrega -----------------------------------------------
-
   let costoRecojo = 0;
   let costoReparto = 0;
 
@@ -95,6 +85,7 @@ exports.calcularEnvio = (formData) => {
         repartoCfg.baseHasta20Kg + (pesoCobrable - 20) * repartoCfg.kgAdicional;
     }
   }
+  
   // Total de los servicios de reparto
   let costoTotalReparto = costoRecojo + costoReparto;
 

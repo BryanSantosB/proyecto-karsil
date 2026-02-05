@@ -1,16 +1,22 @@
-const pool = require("../config/database");
-const { listaFechas } = require("../data/fechasRecojo");
+import pool from "../config/database.js";
+import { listaFechas } from "../data/fechasRecojo.js";
 
-exports.getFechasRecojo = () => {
+/**
+ * Obtener lista estática de fechas de recojo
+ */
+export const getFechasRecojo = () => {
   return listaFechas;
 };
 
-exports.getFechas = async () => {
+/**
+ * Obtener fechas de recojo desde la base de datos
+ */
+export async function getFechas() {
   const query = `
-    SELECT
-      f.id,
-      f.fecha,
-      f.activo
+    SELECT 
+      f.id, 
+      f.fecha, 
+      f.activo 
     FROM fechas_recojo f;
   `;
 

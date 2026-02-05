@@ -1,10 +1,10 @@
-const {getFechasRecojo, getFechas} = require("../services/fechas_recojo.service");
+import { getFechasRecojo, getFechas } from "../services/fechas_recojo.service.js";
 
-exports.listFechasRecojo = (req, res) => {
+export const listFechasRecojo = (req, res) => {
   res.json(getFechasRecojo());
 };
 
-exports.listarFechas = async function (req, res) {
+export async function listarFechas(req, res) {
   try {
     const fechas = await getFechas();
     res.json({ ok: true, data: fechas });

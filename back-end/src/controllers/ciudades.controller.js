@@ -1,11 +1,11 @@
-const ciudadesService = require("../services/db_services/ciudades.service.js");
+import {obtenerCiudades, obtenerCiudadesPorDepartamento, obtenerCiudadPorId } from "../services/db_services/ciudades.service.js";
 
 /**
  * GET /ciudades
  */
 async function listar(req, res) {
   try {
-    const ciudades = await ciudadesService.obtenerCiudades();
+    const ciudades = await obtenerCiudades();
     res.json({ ok: true, data: ciudades });
   } catch (error) {
     console.error(error);
@@ -18,7 +18,7 @@ async function listar(req, res) {
  */
 async function obtenerPorId(req, res) {
   try {
-    const ciudad = await ciudadesService.obtenerCiudadPorId(req.params.id);
+    const ciudad = await obtenerCiudadPorId(req.params.id);
 
     if (!ciudad) {
       return res.status(404).json({
@@ -39,7 +39,7 @@ async function obtenerPorId(req, res) {
 async function listarPorDepartamento(req, res) {
   try {
     const ciudades =
-      await ciudadesService.obtenerCiudadesPorDepartamento(
+      await obtenerCiudadesPorDepartamento(
         req.params.departamentoId
       );
 
@@ -52,7 +52,7 @@ async function listarPorDepartamento(req, res) {
   }
 }
 
-module.exports = {
+export {
   listar,
   obtenerPorId,
   listarPorDepartamento,

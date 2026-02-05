@@ -1,7 +1,7 @@
-const express = require("express");
-const { listarTiposPaquete } = require("../controllers/paquetes.controller");
+import express from "express";
+import { listarTiposPaquete } from "../controllers/paquetes.controller.js";
 const router = express.Router();
 
 router.get("/tipos", listarTiposPaquete);
 
-module.exports = router;
+export default router;

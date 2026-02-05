@@ -1,9 +1,9 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const controller = require("../controllers/ciudades.controller");
+import * as controller from "../controllers/ciudades.controller.js";
 
 router.get("/", controller.listar);
 router.get("/:id", controller.obtenerPorId);
 router.get("/departamento/:departamentoId", controller.listarPorDepartamento);
 
-module.exports = router;
+export default router;

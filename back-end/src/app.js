@@ -1,40 +1,44 @@
-require("dotenv").config();
-console.log("¿Variable de puerto detectada?:", process.env.EMAIL_HOST);
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
-const pool = require("./config/database.js");
+import "dotenv/config"; // Carga automática de variables de entorno
+import express from "express";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
+import pool from "./config/database.js";
 
-const locationsRoutes = require("./routes/locations.routes");
-const healthRoutes = require("./routes/health.routes");
-const fechasRecojoRoutes = require("./routes/fechas_recojo.routes");
-const cotizacionRoutes = require("./routes/cotizacion.routes");
-const correoRoutes = require("./routes/correo.routes");
-const ciudadesRoutes = require("./routes/ciudades.routes");
-const modalidadesEnvioRoutes = require("./routes/modalidadEnvio.routes");
-const tiposPaquetesRoutes = require("./routes/paquetes.routes");
-const reclamosRoutes = require("./routes/reclamos.routes");
-const authRoutes = require("./auth/auth.routes");
+// Importación de rutas (Asegúrate de incluir .js)
+import locationsRoutes from "./routes/locations.routes.js";
+import healthRoutes from "./routes/health.routes.js";
+import fechasRecojoRoutes from "./routes/fechas_recojo.routes.js";
+import cotizacionRoutes from "./routes/cotizacion.routes.js";
+import correoRoutes from "./routes/correo.routes.js";
+import ciudadesRoutes from "./routes/ciudades.routes.js";
+import modalidadesEnvioRoutes from "./routes/modalidadEnvio.routes.js";
+import tiposPaquetesRoutes from "./routes/paquetes.routes.js";
+import reclamosRoutes from "./routes/reclamos.routes.js";
+import authRoutes from "./routes/auth.routes.js";
+
+// Configuración para emular __dirname en ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
-app.use(cors());
+// Middlewares
 app.use(express.json());
-
 app.use(cors({
   origin: [
     "https://karsil-front.trycloudflare.com",
     "http://localhost:3000"
-  ], // No uses '*' por seguridad
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-
+// Archivos estáticos
 app.use("/public", express.static(path.join(__dirname, "../src/public")));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// routes
+// Rutas
 app.use("/api/health", healthRoutes);
 app.use("/api/locations", locationsRoutes);
 app.use("/api/fechas", fechasRecojoRoutes);
@@ -46,12 +50,13 @@ app.use("/api/paquetes", tiposPaquetesRoutes);
 app.use("/api/reclamos", reclamosRoutes);
 app.use("/api/auth", authRoutes);
 
+// Manejo de errores global
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ message: "Error interno del servidor" });
 });
 
-// PRUEBA
+// Ruta de prueba de BD
 app.get("/prueba", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW()");
@@ -64,5 +69,4 @@ app.get("/prueba", async (req, res) => {
   }
 });
 
-
-module.exports = app;
+export default app;

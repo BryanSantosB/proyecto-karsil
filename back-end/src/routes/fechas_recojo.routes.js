@@ -1,11 +1,12 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const {
-  listFechasRecojo, listarFechas
-} = require("../controllers/fechas_recojo.controller");
+import {
+  listFechasRecojo, 
+  listarFechas
+} from "../controllers/fechas_recojo.controller.js";
 
 router.get("/fechas-recojo", listFechasRecojo);
 router.get("/fechas", listarFechas);
 
-module.exports = router;
+export default router;

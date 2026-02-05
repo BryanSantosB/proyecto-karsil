@@ -1,10 +1,10 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const {
+import {
   listCiudadesOrigen,
-} = require("../controllers/locations.controller");
+} from "../controllers/locations.controller.js";
 
 router.get("/ciudades-origen", listCiudadesOrigen);
 
-module.exports = router;
+export default router;

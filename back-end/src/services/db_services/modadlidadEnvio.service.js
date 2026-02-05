@@ -1,12 +1,15 @@
-const pool = require("../../config/database");
+import pool from "../../config/database.js";
 
-exports.getModalidadEnvio = async () => {
+/**
+ * Obtener todas las modalidades de envío
+ */
+export async function getModalidadEnvio() {
   const query = `
-    SELECT
-      m.id,
-      m.nombre,
-      m.value,
-      m.icon
+    SELECT 
+      m.id, 
+      m.nombre, 
+      m.value, 
+      m.icon 
     FROM modalidad_envio m;
   `;
 
