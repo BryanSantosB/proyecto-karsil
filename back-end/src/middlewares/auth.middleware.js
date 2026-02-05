@@ -1,29 +1,18 @@
-// src/middlewares/auth.middleware.js
-import { verifyToken } from "../utils/jwt.js";
-import { findUserById } from "../models/user.model.js";
+import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from '../config/jwt.js';
 
-async function authMiddleware(req, res, next) {
-  const header = req.headers.authorization;
+export const authMiddleware = (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-  if (!header) {
-    return res.status(401).json({ message: "Token requerido" });
-  }
+  if (!authHeader)
+    return res.status(401).json({ message: 'Token requerido' });
 
-  const token = header.split(" ")[1];
+  const token = authHeader.split(' ')[1];
 
   try {
-    const payload = verifyToken(token);
-
-    const user = await findUserById(payload.sub);
-    if (!user) {
-      return res.status(401).json({ message: "Usuario inválido" });
-    }
-
-    req.user = user;
+    req.user = jwt.verify(token, JWT_SECRET);
     next();
-  } catch (err) {
-    return res.status(401).json({ message: "Token inválido" });
+  } catch {
+    res.status(401).json({ message: 'Token inválido' });
   }
-}
-
-export { authMiddleware };
+};

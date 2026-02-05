@@ -16,6 +16,7 @@ import modalidadesEnvioRoutes from "./routes/modalidadEnvio.routes.js";
 import tiposPaquetesRoutes from "./routes/paquetes.routes.js";
 import reclamosRoutes from "./routes/reclamos.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import userRoutes from './routes/user.routes.js';
 
 // Configuración para emular __dirname en ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -49,6 +50,7 @@ app.use("/api/modalidades", modalidadesEnvioRoutes);
 app.use("/api/paquetes", tiposPaquetesRoutes);
 app.use("/api/reclamos", reclamosRoutes);
 app.use("/api/auth", authRoutes);
+app.use('/users', userRoutes);
 
 // Manejo de errores global
 app.use((err, req, res, next) => {

@@ -1,16 +1,9 @@
-// src/routes/auth.routes.js
-import express from "express";
-const router = express.Router();
-import { login } from "../services/auth.service.js";
+import { Router } from 'express';
+import * as authController from '../controllers/auth.controller.js';
 
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const result = await login(email, password);
-    res.json(result);
-  } catch (e) {
-    res.status(401).json({ message: e.message });
-  }
-});
+const router = Router();
+
+router.post('/login', authController.login);
+router.post('/register', authController.register);
 
 export default router;
