@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "context/AuthContext";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export const UserDropDown = ({logout}) => {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   // Cerrar al hacer click fuera
   useEffect(() => {
@@ -62,9 +63,14 @@ export const UserDropDown = ({logout}) => {
           {/* Opciones */}
           <div className="py-1">
             {/* Ejemplo futuro */}
-            {/* <button className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100">
-              Mi perfil
-            </button> */}
+            <button 
+              className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+              onClick={() => {
+                navigate("/dashboard") 
+                setOpen(false)}}
+            >
+              Dashboard
+            </button>
             
 
             {user.permissions.includes("USER_READ") && (

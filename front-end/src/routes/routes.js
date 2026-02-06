@@ -1,11 +1,10 @@
 import { ComponentePrueba } from 'components/ui/ComponentePrueba/ComponentePrueba';
 import Login from 'features/auth/Login';
 import Register from 'features/auth/Register';
+import DashboardLayout from 'features/dashboard/DashboardLayout';
 import LibroReclamos from 'features/reclamos_karsil/LibroReclamaciones';
 import ConsultaReclamo from 'features/visualizar_reclamo/ConsultaReclamo';
 import { lazy } from 'react';
-import { DashboardHome } from '../features/dashboard/DashboardHome.jsx';
-import { Reclamos } from '../features/dashboard/modules/Reclamos.jsx';
 
 // El navegador solo descargará estos archivos cuando el usuario entre a la ruta
 const HomePage = lazy(() => import('../pages/HomePage'));
@@ -57,7 +56,7 @@ export const publicRoutes = [
 ];
 
 export const dashboardRoutes = [
-  {
+  /* {
     path: "/dashboard",
     element: DashboardHome,
     protected: true,
@@ -69,5 +68,11 @@ export const dashboardRoutes = [
     protected: true,
     roles: ["admin", "trabajador"],
     permissions: ["USER_READ"],
+  }, */
+  {
+    path: "/dashboard",
+    element: DashboardLayout,
+    protected: true,
+    roles: ["admin", "trabajador"],
   },
 ];
