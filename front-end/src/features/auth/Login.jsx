@@ -61,11 +61,7 @@ const Login = () => {
     try {
       const response = await api.post('/auth/login', formData, {withCredentials: true});
       console.log("Login exitoso con:", response.data);
-
-      // Guardar el token en el almacenamiento local y redirigir al inicio
-      localStorage.setItem('token', response.data.token);
       navigate('/');
-      
     } catch (err) {
       console.error("Error en login:", err);
       setError(
