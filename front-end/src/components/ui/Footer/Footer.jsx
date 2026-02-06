@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function Footer() {
     return (
         <>
-            <footer className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-300 mt-20">
+            <footer className="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-300">
                 {/* Decorative top border */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-primary via-primary-light to-primary-primary"></div>
                 

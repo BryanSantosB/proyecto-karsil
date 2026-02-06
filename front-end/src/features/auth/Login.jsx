@@ -74,7 +74,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen w-full relative overflow-hidden my-16">
+    <div className="min-h-screen w-full relative overflow-hidden ">
       {/* Imagen de fondo */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
