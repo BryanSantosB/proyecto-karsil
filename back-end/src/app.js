@@ -17,6 +17,9 @@ import tiposPaquetesRoutes from "./routes/paquetes.routes.js";
 import reclamosRoutes from "./routes/reclamos.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from './routes/user.routes.js';
+import cookieParser from 'cookie-parser';
+
+
 
 // Configuración para emular __dirname en ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -24,16 +27,20 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Middlewares
-app.use(express.json());
 app.use(cors({
   origin: [
-    "https://karsil-front.trycloudflare.com",
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "https://karsil-front.trycloudflare.com"
   ],
+  credentials: true, 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type']
 }));
+
+
+// Middlewares
+app.use(express.json());
+app.use(cookieParser());
 
 // Archivos estáticos
 app.use("/public", express.static(path.join(__dirname, "../src/public")));

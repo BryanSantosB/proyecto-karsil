@@ -1,3 +1,5 @@
+import Login from 'features/auth/Login';
+import Register from 'features/auth/Register';
 import LibroReclamos from 'features/reclamos_karsil/LibroReclamaciones';
 import ConsultaReclamo from 'features/visualizar_reclamo/ConsultaReclamo';
 import { lazy } from 'react';
@@ -26,6 +28,16 @@ export const publicRoutes = [
   {
     path: "/consultar-reclamo",
     element: ConsultaReclamo,
+    title: "Consultar Reclamo"
+  },
+  {
+    path: "/login",
+    element: Login,
+    title: "Consultar Reclamo"
+  },
+  {
+    path: "/register",
+    element: Register,
     title: "Consultar Reclamo"
   },
   {
