@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { AnclaNav } from "../AnclaNav/AnclaNav";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "context/AuthContext";
+import { UserDropDown } from "../UserDropDown/UserDropDown";
+import { api } from "services/api";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -9,6 +12,7 @@ const Navbar = () => {
   const [userName, setUserName] = useState("");
   const [showAuthDropdown, setShowAuthDropdown] = useState(false);
   const navigate = useNavigate();
+  const { user, setUser } = useAuth();
 
   // Detecta el scroll para añadir sombras o cambiar opacidad si lo deseas
   useEffect(() => {
@@ -47,6 +51,17 @@ const Navbar = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [open]);
+
+  const logout = async () => {
+    try {
+      await api.post("/auth/logout", {}, { withCredentials: true });
+    } catch (error) {
+      console.error("Error al cerrar sesión", error);
+    } finally {
+      setUser(null);
+      navigate("/login");
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -103,38 +118,8 @@ const Navbar = () => {
             </Link>
 
             {/* Autenticación */}
-            {isAuthenticated ? (
-              <div className="ml-2 lg:ml-3 flex items-center gap-2 lg:gap-3">
-                <div className="hidden lg:flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg">
-                  <div className="w-8 h-8 rounded-full bg-primary-primary text-white flex items-center justify-center text-sm font-bold">
-                    {userName.charAt(0).toUpperCase()}
-                  </div>
-                  <span className="text-sm font-medium text-gray-700 max-w-[120px] truncate">
-                    {userName}
-                  </span>
-                </div>
-
-                <button
-                  onClick={handleLogout}
-                  className="inline-flex items-center justify-center px-4 lg:px-5 py-2 lg:py-2.5 text-sm lg:text-base font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-all duration-300 hover:scale-105 active:scale-95"
-                >
-                  <svg
-                    className="w-4 h-4 lg:w-5 lg:h-5 mr-1 lg:mr-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                    />
-                  </svg>
-                  <span className="hidden lg:inline">Cerrar Sesión</span>
-                  <span className="lg:hidden">Salir</span>
-                </button>
-              </div>
+            {user ? (
+              <UserDropDown logout={logout}/>
             ) : (
               <div className="ml-2 lg:ml-3 relative">
                 <button
@@ -331,7 +316,7 @@ const Navbar = () => {
 
             {/* Mobile Auth Buttons */}
 
-            {isAuthenticated ? (
+            {user ? (
               <div className="pt-2 border-t border-gray-800/50 mt-2">
                 <button
                   onClick={handleLogout}

@@ -37,7 +37,7 @@ const HeroSection = forwardRef((props, ref) => {
       </div>
 
       {/* Contenedor principal con distribución mejorada */}
-      <div className="relative mx-auto w-full max-w-[1920px] px-4 py-32 sm:px-6 sm:py-40 lg:px-12 xl:px-16 2xl:px-24 lg:py-32">
+      <div className="relative mx-auto w-full max-w-[1920px] px-4 py-32 sm:px-6 sm:py-40 lg:px-12 xl:px-16 2xl:px-24 lg:py-16">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           
           {/* Columna izquierda - Contenido */}

@@ -4,6 +4,7 @@ import CustomInput from "components/ui/CustomInput/CustomInput";
 import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
 import TitleLandingPage from "components/ui/TitleLandingPage/TitleLandingPage";
 import { api } from "services/api";
+import { useAuth } from "context/AuthContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { setUser } = useAuth();
 
   const navigate = useNavigate();
 
@@ -61,6 +63,8 @@ const Login = () => {
     try {
       const response = await api.post('/auth/login', formData, {withCredentials: true});
       console.log("Login exitoso con:", response.data);
+      console.log(response.data.user)
+      setUser(response.data.user);
       navigate('/');
     } catch (err) {
       console.error("Error en login:", err);

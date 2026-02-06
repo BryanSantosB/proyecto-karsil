@@ -1,3 +1,4 @@
+import { ComponentePrueba } from 'components/ui/ComponentePrueba/ComponentePrueba';
 import Login from 'features/auth/Login';
 import Register from 'features/auth/Register';
 import LibroReclamos from 'features/reclamos_karsil/LibroReclamaciones';
@@ -39,6 +40,11 @@ export const publicRoutes = [
     path: "/register",
     element: Register,
     title: "Consultar Reclamo"
+  },
+  {
+    path: "/prueba",
+    element: ComponentePrueba,
+    title: "Testing"
   },
   {
     path: "*",

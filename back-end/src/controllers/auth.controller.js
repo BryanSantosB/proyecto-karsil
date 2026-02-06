@@ -46,3 +46,19 @@ export const register = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+export const me = (req, res) => {
+  res.json({ user: req.user });
+};
+
+// controllers/auth.controller.js
+export const logout = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
+
+  res.json({ message: "Sesión cerrada correctamente" });
+};
+
