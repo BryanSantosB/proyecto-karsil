@@ -4,6 +4,8 @@ import Register from 'features/auth/Register';
 import LibroReclamos from 'features/reclamos_karsil/LibroReclamaciones';
 import ConsultaReclamo from 'features/visualizar_reclamo/ConsultaReclamo';
 import { lazy } from 'react';
+import { DashboardHome } from '../features/dashboard/DashboardHome.jsx';
+import { Reclamos } from '../features/dashboard/modules/Reclamos.jsx';
 
 // El navegador solo descargará estos archivos cuando el usuario entre a la ruta
 const HomePage = lazy(() => import('../pages/HomePage'));
@@ -27,7 +29,7 @@ export const publicRoutes = [
     title: "Reclamaciones"
   },
   {
-    path: "/consultar-reclamo",
+    path: "/consultar-reclamo", 
     element: ConsultaReclamo,
     title: "Consultar Reclamo"
   },
@@ -52,4 +54,20 @@ export const publicRoutes = [
     title: "404 - No encontrado"
   },
   
+];
+
+export const dashboardRoutes = [
+  {
+    path: "/dashboard",
+    element: DashboardHome,
+    protected: true,
+    roles: ["admin", "trabajador"],
+  },
+  {
+    path: "/dashboard/reclamos",
+    element: Reclamos,
+    protected: true,
+    roles: ["admin", "trabajador"],
+    permissions: ["USER_READ"],
+  },
 ];

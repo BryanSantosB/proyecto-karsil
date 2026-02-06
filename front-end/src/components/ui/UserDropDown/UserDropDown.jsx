@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "context/AuthContext";
+import { NavLink } from "react-router-dom";
 
 export const UserDropDown = ({logout}) => {
   const { user } = useAuth();
@@ -64,6 +65,12 @@ export const UserDropDown = ({logout}) => {
             {/* <button className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100">
               Mi perfil
             </button> */}
+            
+
+            {user.permissions.includes("USER_READ") && (
+              <NavLink to="/dashboard/reclamos">Reclamos</NavLink>
+            )}
+
 
             <button
               onClick={logout}

@@ -1,11 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { publicRoutes } from './routes/routes';
-import NavBar from 'components/ui/NavBar/NavBar';
-import React, { Suspense } from 'react';
-import Footer from 'components/ui/Footer/Footer';
-import LoadingOverlay from 'components/ui/LoadingOverlay/LoadingOverlay';
-import { useGoogleMaps } from 'hooks/useGoogleMaps';
-import ScrollToTop from 'components/ui/ScrollToTop/ScrollToTop';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { dashboardRoutes, publicRoutes } from "./routes/routes";
+import NavBar from "components/ui/NavBar/NavBar";
+import React, { Suspense } from "react";
+import Footer from "components/ui/Footer/Footer";
+import LoadingOverlay from "components/ui/LoadingOverlay/LoadingOverlay";
+import { useGoogleMaps } from "hooks/useGoogleMaps";
+import ScrollToTop from "components/ui/ScrollToTop/ScrollToTop";
+import RouteGuard from "components/routing/RouteGuard";
 
 function App() {
   const mapsLoaded = useGoogleMaps();
@@ -19,13 +20,20 @@ function App() {
         <main className="flex-1">
           <Suspense fallback={<LoadingOverlay mensaje="Cargando Página..." />}>
             <Routes>
-              {publicRoutes.map((route, index) => (
-                <Route
-                  key={index}
-                  path={route.path}
-                  element={<route.element />}
-                />
-              ))}
+              {[...publicRoutes, ...dashboardRoutes].map((route, index) => {
+                const Element = route.element;
+                return (
+                  <Route
+                    key={index}
+                    path={route.path}
+                    element={
+                      <RouteGuard route={route}>
+                        <Element />
+                      </RouteGuard>
+                    }
+                  />
+                );
+              })}
             </Routes>
           </Suspense>
         </main>
