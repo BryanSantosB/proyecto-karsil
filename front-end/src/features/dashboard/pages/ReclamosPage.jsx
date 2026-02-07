@@ -29,9 +29,9 @@ const ReclamosPage = () => {
           envio: r.numero_guia,
           tipo: r.motivo_reclamo,
           fecha: new Date(r.fecha_creacion).toLocaleString(),
-          prioridad: "media", // o viene de otra tabla
-          estado: "open", // idem
-          asignado: "Sin asignar",
+          prioridad: r.prioridad.nombre || "Sin prioridad", 
+          estado: r.estado.nombre || "Sin estado", 
+          asignado: r.asignado.nombre || "Sin asignar",
         })),
       );
     });

@@ -8,14 +8,12 @@ import ModalConfirmacion from "components/ui/ModalConfirmacion/ModalConfirmacion
 import LoadingOverlay from "components/ui/LoadingOverlay/LoadingOverlay";
 
 const ResumenConfirmacion = () => {
-  const { datosReclamo, archivosEvidencia, anteriorPaso } =
-    useReclamo();
+  const { datosReclamo, archivosEvidencia, anteriorPaso } = useReclamo();
   const [error, setError] = useState("");
   const [exito, setExito] = useState("");
   const [isLocked, setIsLocked] = useState(false);
   const [mostrarExito, setMostrarExito] = useState(false);
   const [submensaje, setSubmensaje] = useState("");
-
 
   const motivosMap = {
     demora_entrega: "Demora en la entrega",
@@ -49,18 +47,22 @@ const ResumenConfirmacion = () => {
         console.log(key, value);
       }
 
-      const response = await api.post("/reclamos", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await api.post("/reclamos", formData);
 
       let correo = datosReclamo.email;
       let numeroReclamo = response.data.numeroReclamo;
 
-      console.log("RESPONSE CORREO: ", response.data, "Y NUMERO: ", numeroReclamo);
+      console.log(
+        "RESPONSE CORREO: ",
+        response.data,
+        "Y NUMERO: ",
+        numeroReclamo,
+      );
 
-     const rescorreo = await api.post("/correo/numeroReclamo", {correo, numeroReclamo})
+      const rescorreo = await api.post("/correo/numeroReclamo", {
+        correo,
+        numeroReclamo,
+      });
 
       setSubmensaje(response.data.numeroReclamo);
       console.log("RESPONSE CORREO: ", rescorreo.data);
@@ -69,6 +71,11 @@ const ResumenConfirmacion = () => {
       console.log("Reclamo creado:", response.data);
     } catch (error) {
       console.error("Error al enviar reclamo:", error);
+
+      setError(
+        error.response?.data?.message ||
+          "Ocurrió un error al registrar tu reclamo. Inténtalo nuevamente.",
+      );
     } finally {
       setIsLocked(false);
     }
@@ -181,9 +188,11 @@ const ResumenConfirmacion = () => {
               <div>
                 <p className="text-gray-600">Fecha:</p>
                 <p className="font-semibold text-gray-800">
-                  {new Date(datosReclamo.fechaServicio).toLocaleDateString(
-                    "es-PE",
-                  )}
+                  {datosReclamo.fechaServicio
+                    ? new Date(datosReclamo.fechaServicio).toLocaleDateString(
+                        "es-PE",
+                      )
+                    : "No especificada"}
                 </p>
               </div>
               <div>
@@ -319,7 +328,6 @@ const ResumenConfirmacion = () => {
         submensaje={submensaje}
         onCerrar={cerrarYReiniciar}
       />
-
     </div>
   );
 };

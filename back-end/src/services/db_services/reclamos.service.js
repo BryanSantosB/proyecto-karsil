@@ -1,15 +1,13 @@
 import pool from "../../config/database.js";
 import { generarNumeroReclamo } from "../../utils/generarNumeroReclamo.js";
 
-
-export const crearReclamoService = async (data, archivos) => {
+export const crearReclamoService = async (data, archivos, userId = null) => {
   const client = await pool.connect();
 
   try {
     await client.query("BEGIN");
 
     const numeroReclamo = await generarNumeroReclamo(client);
-
     const {
       nombreCompleto,
       tipoDocumento,
@@ -29,27 +27,28 @@ export const crearReclamoService = async (data, archivos) => {
 
     const reclamoResult = await client.query(
       `
-      INSERT INTO reclamos (
-        numero_reclamo,
-        nombre_completo,
-        tipo_documento,
-        numero_documento,
-        email,
-        telefono,
-        numero_guia,
-        fecha_servicio,
-        tipo_servicio_id,
-        oficina_id,
-        motivo_reclamo,
-        descripcion,
-        monto_reclamado,
-        acepta_politicas,
-        firma_digital
-      ) VALUES (
-        $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15
-      )
-      RETURNING id
-      `,
+  INSERT INTO reclamos (
+    numero_reclamo,
+    nombre_completo,
+    tipo_documento,
+    numero_documento,
+    email,
+    telefono,
+    numero_guia,
+    fecha_servicio,
+    tipo_servicio_id,
+    oficina_id,
+    motivo_reclamo,
+    descripcion,
+    monto_reclamado,
+    acepta_politicas,
+    firma_digital,
+    creado_por
+  ) VALUES (
+    $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16
+  )
+  RETURNING id
+  `,
       [
         numeroReclamo,
         nombreCompleto,
@@ -66,7 +65,8 @@ export const crearReclamoService = async (data, archivos) => {
         montoReclamado || null,
         aceptaPoliticas,
         firmaDigital,
-      ]
+        userId,
+      ],
     );
 
     const reclamoId = reclamoResult.rows[0].id;
@@ -88,7 +88,7 @@ export const crearReclamoService = async (data, archivos) => {
           archivo.path,
           archivo.mimetype,
           archivo.size,
-        ]
+        ],
       );
     }
 
@@ -170,10 +170,9 @@ export const obtenerReclamoPorNumero = async (numeroReclamo) => {
     WHERE reclamo_id = $1
   `;
 
-  const evidenciasResult = await pool.query(
-    evidenciasQuery,
-    [reclamoResult.rows[0].id]
-  );
+  const evidenciasResult = await pool.query(evidenciasQuery, [
+    reclamoResult.rows[0].id,
+  ]);
 
   return {
     ...reclamoResult.rows[0],
@@ -189,23 +188,41 @@ export const getAllReclamos = async () => {
       r.nombre_completo,
       r.numero_guia,
       r.motivo_reclamo,
+
       json_build_object(
         'id', te.id,
         'nombre', te.nombre
       ) AS tipo_servicio,
+
       json_build_object(
         'id', c.id,
         'nombre', c.nombre
-      ) AS oficina
+      ) AS oficina,
+
+      json_build_object(
+        'codigo', e.codigo,
+        'nombre', e.nombre
+      ) AS estado,
+
+      json_build_object(
+        'codigo', p.codigo,
+        'nombre', p.nombre
+      ) AS prioridad,
+
+      json_build_object(
+        'id', u.id,
+        'nombre', u.nombre
+      ) AS asignado
+
     FROM reclamos r
     LEFT JOIN tipos_envio te ON te.id = r.tipo_servicio_id
     LEFT JOIN ciudades c ON c.id = r.oficina_id
+    LEFT JOIN estados_reclamo e ON e.id = r.estado_id
+    LEFT JOIN prioridades_reclamo p ON p.id = r.prioridad_id
+    LEFT JOIN usuarios u ON u.id = r.asignado_a
     ORDER BY r.fecha_creacion DESC
   `;
 
   const { rows } = await pool.query(query);
   return rows;
 };
-
-
-

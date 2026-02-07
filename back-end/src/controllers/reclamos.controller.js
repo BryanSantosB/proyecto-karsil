@@ -6,8 +6,8 @@ import {
 
 export const crearReclamo = async (req, res) => {
   try {
-    const resultado = await crearReclamoService(req.body, req.files);
-
+    const userId = req.user?.id || null;
+    const resultado = await crearReclamoService(req.body, req.files, userId);
     res.status(201).json({
       mensaje: "Reclamo registrado correctamente",
       numeroReclamo: resultado.numeroReclamo,
