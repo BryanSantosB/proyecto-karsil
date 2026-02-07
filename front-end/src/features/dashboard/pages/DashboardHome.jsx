@@ -16,9 +16,12 @@ import ChartCard from '../main_components/ChartCard';
 import ProgressBar from '../main_components/ProgressBar';
 import DataTable from '../main_components/DataTable';
 import Modal from '../main_components/Modal';
+import CalculadoraEnvio from 'features/calculadora_envio/CalculadoraEnvio';
+import LibroReclamos from 'features/reclamos_karsil/LibroReclamaciones';
 
 const DashboardHome = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalReclamo, setModalReclamo] = useState(false);
 
   // Datos de ejemplo
   const stats = [
@@ -61,7 +64,7 @@ const DashboardHome = () => {
     {
       icon: MessageSquare,
       label: 'Nuevo Reclamo',
-      onClick: () => console.log('Nuevo reclamo')
+      onClick: () => setModalReclamo(true)
     },
     {
       icon: FileText,
@@ -261,7 +264,7 @@ const DashboardHome = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="Nuevo Envío"
-        size="md"
+        size="full"
         footer={
           <>
             <button
@@ -282,40 +285,34 @@ const DashboardHome = () => {
           </>
         }
       >
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Cliente
-            </label>
-            <input
-              type="text"
-              placeholder="Nombre del cliente"
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Destino
-            </label>
-            <input
-              type="text"
-              placeholder="Ciudad, País"
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Descripción
-            </label>
-            <textarea
-              rows={4}
-              placeholder="Describe el envío..."
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent resize-none"
-            />
-          </div>
-        </div>
+        <CalculadoraEnvio />
+      </Modal>
+      <Modal
+        isOpen={modalReclamo}
+        onClose={() => setModalReclamo(false)}
+        title="Nuevo Reclamo"
+        size="full"
+        footer={
+          <>
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="px-4 py-2 border border-gray-200 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={() => {
+                console.log('Crear envío');
+                setIsModalOpen(false);
+              }}
+              className="px-4 py-2 bg-primary-primary text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
+            >
+              Crear Envío
+            </button>
+          </>
+        }
+      >
+        <LibroReclamos />
       </Modal>
     </div>
   );

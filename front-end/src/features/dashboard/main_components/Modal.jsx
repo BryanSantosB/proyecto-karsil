@@ -24,12 +24,13 @@ const Modal = ({
   if (!isOpen) return null;
 
   const sizeClasses = {
-    sm: 'max-w-md',
-    md: 'max-w-2xl',
-    lg: 'max-w-4xl',
-    xl: 'max-w-6xl',
-    full: 'max-w-[95vw]'
-  };
+  sm: 'max-w-md',
+  md: 'max-w-2xl',
+  lg: 'max-w-4xl',
+  xl: 'max-w-6xl',
+  // Ocupa el 100% del ancho de la pantalla siempre
+  full: 'w-screen max-w-full'
+};
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">

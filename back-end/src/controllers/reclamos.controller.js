@@ -1,5 +1,6 @@
 import {
   crearReclamoService,
+  getAllReclamos,
   obtenerReclamoPorNumero,
 } from "../services/db_services/reclamos.service.js";
 
@@ -51,3 +52,14 @@ export const getReclamoById = async (req, res) => {
     });
   }
 };
+
+export const listarReclamos = async (req, res) => {
+  try {
+    const reclamos = await getAllReclamos();
+    res.json(reclamos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener reclamos' });
+  }
+};
+

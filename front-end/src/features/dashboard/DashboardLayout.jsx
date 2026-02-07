@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import { Outlet, useNavigate, useLocation, Link } from "react-router-dom";
 import {
   LayoutDashboard,
   Package,
@@ -13,21 +13,27 @@ import {
   User,
   LogOut,
   Menu,
-  X
-} from 'lucide-react';
+  X,
+} from "lucide-react";
+import { useAuth } from "context/AuthContext";
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
 
   const menuItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
-    { icon: Package, label: 'Envíos', path: '/dashboard/envios' },
-    { icon: MessageSquare, label: 'Reclamos', path: '/dashboard/reclamos' },
-    { icon: BarChart3, label: 'Reportes', path: '/dashboard/reportes' },
-    { icon: Settings, label: 'Configuración', path: '/dashboard/configuracion' },
+    { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
+    { icon: Package, label: "Envíos", path: "/dashboard/envios" },
+    { icon: MessageSquare, label: "Reclamos", path: "/dashboard/reclamos" },
+    { icon: BarChart3, label: "Reportes", path: "/dashboard/reportes" },
+    {
+      icon: Settings,
+      label: "Configuración",
+      path: "/dashboard/configuracion",
+    },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -47,19 +53,39 @@ const DashboardLayout = () => {
         className={`
           fixed top-0 left-0 z-40 h-screen bg-white border-r border-gray-200
           transition-all duration-300 ease-in-out
-          ${sidebarOpen ? 'w-64' : 'w-20'}
-          ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          ${sidebarOpen ? "w-64" : "w-20"}
+          ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
       >
         {/* Logo Section */}
         <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
-          <div className={`flex items-center gap-3 overflow-hidden transition-all duration-300 ${sidebarOpen ? 'opacity-100' : 'opacity-0'}`}>
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-primary to-primary-primary/80 flex items-center justify-center">
-              <LayoutDashboard className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-semibold text-gray-800 text-lg whitespace-nowrap">Dashboard</span>
+          <div
+            className={`flex items-center gap-3 overflow-hidden transition-all duration-300 ${sidebarOpen ? "opacity-100" : "opacity-0"}`}
+          >
+            <Link
+              to="/dashboard"
+              className="flex items-center gap-2 lg:gap-3 group"
+            >
+              {/* Contenedor del Logo con Efecto Glow */}
+              <div className="relative flex-shrink-0">
+                <img
+                  src={`${process.env.REACT_APP_API_UR}/public/logo_figura.png`}
+                  alt="Karsil Cargo"
+                  className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                />
+                {/* El blur de fondo cuando pasas el mouse */}
+                <div className="absolute inset-0 bg-primary-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+              </div>
+
+              {/* Textos del Logo */}
+              <div className="flex flex-col">
+                <span className="text-[16px] uppercase tracking-widest font-medium text-gray-800 leading-tight">
+                  dashboard
+                </span>
+              </div>
+            </Link>
           </div>
-          
+
           {/* Desktop Toggle */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -86,7 +112,7 @@ const DashboardLayout = () => {
           {menuItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.path);
-            
+
             return (
               <button
                 key={item.path}
@@ -94,23 +120,30 @@ const DashboardLayout = () => {
                   navigate(item.path);
                   setMobileMenuOpen(false);
                 }}
+                // CAMBIO: Control dinámico de padding y ancho
                 className={`
-                  w-full flex items-center gap-3 px-3 py-2.5 rounded-lg
-                  transition-all duration-200
-                  ${active 
-                    ? 'bg-primary-primary text-white shadow-sm' 
-                    : 'text-gray-700 hover:bg-gray-100'
-                  }
-                  ${sidebarOpen ? 'justify-start' : 'justify-center'}
-                `}
+          flex items-center gap-3 rounded-lg transition-all duration-300
+          ${active ? "bg-primary-primary text-white shadow-sm" : "text-gray-700 hover:bg-gray-100"}
+          ${
+            sidebarOpen
+              ? "w-full px-3 py-2.5 justify-start"
+              : "w-10 h-10 mx-auto justify-center p-0"
+          } 
+        `}
+                title={!sidebarOpen ? item.label : ""} // Tooltip cuando está cerrado
               >
-                <Icon className={`w-5 h-5 flex-shrink-0 ${active ? 'text-white' : 'text-gray-500'}`} />
-                <span className={`
-                  whitespace-nowrap transition-all duration-300 font-medium
-                  ${sidebarOpen ? 'opacity-100' : 'opacity-0 w-0'}
-                `}>
-                  {item.label}
-                </span>
+                <Icon
+                  className={`w-5 h-5 flex-shrink-0 transition-colors ${
+                    active ? "text-white" : "text-gray-500"
+                  }`}
+                />
+
+                {/* El span solo ocupa espacio si el sidebar está abierto */}
+                {sidebarOpen && (
+                  <span className="whitespace-nowrap font-medium opacity-100 transition-opacity duration-300">
+                    {item.label}
+                  </span>
+                )}
               </button>
             );
           })}
@@ -118,16 +151,20 @@ const DashboardLayout = () => {
 
         {/* User Section */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
-          <button className={`
+          <button
+            className={`
             w-full flex items-center gap-3 px-3 py-2.5 rounded-lg
             text-gray-700 hover:bg-gray-100 transition-colors
-            ${sidebarOpen ? 'justify-start' : 'justify-center'}
-          `}>
+            ${sidebarOpen ? "justify-start" : "justify-center"}
+          `}
+          >
             <LogOut className="w-5 h-5 text-gray-500 flex-shrink-0" />
-            <span className={`
+            <span
+              className={`
               whitespace-nowrap transition-all duration-300 font-medium
-              ${sidebarOpen ? 'opacity-100' : 'opacity-0 w-0'}
-            `}>
+              ${sidebarOpen ? "opacity-100" : "opacity-0 w-0"}
+            `}
+            >
               Cerrar Sesión
             </span>
           </button>
@@ -135,10 +172,12 @@ const DashboardLayout = () => {
       </aside>
 
       {/* Main Content Area */}
-      <div className={`
+      <div
+        className={`
         transition-all duration-300 ease-in-out
-        ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}
-      `}>
+        ${sidebarOpen ? "lg:ml-64" : "lg:ml-20"}
+      `}
+      >
         {/* Top Header */}
         <header className="h-16 bg-white border-b border-gray-200 sticky top-0 z-30">
           <div className="h-full px-4 lg:px-6 flex items-center justify-between">
@@ -175,7 +214,9 @@ const DashboardLayout = () => {
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-primary to-primary-primary/80 flex items-center justify-center">
                   <User className="w-4 h-4 text-white" />
                 </div>
-                <span className="hidden lg:block font-medium text-gray-700 text-sm">Usuario</span>
+                <span className="hidden lg:block font-medium text-gray-700 text-sm">
+                  {user?.nombre}
+                </span>
               </button>
             </div>
           </div>

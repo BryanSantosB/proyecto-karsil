@@ -181,4 +181,31 @@ export const obtenerReclamoPorNumero = async (numeroReclamo) => {
   };
 };
 
+export const getAllReclamos = async () => {
+  const query = `
+    SELECT
+      r.numero_reclamo,
+      r.fecha_creacion,
+      r.nombre_completo,
+      r.numero_guia,
+      r.motivo_reclamo,
+      json_build_object(
+        'id', te.id,
+        'nombre', te.nombre
+      ) AS tipo_servicio,
+      json_build_object(
+        'id', c.id,
+        'nombre', c.nombre
+      ) AS oficina
+    FROM reclamos r
+    LEFT JOIN tipos_envio te ON te.id = r.tipo_servicio_id
+    LEFT JOIN ciudades c ON c.id = r.oficina_id
+    ORDER BY r.fecha_creacion DESC
+  `;
+
+  const { rows } = await pool.query(query);
+  return rows;
+};
+
+
 
