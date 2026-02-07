@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+// eslint-disable-next-line
 import { MessageSquare, Plus, Clock, CheckCircle, AlertCircle } from 'lucide-react';
-import { 
-  DataTable, 
-  StatusBadge, 
-  Modal,
-  StatCard,
-  ChartCard 
-} from '../components';
+import StatusBadge from '../main_components/StatusBadge';
+import StatCard from '../main_components/StatCard';
+import ChartCard from '../main_components/ChartCard';
+import DataTable from '../main_components/DataTable';
+import Modal from '../main_components/Modal';
+
 
 const ReclamosPage = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);

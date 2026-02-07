@@ -9,13 +9,13 @@ import {
   Clock,
   CheckCircle
 } from 'lucide-react';
-import StatCard from '../components/StatCard';
-import DataTable from '../components/DataTable';
-import ChartCard from '../components/ChartCard';
-import QuickActions from '../components/QuickActions';
-import StatusBadge from '../components/StatusBadge';
-import ProgressBar from '../components/ProgressBar';
-import Modal from '../components/Modal';
+import StatusBadge from '../main_components/StatusBadge';
+import StatCard from '../main_components/StatCard';
+import QuickActions from '../main_components/QuickActions';
+import ChartCard from '../main_components/ChartCard';
+import ProgressBar from '../main_components/ProgressBar';
+import DataTable from '../main_components/DataTable';
+import Modal from '../main_components/Modal';
 
 const DashboardHome = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
+// eslint-disable-next-line
 import { Package, Plus, MapPin, Calendar, Filter } from 'lucide-react';
-import { 
-  DataTable, 
-  StatusBadge, 
-  Modal, 
-  EmptyState,
-  StatCard 
-} from '../components';
+import StatusBadge from '../main_components/StatusBadge';
+import StatCard from '../main_components/StatCard';
+import DataTable from '../main_components/DataTable';
+import Modal from '../main_components/Modal';
 
 const EnviosPage = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);

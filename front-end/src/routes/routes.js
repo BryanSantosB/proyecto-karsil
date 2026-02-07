@@ -1,7 +1,9 @@
 import { ComponentePrueba } from 'components/ui/ComponentePrueba/ComponentePrueba';
 import Login from 'features/auth/Login';
 import Register from 'features/auth/Register';
-import DashboardLayout from 'features/dashboard/DashboardLayout';
+import DashboardHome from 'features/dashboard/pages/DashboardHome';
+import EnviosPage from 'features/dashboard/pages/EnviosPage';
+import ReclamosPage from 'features/dashboard/pages/ReclamosPage';
 import LibroReclamos from 'features/reclamos_karsil/LibroReclamaciones';
 import ConsultaReclamo from 'features/visualizar_reclamo/ConsultaReclamo';
 import { lazy } from 'react';
@@ -55,24 +57,25 @@ export const publicRoutes = [
   
 ];
 
+// Dashboard routes (sin NavBar y Footer, dentro de DashboardLayout)
 export const dashboardRoutes = [
-  /* {
-    path: "/dashboard",
+  {
+    path: '/dashboard',
     element: DashboardHome,
     protected: true,
-    roles: ["admin", "trabajador"],
+    roles: ['admin', 'trabajador'],
   },
   {
-    path: "/dashboard/reclamos",
-    element: Reclamos,
+    path: '/dashboard/envios',
+    element: EnviosPage,
     protected: true,
-    roles: ["admin", "trabajador"],
-    permissions: ["USER_READ"],
-  }, */
+    roles: ['admin', 'trabajador'],
+  },
   {
-    path: "/dashboard",
-    element: DashboardLayout,
+    path: '/dashboard/reclamos',
+    element: ReclamosPage,
     protected: true,
-    roles: ["admin", "trabajador"],
+    roles: ['admin', 'trabajador'],
+    permissions: ['USER_READ'],
   },
 ];
