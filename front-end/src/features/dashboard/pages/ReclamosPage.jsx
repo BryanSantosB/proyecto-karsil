@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   MessageSquare,
   Plus,
-  // eslint-disable-next-line 
+  // eslint-disable-next-line
   Clock,
   CheckCircle,
   AlertCircle,
@@ -14,11 +14,20 @@ import ChartCard from "../main_components/ChartCard";
 import DataTable from "../main_components/DataTable";
 import Modal from "../main_components/Modal";
 import { api } from "services/api";
+import LibroReclamos from "features/reclamos_karsil/LibroReclamaciones";
+import DetalleReclamo from "features/visualizar_reclamo/DetalleReclamo";
 
 const ReclamosPage = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedPriority, setSelectedPriority] = useState("all");
   const [listaReclamoFormat, setListaReclamoFormat] = useState([]);
+
+  const [openModal, setOpenModal] = useState(false);
+  // eslint-disable-next-line
+  const [error, setError] = useState("");
+  // eslint-disable-next-line
+  const [loading, setLoading] = useState(false);
+  const [reclamoData, setReclamoData] = useState(null);
 
   useEffect(() => {
     api.get("/reclamos/").then((response) => {
@@ -29,8 +38,8 @@ const ReclamosPage = () => {
           envio: r.numero_guia,
           tipo: r.motivo_reclamo,
           fecha: new Date(r.fecha_creacion).toLocaleString(),
-          prioridad: r.prioridad || "Sin prioridad", 
-          estado: r.estado.codigo || "Sin estado", 
+          prioridad: r.prioridad || "Sin prioridad",
+          estado: r.estado.codigo || "Sin estado",
           asignado: r.asignado.nombre || "Sin asignar",
         })),
       );
@@ -87,7 +96,9 @@ const ReclamosPage = () => {
       key: "tipo",
       label: "Tipo de Reclamo",
       sortable: true,
-      render: (value) => <span className="text-sm text-gray-900">{value.nombre}</span>,
+      render: (value) => (
+        <span className="text-sm text-gray-900">{value.nombre}</span>
+      ),
     },
     {
       key: "prioridad",
@@ -136,14 +147,52 @@ const ReclamosPage = () => {
 
   const tableActions = (row) => (
     <div className="flex items-center gap-2">
-      <button className="text-sm font-medium text-primary-primary hover:underline">
+      <button
+        onClick={() => {
+          buscarReclamo(row.id.replace("#", ""));
+          setOpenModal(true);
+        }}
+        className="text-sm font-medium text-primary-primary hover:underline"
+      >
         Ver Detalles
       </button>
-      <button className="text-sm font-medium text-gray-600 hover:text-gray-900">
+
+      <button
+        onClick={() => {
+          console.log("Gestionar reclamo:", row);
+        }}
+        className="text-sm font-medium text-gray-600 hover:text-gray-900"
+      >
         Gestionar
       </button>
     </div>
   );
+
+  const buscarReclamo = async (numeroReclamo) => {
+    if (!numeroReclamo.trim()) {
+      setError("Debes ingresar un número de reclamo.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+    setReclamoData(null);
+
+    try {
+      const response = await api.get(`/reclamos/${numeroReclamo.trim()}`);
+      console.log(response.data.data);
+      setReclamoData(response.data);
+    } catch (err) {
+      console.error(err);
+      if (err.response?.status === 404) {
+        setError("No se encontró ningún reclamo con ese número.");
+      } else {
+        setError("Ocurrió un error al buscar el reclamo. Intenta nuevamente.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const priorities = [
     { value: "all", label: "Todas" },
@@ -305,83 +354,35 @@ const ReclamosPage = () => {
           </>
         }
       >
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Cliente
-              </label>
-              <input
-                type="text"
-                placeholder="Nombre del cliente"
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent"
-              />
-            </div>
+        <LibroReclamos />
+      </Modal>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Número de Envío
-              </label>
-              <input
-                type="text"
-                placeholder="#ENV-XXXX"
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Tipo de Reclamo
-              </label>
-              <select className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent">
-                <option value="">Seleccionar...</option>
-                <option>Retraso en entrega</option>
-                <option>Paquete dañado</option>
-                <option>Paquete extraviado</option>
-                <option>Información incorrecta</option>
-                <option>Cobro incorrecto</option>
-                <option>Otro</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Prioridad
-              </label>
-              <select className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent">
-                <option value="">Seleccionar...</option>
-                <option value="alta">Alta</option>
-                <option value="media">Media</option>
-                <option value="baja">Baja</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Descripción del Reclamo
-            </label>
-            <textarea
-              rows={5}
-              placeholder="Describe detalladamente el reclamo del cliente..."
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent resize-none"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Asignar a
-            </label>
-            <select className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent">
-              <option value="">Seleccionar agente...</option>
-              <option>Carlos Ruiz</option>
-              <option>Ana Torres</option>
-              <option>Luis Mora</option>
-            </select>
-          </div>
-        </div>
+      <Modal
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+        title="Detalles del Reclamo"
+        size="full"
+        footer={
+          <>
+            <button
+              onClick={() => setOpenModal(false)}
+              className="px-4 py-2 border border-gray-200 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={() => {
+                console.log("Crear envío");
+                setOpenModal(false);
+              }}
+              className="px-4 py-2 bg-primary-primary text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
+            >
+              Crear Envío
+            </button>
+          </>
+        }
+      >
+        {reclamoData && <DetalleReclamo reclamo={reclamoData.data} />}
       </Modal>
     </div>
   );
