@@ -48,7 +48,9 @@ export const register = async (req, res) => {
 };
 
 export const me = (req, res) => {
-  res.json({ user: req.user });
+  let user = req.user;
+  console.log("Usuario autenticado:", user)
+  res.json({ user});
 };
 
 // controllers/auth.controller.js

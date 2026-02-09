@@ -43,7 +43,7 @@ export const crearReclamoService = async (data, archivos, userId = null) => {
     monto_reclamado,
     acepta_politicas,
     firma_digital,
-    creado_por
+    usuario_asignado_id
   ) VALUES (
     $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16
   )
