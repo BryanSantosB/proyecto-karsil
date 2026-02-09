@@ -7,10 +7,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import SeccionContacto from "./steps/SeccionContacto";
 import StepperReclamos from "components/ui/Strepper/StrepperReclamos";
 import { pasosCotizacion } from "data/pasosStreppers";
+import { useLayout } from "context/LayoutContext";
 //import { useEffect } from "react";
 
 const ContenidoCalculadora = () => {
   const { paso } = useForm();
+  const { mode } = useLayout();
 
   // useEffect(() => {
   //   window.scrollTo({
@@ -32,7 +34,12 @@ const ContenidoCalculadora = () => {
   };
 
   return (
-    <div className="w-responsive container py-2 my-5 pt-5">
+    <div className={`
+        py-2 pt-5
+        ${mode === "modal"
+          ? "w-full px-4 my-0"
+          : "w-responsive container my-5"}
+      `} >
       {/* 1. Barra de pasos visual */}
       <StepperReclamos pasoActual={paso} pasos={pasosCotizacion} title="Gestor Dinámico de Cotizaciones" message="Automatización de flujos y vinculación de datos técnicos para una selección de agencias precisa y eficiente." />
 

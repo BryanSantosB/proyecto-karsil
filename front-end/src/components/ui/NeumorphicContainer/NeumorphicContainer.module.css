@@ -9,6 +9,20 @@
   transition: all 0.3s ease;
 }
 
+.neumorphicSoft {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+
+  /* Delimitación sutil */
+  border: 1px solid #c7c9ce; /* gris muy suave tipo Tailwind gray-200 */
+
+  /* Sensación plana, sin relieve */
+  box-shadow: none;
+
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
 /* --- MODO CELULAR (Mobile) --- */
 @media (max-width: 768px) {
   .neumorphicBase {

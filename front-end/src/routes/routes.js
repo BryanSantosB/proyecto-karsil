@@ -3,7 +3,7 @@ import Login from 'features/auth/Login';
 import Register from 'features/auth/Register';
 import DashboardHome from 'features/dashboard/pages/DashboardHome';
 import EnviosPage from 'features/dashboard/pages/EnviosPage';
-import ReclamosPage from 'features/dashboard/pages/ReclamosPage';
+import ReclamosPage from 'features/dashboard/pages/reclamos/ReclamosPage';
 import LibroReclamos from 'features/reclamos_karsil/LibroReclamaciones';
 import ConsultaReclamo from 'features/visualizar_reclamo/ConsultaReclamo';
 import { lazy } from 'react';

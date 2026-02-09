@@ -5,15 +5,19 @@ const NeumorphicContainer = ({
   width = '100%', 
   maxWidth = 'none', 
   className = '', 
-  style = {} 
+  style = {},
+  flat = false, // Si es true, no se aplican sombras para un efecto más plano
 }) => {
   return (
     <div 
-      className={`${styles.neumorphicBase} ${className}`} 
+      className={`
+      ${flat ? styles.neumorphicSoft : styles.neumorphicBase}
+      
+      ${className}`} 
       style={{ 
         width: width, 
         maxWidth: maxWidth, 
-        ...style // Permite pasar estilos extra si es necesario
+        ...style 
       }}
     >
       {children}

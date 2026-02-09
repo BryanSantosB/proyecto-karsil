@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
 
-const DetalleReclamo = ({ reclamo, onCerrar }) => {
+const DetalleReclamo = ({ reclamo, onCerrar, variant = "page"}) => {
 
   const getEstadoColor = (estado) => {
     const colores = {
@@ -81,8 +81,8 @@ const DetalleReclamo = ({ reclamo, onCerrar }) => {
       transition={{ duration: 0.3 }}
     >
       {/* Header con estado */}
-      <NeumorphicContainer width="100%" className="p-4 p-md-5 mb-4">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+      <NeumorphicContainer flat={variant === "modal"} width="100%" className="p-4 p-md-5 mb-4">
+        <div className="flex flex-col @md:flex-row @md:items-center @md:justify-between gap-4 mb-6">
           <div>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">
               Reclamo #{reclamo.numero_reclamo}
@@ -118,7 +118,7 @@ const DetalleReclamo = ({ reclamo, onCerrar }) => {
       </NeumorphicContainer>
 
       {/* Información del Cliente */}
-      <NeumorphicContainer width="100%" className="p-4 p-md-5 mb-4">
+      <NeumorphicContainer flat={variant === "modal"} width="100%" className="p-4 p-md-5 mb-4">
         <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-4 border-l-4 border-blue-500 mb-4">
           <div className="flex items-center gap-3">
             <div className="text-2xl">👤</div>
@@ -128,7 +128,7 @@ const DetalleReclamo = ({ reclamo, onCerrar }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 @md:grid-cols-2 gap-4">
           <InfoItem 
             label="Nombre Completo" 
             value={reclamo.nombre_completo} 
@@ -149,7 +149,7 @@ const DetalleReclamo = ({ reclamo, onCerrar }) => {
       </NeumorphicContainer>
 
       {/* Información del Servicio */}
-      <NeumorphicContainer width="100%" className="p-4 p-md-5 mb-4">
+      <NeumorphicContainer flat={variant === "modal"} width="100%" className="p-4 p-md-5 mb-4">
         <div className="bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl p-4 border-l-4 border-purple-500 mb-4">
           <div className="flex items-center gap-3">
             <div className="text-2xl">📦</div>
@@ -159,7 +159,7 @@ const DetalleReclamo = ({ reclamo, onCerrar }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 @md:grid-cols-2 gap-4">
           <InfoItem 
             label="Número de Guía" 
             value={reclamo.numero_guia} 
@@ -180,7 +180,7 @@ const DetalleReclamo = ({ reclamo, onCerrar }) => {
       </NeumorphicContainer>
 
       {/* Detalle del Reclamo */}
-      <NeumorphicContainer width="100%" className="p-4 p-md-5 mb-4">
+      <NeumorphicContainer flat={variant === "modal"} width="100%" className="p-4 p-md-5 mb-4">
         <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl p-4 border-l-4 border-orange-500 mb-4">
           <div className="flex items-center gap-3">
             <div className="text-2xl">⚠️</div>
@@ -214,7 +214,7 @@ const DetalleReclamo = ({ reclamo, onCerrar }) => {
             />
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 @md:grid-cols-2 gap-4">
             <InfoItem 
               label="Acepta Políticas" 
               value={reclamo.acepta_politicas ? "✅ Sí" : "❌ No"} 
@@ -229,7 +229,7 @@ const DetalleReclamo = ({ reclamo, onCerrar }) => {
 
       {/* Evidencias */}
       {reclamo.evidencias && reclamo.evidencias.length > 0 && (
-        <NeumorphicContainer width="100%" className="p-4 p-md-5 mb-4">
+        <NeumorphicContainer flat={variant === "modal"} width="100%" className="p-4 p-md-5 mb-4">
           <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-xl p-4 border-l-4 border-green-500 mb-4">
             <div className="flex items-center gap-3">
               <div className="text-2xl">📎</div>
@@ -239,7 +239,7 @@ const DetalleReclamo = ({ reclamo, onCerrar }) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 @md:grid-cols-2 gap-3">
             {reclamo.evidencias.map((archivo) => (
               <div
                 key={archivo.id}
@@ -274,7 +274,7 @@ const DetalleReclamo = ({ reclamo, onCerrar }) => {
 
       {/* Respuesta (si existe) */}
       {reclamo.respuesta && (
-        <NeumorphicContainer width="100%" className="p-4 p-md-5 mb-4">
+        <NeumorphicContainer flat={variant === "modal"} width="100%" className="p-4 p-md-5 mb-4">
           <div className="bg-gradient-to-r from-indigo-50 to-indigo-100 rounded-xl p-4 border-l-4 border-indigo-500 mb-4">
             <div className="flex items-center gap-3">
               <div className="text-2xl">💬</div>
