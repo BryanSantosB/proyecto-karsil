@@ -24,6 +24,7 @@ export const ReclamoProvider = ({ children }) => {
     oficinaId: "",
     
     // Paso 3: Detalle de la Reclamación
+    motivoReclamoId: "",
     motivoReclamo: "",
     descripcionDetallada: "",
     montoReclamado: "",

@@ -83,7 +83,6 @@ const InformacionServicio = () => {
   };
 
   const handleChangeOficina = (e) => {
-    console.log("TIPOS PAQUETE: ", tiposPaquete)
     handleChange("oficina", e.target.value)
     const oficinaOriginal = ciudades.find((a) => a.nombre === e.target.value);
     console.log(oficinaOriginal);

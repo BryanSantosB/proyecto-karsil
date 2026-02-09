@@ -66,7 +66,7 @@ const ResumenConfirmacion = () => {
 
       setSubmensaje(response.data.numeroReclamo);
       console.log("RESPONSE CORREO: ", rescorreo.data);
-      //setMostrarExito(true);
+      setMostrarExito(true);
 
       console.log("Reclamo creado:", response.data);
     } catch (error) {

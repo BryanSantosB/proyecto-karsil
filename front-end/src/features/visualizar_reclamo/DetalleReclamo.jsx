@@ -193,7 +193,7 @@ const DetalleReclamo = ({ reclamo, onCerrar }) => {
         <div className="space-y-4">
           <InfoItem 
             label="Motivo del Reclamo" 
-            value={getMotivoTexto(reclamo.motivo_reclamo)} 
+            value={getMotivoTexto(reclamo.motivos_reclamo.nombre)} 
           />
           
           <div>

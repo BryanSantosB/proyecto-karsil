@@ -1,27 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useReclamo } from "context/ReclamoContext";
 import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
 import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
 import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
 import CustomInput from "components/ui/CustomInput/CustomInput";
 import CustomSelect from "components/ui/CustomSelect/CustomSelect";
+import { api } from "services/api";
 
 const DetalleReclamo = () => {
   const { datosReclamo, actualizarDatos, siguientePaso, anteriorPaso } = useReclamo();
   const [error, setError] = useState("");
   const [isLocked, setIsLocked] = useState(false);
+  const [motivosReclamo, setMotivosReclamo] = useState([]);
 
-  const motivosReclamo = [
-    { value: "", label: "Selecciona un motivo" },
-    { value: "demora_entrega", label: "Demora en la entrega" },
-    { value: "producto_danado", label: "Producto dañado" },
-    { value: "producto_perdido", label: "Producto perdido o extraviado" },
-    { value: "maltrato_personal", label: "Maltrato o mala atención del personal" },
-    { value: "error_facturacion", label: "Error en facturación o cobro" },
-    { value: "servicio_incompleto", label: "Servicio incompleto" },
-    { value: "falta_informacion", label: "Falta de información" },
-    { value: "otro", label: "Otro motivo" },
-  ];
+  useEffect(() => {
+    api.get("/reclamos/motivos")
+      .then((response) => {
+        setMotivosReclamo(response.data);
+      })
+      .catch((error) => {
+        console.error("Error al cargar motivos de reclamo:", error);
+        setError("No se pudieron cargar los motivos de reclamo. Intenta nuevamente más tarde.");
+      });
+  }, []);
 
   const validarYContinuar = () => {
     if (isLocked) return;
@@ -58,6 +59,13 @@ const DetalleReclamo = () => {
     } finally {
       setIsLocked(false);
     }
+  };
+
+  const handleChangeMotivoReclamo = (e) => {
+    handleChange("motivoReclamo", e.target.value);
+    const motivoOriginal = motivosReclamo.find((a) => a.codigo === e.target.value);
+    console.log(motivoOriginal);
+    handleChange("motivoReclamoId", motivoOriginal.id);
   };
 
   const handleChange = (campo, valor) => {
@@ -99,7 +107,9 @@ const DetalleReclamo = () => {
               placeholder="Motivo del Reclamo"
               value={datosReclamo.motivoReclamo}
               options={motivosReclamo}
-              onChange={(e) => handleChange("motivoReclamo", e.target.value)}
+              onChange={(e) => handleChangeMotivoReclamo(e)}
+              val={"codigo"}
+              lab={"nombre"}
             />
           </div>
 

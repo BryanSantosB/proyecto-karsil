@@ -1,5 +1,7 @@
 import {
   crearReclamoService,
+  getAllEstadosReclamo,
+  getAllMotivosReclamo,
   getAllReclamos,
   obtenerReclamoPorNumero,
 } from "../services/db_services/reclamos.service.js";
@@ -60,6 +62,26 @@ export const listarReclamos = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error al obtener reclamos' });
+  }
+};
+
+export const listarEstadosReclamos = async (req, res) => {
+  try {
+    const estadosReclamos = await getAllEstadosReclamo();
+    res.json(estadosReclamos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener estados de reclamos' });
+  }
+};
+
+export const listarMotivosReclamos = async (req, res) => {
+  try {
+    const motivosReclamos = await getAllMotivosReclamo();
+    res.json(motivosReclamos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener motivos de reclamos' });
   }
 };
 

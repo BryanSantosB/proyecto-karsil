@@ -29,8 +29,8 @@ const ReclamosPage = () => {
           envio: r.numero_guia,
           tipo: r.motivo_reclamo,
           fecha: new Date(r.fecha_creacion).toLocaleString(),
-          prioridad: r.prioridad.nombre || "Sin prioridad", 
-          estado: r.estado.nombre || "Sin estado", 
+          prioridad: r.prioridad || "Sin prioridad", 
+          estado: r.estado.codigo || "Sin estado", 
           asignado: r.asignado.nombre || "Sin asignar",
         })),
       );
@@ -87,7 +87,7 @@ const ReclamosPage = () => {
       key: "tipo",
       label: "Tipo de Reclamo",
       sortable: true,
-      render: (value) => <span className="text-sm text-gray-900">{value}</span>,
+      render: (value) => <span className="text-sm text-gray-900">{value.nombre}</span>,
     },
     {
       key: "prioridad",
@@ -100,9 +100,9 @@ const ReclamosPage = () => {
         };
         return (
           <span
-            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${colors[value]}`}
+            className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${colors[value.codigo]}`}
           >
-            {value.charAt(0).toUpperCase() + value.slice(1)}
+            {value.nombre}
           </span>
         );
       },

@@ -18,7 +18,7 @@ export const crearReclamoService = async (data, archivos, userId = null) => {
       fechaServicio,
       tipoServicioId,
       oficinaId,
-      motivoReclamo,
+      motivoReclamoId,
       descripcionDetallada,
       montoReclamado,
       aceptaPoliticas,
@@ -60,7 +60,7 @@ export const crearReclamoService = async (data, archivos, userId = null) => {
         fechaServicio || null,
         tipoServicioId,
         oficinaId,
-        motivoReclamo,
+        motivoReclamoId,
         descripcionDetallada,
         montoReclamado || null,
         aceptaPoliticas,
@@ -141,7 +141,13 @@ export const obtenerReclamoPorNumero = async (numeroReclamo) => {
         )
       ) as oficina,
 
-      r.motivo_reclamo,
+      -- Objeto completo de tipo_servicio
+      json_build_object(
+        'id', mr.id,
+        'codigo', mr.codigo,
+        'nombre', mr.nombre
+      ) as motivos_reclamo,
+
       r.descripcion,
       r.monto_reclamado,
 
@@ -151,6 +157,7 @@ export const obtenerReclamoPorNumero = async (numeroReclamo) => {
     LEFT JOIN tipos_envio ts ON r.tipo_servicio_id = ts.id
     LEFT JOIN ciudades c ON r.oficina_id = c.id
     LEFT JOIN departamentos d ON c.departamento_id = d.id
+    LEFT JOIN motivos_reclamo mr ON r.motivo_reclamo = mr.id
     WHERE r.numero_reclamo = $1
   `;
 
@@ -187,7 +194,12 @@ export const getAllReclamos = async () => {
       r.fecha_creacion,
       r.nombre_completo,
       r.numero_guia,
-      r.motivo_reclamo,
+
+      json_build_object(
+        'id', mr.id,
+        'codigo', mr.codigo,
+        'nombre', mr.nombre
+      ) AS motivo_reclamo,
 
       json_build_object(
         'id', te.id,
@@ -215,12 +227,39 @@ export const getAllReclamos = async () => {
       ) AS asignado
 
     FROM reclamos r
+    LEFT JOIN motivos_reclamo mr ON mr.id = r.motivo_reclamo
     LEFT JOIN tipos_envio te ON te.id = r.tipo_servicio_id
     LEFT JOIN ciudades c ON c.id = r.oficina_id
     LEFT JOIN estados_reclamo e ON e.id = r.estado_id
     LEFT JOIN prioridades_reclamo p ON p.id = r.prioridad_id
     LEFT JOIN usuarios u ON u.id = r.asignado_a
     ORDER BY r.fecha_creacion DESC
+  `;
+
+  const { rows } = await pool.query(query);
+  return rows;
+};
+
+export const getAllEstadosReclamo = async () => {
+  const query = `
+    SELECT
+      id,
+      codigo,
+      nombre
+    FROM estados_reclamo
+  `;
+
+  const { rows } = await pool.query(query);
+  return rows;
+};
+
+export const getAllMotivosReclamo = async () => {
+  const query = `
+    SELECT
+      id,
+      codigo,
+      nombre
+    FROM motivos_reclamo
   `;
 
   const { rows } = await pool.query(query);
