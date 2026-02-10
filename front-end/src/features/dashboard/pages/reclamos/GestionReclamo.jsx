@@ -17,6 +17,7 @@ import StatusBadge from "features/dashboard/main_components/StatusBadge";
 import ProgressBar from "features/dashboard/main_components/ProgressBar";
 import Modal from "features/dashboard/main_components/Modal";
 import CustomSelect from "components/ui/CustomSelect/CustomSelect";
+import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
 
 const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
   const [reclamo, setReclamo] = useState(null);
@@ -192,6 +193,9 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
 
   return (
     <div className="space-y-6">
+
+      <AlertaFlotante mensaje={error} onClose={() => setError("")} />
+
       {/* 1️⃣ INFORMACIÓN DEL RECLAMO - SOLO LECTURA */}
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 p-6">
         <div className="flex items-start justify-between mb-4">
