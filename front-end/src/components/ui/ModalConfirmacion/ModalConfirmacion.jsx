@@ -1,24 +1,26 @@
 import { motion, AnimatePresence } from "framer-motion";
+import { createPortal } from "react-dom";
 
 const ModalConfirmacion = ({ isOpen, mensaje, submensaje, onCerrar }) => {
   if (!isOpen) return null;
+  if (typeof document === "undefined") return null;
 
-  return (
+  return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm">
+      <div className="fixed inset-0 z-[99998] flex items-center justify-center p-3 bg-black/50 backdrop-blur-sm">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
           className="bg-white rounded-xl p-8 shadow-2xl max-w-md w-full"
         >
           {/* Icono de éxito */}
           <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-primary-primary/10 mb-4">
             <img
-              src={process.env.REACT_APP_API_UR + "/public/icons/icon_check.png"}
-              alt=""
-              className={`w-8 h-8 object-contain transition-all duration-200 `}
+              src={`${process.env.REACT_APP_API_UR}/public/icons/icon_check.png`}
+              alt="Éxito"
+              className="w-8 h-8 object-contain"
             />
           </div>
 
@@ -46,7 +48,8 @@ const ModalConfirmacion = ({ isOpen, mensaje, submensaje, onCerrar }) => {
           </button>
         </motion.div>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
 

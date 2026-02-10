@@ -1,6 +1,11 @@
+import { createPortal } from "react-dom";
+
 const LoadingOverlay = ({ mensaje = "Procesando..." }) => {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-black/60 via-black/50 to-primary-primary/20 backdrop-blur-md">
+  // Protección básica (útil si algún día usas SSR)
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-gradient-to-br from-black/60 via-black/50 to-primary-primary/20 backdrop-blur-md">
       <div className="flex flex-col items-center gap-6">
         
         {/* Spinner con efecto de pulso */}
@@ -30,16 +35,18 @@ const LoadingOverlay = ({ mensaje = "Procesando..." }) => {
           
           {/* Barra de carga animada */}
           <div className="h-1 w-48 overflow-hidden rounded-full bg-white/10">
-            <div className="h-full w-1/3 animate-pulse rounded-full bg-gradient-to-r from-primary-primary to-primary-primary/60 shadow-lg shadow-primary-primary/30" 
-                 style={{
-                   animation: 'loading 1.5s ease-in-out infinite'
-                 }}
+            <div
+              className="h-full w-1/3 rounded-full bg-gradient-to-r from-primary-primary to-primary-primary/60 shadow-lg shadow-primary-primary/30"
+              style={{
+                animation: "loading 1.5s ease-in-out infinite",
+              }}
             />
           </div>
         </div>
       </div>
 
-      <style jsx>{`
+      {/* Animaciones locales */}
+      <style>{`
         @keyframes loading {
           0%, 100% {
             transform: translateX(-100%);
@@ -49,7 +56,8 @@ const LoadingOverlay = ({ mensaje = "Procesando..." }) => {
           }
         }
       `}</style>
-    </div>
+    </div>,
+    document.body
   );
 };
 

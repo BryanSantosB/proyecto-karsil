@@ -83,7 +83,7 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
         setGestionInterna({
           id: data.id,
           estado: data.estado.codigo,
-          progreso: data.estado.progreso,
+          progreso: data.estado.progreso || 0,
           asignado_a: data.asignado_a?.id || "",
           observaciones_internas: data.observaciones_internas || "",
         });
@@ -183,7 +183,7 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
     );
   }
 
-  const yaRespondido = reclamo.respuesta_enviada || false;
+  const yaRespondido = reclamo.respuesta_cliente || false;
 
   return (
     <div className="space-y-6">
