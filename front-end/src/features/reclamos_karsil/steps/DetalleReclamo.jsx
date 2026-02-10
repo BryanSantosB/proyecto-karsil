@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useReclamo } from "context/ReclamoContext";
 import AlertaFlotante from "components/ui/AlertaFlotante/AlertaFlotante";
-import NavegacionPasos from "components/ui/NavegacionPasos/NavegacionPasos";
-import NeumorphicContainer from "components/ui/NeumorphicContainer/NeumorphicContainer";
 import CustomInput from "components/ui/CustomInput/CustomInput";
 import CustomSelect from "components/ui/CustomSelect/CustomSelect";
 import { api } from "services/api";
+import FormCard from "../main_components/FormCard";
+import StepHeader from "../main_components/StepHeader";
+import FormField, { TextareaInput } from "../main_components/FormField";
+import StepNavigation from "../main_components/StepNavigation";
 
 const DetalleReclamo = () => {
   const { datosReclamo, actualizarDatos, siguientePaso, anteriorPaso } = useReclamo();
@@ -15,42 +17,22 @@ const DetalleReclamo = () => {
 
   useEffect(() => {
     api.get("/reclamos/motivos")
-      .then((response) => {
-        setMotivosReclamo(response.data);
-      })
-      .catch((error) => {
-        console.error("Error al cargar motivos de reclamo:", error);
-        setError("No se pudieron cargar los motivos de reclamo. Intenta nuevamente más tarde.");
+      .then((res) => setMotivosReclamo(res.data))
+      .catch((err) => {
+        console.error(err);
+        setError("No se pudieron cargar los motivos de reclamo.");
       });
   }, []);
 
   const validarYContinuar = () => {
     if (isLocked) return;
     setIsLocked(true);
-
     try {
       const { motivoReclamo, descripcionDetallada } = datosReclamo;
-
-      if (!motivoReclamo) {
-        setError("Debes seleccionar el motivo principal de tu reclamo.");
-        return;
-      }
-
-      if (!descripcionDetallada.trim()) {
-        setError("La descripción del reclamo es obligatoria.");
-        return;
-      }
-
-      if (descripcionDetallada.trim().length < 20) {
-        setError("La descripción debe tener al menos 20 caracteres para ser procesada correctamente.");
-        return;
-      }
-
-      if (descripcionDetallada.trim().length > 1000) {
-        setError("La descripción no puede exceder los 1000 caracteres.");
-        return;
-      }
-
+      if (!motivoReclamo)                           return setError("Debes seleccionar el motivo principal de tu reclamo.");
+      if (!descripcionDetallada.trim())             return setError("La descripción del reclamo es obligatoria.");
+      if (descripcionDetallada.trim().length < 20)  return setError("La descripción debe tener al menos 20 caracteres.");
+      if (descripcionDetallada.trim().length > 1000) return setError("La descripción no puede exceder los 1000 caracteres.");
       setError("");
       siguientePaso();
     } catch (err) {
@@ -64,8 +46,7 @@ const DetalleReclamo = () => {
   const handleChangeMotivoReclamo = (e) => {
     handleChange("motivoReclamo", e.target.value);
     const motivoOriginal = motivosReclamo.find((a) => a.codigo === e.target.value);
-    console.log(motivoOriginal);
-    handleChange("motivoReclamoId", motivoOriginal.id);
+    if (motivoOriginal) handleChange("motivoReclamoId", motivoOriginal.id);
   };
 
   const handleChange = (campo, valor) => {
@@ -73,120 +54,90 @@ const DetalleReclamo = () => {
     setError("");
   };
 
-  const caracteresRestantes = 1000 - datosReclamo.descripcionDetallada.length;
+  const caracteresUsados = datosReclamo.descripcionDetallada.length;
+  const caracteresRestantes = 1000 - caracteresUsados;
+  const descripcionValida = caracteresUsados >= 20;
 
   return (
-    <div className="w-full px-2 flex justify-center py-8">
+    <div className="w-full px-4 py-6 flex justify-center">
       <AlertaFlotante mensaje={error} onClose={() => setError("")} />
 
-      <NeumorphicContainer width="100%" maxWidth="800px" className="p-3 p-md-5 mt-3">
-        {/* Título del paso */}
-        <div className="mb-6">
-          <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-4 border-l-4 border-blue-500">
-            <div className="flex items-center gap-3">
-              <div className="text-3xl">📝</div>
-              <div>
-                <h3 className="text-xl font-bold text-gray-800 uppercase">
-                  Detalle de la Reclamación
-                </h3>
-                <p className="text-sm text-gray-600 mt-1">
-                  Describe detalladamente tu reclamo para que podamos atenderlo
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+      <FormCard>
+        <StepHeader
+          icon="📝"
+          title="Detalle de la Reclamación"
+          description="Describe detalladamente tu reclamo para que podamos atenderlo"
+        />
 
-        <div className="row mx-0 g-3">
-          {/* Motivo del reclamo */}
-          <div className="col-12 px-1">
-            <label className="block font-bold text-gray-600 text-sm mb-2">
-              Motivo del Reclamo *
-            </label>
+        <div className="space-y-5">
+          {/* Motivo */}
+          <FormField label="Motivo del Reclamo" required>
             <CustomSelect
-              placeholder="Motivo del Reclamo"
+              placeholder="Selecciona el motivo"
               value={datosReclamo.motivoReclamo}
               options={motivosReclamo}
-              onChange={(e) => handleChangeMotivoReclamo(e)}
-              val={"codigo"}
-              lab={"nombre"}
+              onChange={handleChangeMotivoReclamo}
+              val="codigo"
+              lab="nombre"
             />
-          </div>
+          </FormField>
 
-          {/* Descripción detallada */}
-          <div className="col-12 px-1 mt-3">
-            <label className="block font-bold text-gray-600 text-sm mb-2">
-              Descripción Detallada del Hecho *
-            </label>
-            <textarea
-              className="w-full rounded-xl border-2 border-gray-300 p-4 text-sm focus:border-blue-500 focus:outline-none transition-colors"
-              rows="7"
-              placeholder="Describe detalladamente lo sucedido. Incluye:
-• Qué ocurrió exactamente
-• Cuándo sucedió
-• Dónde ocurrió
-• Personas involucradas (si aplica)
-• Cualquier detalle relevante que nos ayude a resolver tu caso"
+          {/* Descripción */}
+          <FormField label="Descripción Detallada del Hecho" required>
+            <TextareaInput
+              rows={7}
+              placeholder={`Describe detalladamente lo sucedido. Incluye:\n• Qué ocurrió exactamente\n• Cuándo y dónde sucedió\n• Personas involucradas (si aplica)\n• Cualquier detalle que nos ayude a resolver tu caso`}
               value={datosReclamo.descripcionDetallada}
               onChange={(e) => handleChange("descripcionDetallada", e.target.value)}
               maxLength={1000}
             />
-            <div className="flex justify-between items-center mt-2">
-              <small
-                className={
-                  datosReclamo.descripcionDetallada.length < 20
-                    ? "text-red-600 font-medium"
-                    : "text-green-600 font-medium"
-                }
-              >
-                {datosReclamo.descripcionDetallada.length < 20
-                  ? `Mínimo 20 caracteres (${datosReclamo.descripcionDetallada.length}/20)`
-                  : "✓ Descripción válida"}
-              </small>
-              <small
-                className={
-                  caracteresRestantes < 100 ? "text-orange-600" : "text-gray-500"
-                }
-              >
-                {caracteresRestantes} caracteres restantes
-              </small>
+            {/* Barra de progreso de caracteres */}
+            <div className="flex items-center justify-between mt-1">
+              <span className={`text-xs font-medium transition-colors ${descripcionValida ? 'text-green-600' : 'text-gray-400'}`}>
+                {descripcionValida ? '✓ Descripción válida' : `Mínimo 20 caracteres (${caracteresUsados}/20)`}
+              </span>
+              <span className={`text-xs ${caracteresRestantes < 100 ? 'text-orange-500 font-medium' : 'text-gray-400'}`}>
+                {caracteresRestantes} restantes
+              </span>
             </div>
-          </div>
+            {/* Barra visual */}
+            <div className="w-full h-1 bg-gray-200 rounded-full mt-1 overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-all duration-300 ${descripcionValida ? 'bg-green-500' : 'bg-gray-300'}`}
+                style={{ width: `${Math.min((caracteresUsados / 1000) * 100, 100)}%` }}
+              />
+            </div>
+          </FormField>
 
-          {/* Monto reclamado (opcional) */}
-          <div className="col-12 col-md-6 px-1 mt-3">
-            <CustomInput
-              label="Monto Reclamado (Opcional)"
-              name="montoReclamado"
-              type="number"
-              placeholder="0.00"
-              value={datosReclamo.montoReclamado}
-              onChange={(e) => handleChange("montoReclamado", e.target.value)}
-              step="0.01"
-              min="0"
-            />
-            <small className="text-gray-500 text-xs mt-1 block">
-              Solo si solicitas compensación económica
-            </small>
-          </div>
+          {/* Monto reclamado */}
+          <FormField
+            label="Monto Reclamado"
+            hint="Opcional — Solo si solicitas compensación económica"
+          >
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500">S/</span>
+              <CustomInput
+                name="montoReclamado"
+                type="number"
+                placeholder="0.00"
+                value={datosReclamo.montoReclamado}
+                onChange={(e) => handleChange("montoReclamado", e.target.value)}
+                step="0.01"
+                min="0"
+                className="pl-9"
+              />
+            </div>
+          </FormField>
 
-          {/* Nota de campos obligatorios */}
-          <div className="col-12 mt-2">
-            <p className="text-xs text-gray-500 text-center">
-              * Campos obligatorios
-            </p>
-          </div>
+          <p className="text-xs text-gray-400 text-right">* Campos obligatorios</p>
 
-          {/* Navegación */}
-          <div className="col-12 mt-4">
-            <NavegacionPasos
-              onSiguiente={validarYContinuar}
-              onVolver={anteriorPaso}
-              deshabilitarSiguiente={isLocked}
-            />
-          </div>
+          <StepNavigation
+            onSiguiente={validarYContinuar}
+            onVolver={anteriorPaso}
+            deshabilitarSiguiente={isLocked}
+          />
         </div>
-      </NeumorphicContainer>
+      </FormCard>
     </div>
   );
 };
