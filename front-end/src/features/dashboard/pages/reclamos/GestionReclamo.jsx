@@ -329,7 +329,7 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
               value={gestionInterna.estado}
               onChange={(e) => setGestionInterna({ ...gestionInterna, estado: e.target.value })}
               disabled={yaRespondido}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2.5 h-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
             >
               <option value="pendiente">Pendiente</option>
               <option value="en_proceso">En Proceso</option>
@@ -347,7 +347,7 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
               value={gestionInterna.asignado_a}
               onChange={(e) => setGestionInterna({ ...gestionInterna, asignado_a: e.target.value })}
               disabled={yaRespondido}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2.5 h-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
             >
               <option value="">Sin asignar</option>
               {trabajadores.map(trabajador => (

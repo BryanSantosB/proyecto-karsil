@@ -11,12 +11,15 @@ import DashboardLayout from 'features/dashboard/DashboardLayout';
 import LoadingOverlay from 'components/ui/LoadingOverlay/LoadingOverlay';
 import { dashboardRoutes, publicRoutes } from 'routes/routes';
 
-// Wrapper component to conditionally render NavBar and Footer
+// Condicional para mostrar Navbar y Footer solo en rutas específicas
 const ConditionalLayout = ({ children }) => {
   const location = useLocation();
-  const isDashboard = location.pathname.startsWith('/dashboard');
 
-  if (isDashboard) {
+  const noLayoutRoutes = ["/login", "/register"];
+  const isDashboard = location.pathname.startsWith("/dashboard");
+  const isNoLayout = noLayoutRoutes.includes(location.pathname);
+
+  if (isDashboard || isNoLayout) {
     return children;
   }
 
@@ -28,6 +31,7 @@ const ConditionalLayout = ({ children }) => {
     </>
   );
 };
+
 
 function App() {
   const mapsLoaded = useGoogleMaps();
