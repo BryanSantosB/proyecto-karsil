@@ -1,52 +1,80 @@
-import React, { useEffect } from 'react';
+import { useEffect } from "react";
+import { createPortal } from "react-dom";
 
-const AlertaFlotante = ({ mensaje, onClose, tipo = "danger" }) => {
-  // Autocerrado opcional: se cierra tras 5 segundos
+const AlertaFlotante = ({
+  mensaje,
+  onClose,
+  tipo = "danger", // danger | success | warning | info
+  duracion = 5000,
+}) => {
+  // Autocierre
   useEffect(() => {
-    if (mensaje) {
-      const timer = setTimeout(() => {
-        onClose();
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [mensaje, onClose]);
+    if (!mensaje) return;
+
+    const timer = setTimeout(() => {
+      onClose?.();
+    }, duracion);
+
+    return () => clearTimeout(timer);
+  }, [mensaje, duracion, onClose]);
 
   if (!mensaje) return null;
 
-  return (
-    <div 
-      className={`alert alert-${tipo} shadow-lg d-flex align-items-center mb-0`} 
-      style={{
-        position: 'fixed',
-        top: '20px',
-        right: '20px',
-        zIndex: 10000,
-        minWidth: '320px',
-        borderRadius: '12px',
-        border: 'none',
-        animation: 'slideIn 0.4s ease-out'
-      }}
-      role="alert"
-    >
-      <i className="bi bi-exclamation-circle-fill me-2 fs-5"></i>
-      <div className="flex-grow-1">
-        <small className="fw-bold d-block">Atención</small>
-        <span style={{ fontSize: '0.9rem' }}>{mensaje}</span>
-      </div>
-      <button 
-        type="button" 
-        className="btn-close ms-2" 
-        onClick={onClose}
-        style={{ fontSize: '0.7rem' }}
-      ></button>
+  const estilos = {
+    danger: "bg-red-600 text-white",
+    success: "bg-green-600 text-white",
+    warning: "bg-yellow-400 text-black",
+    info: "bg-blue-600 text-white",
+  };
 
+  return createPortal(
+    <div className="fixed top-5 right-5 z-[99999]">
+      <div
+        className={`flex items-start gap-3 px-4 py-3 rounded-xl shadow-2xl min-w-[320px] animate-slide-in ${estilos[tipo]}`}
+        role="alert"
+      >
+        {/* Icono */}
+        <span className="text-xl leading-none mt-0.5">
+          {tipo === "danger" && "⛔"}
+          {tipo === "success" && "✅"}
+          {tipo === "warning" && "⚠️"}
+          {tipo === "info" && "ℹ️"}
+        </span>
+
+        {/* Mensaje */}
+        <div className="flex-1">
+          <p className="text-sm font-semibold">Atención</p>
+          <p className="text-sm opacity-90">{mensaje}</p>
+        </div>
+
+        {/* Botón cerrar */}
+        <button
+          onClick={onClose}
+          className="text-white/80 hover:text-white text-lg leading-none"
+          aria-label="Cerrar alerta"
+        >
+          ×
+        </button>
+      </div>
+
+      {/* Animación */}
       <style>{`
-        @keyframes slideIn {
-          from { opacity: 0; transform: translateX(100%); }
-          to { opacity: 1; transform: translateX(0); }
+        @keyframes slide-in {
+          from {
+            opacity: 0;
+            transform: translateX(100%);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        .animate-slide-in {
+          animation: slide-in 0.35s ease-out;
         }
       `}</style>
-    </div>
+    </div>,
+    document.body
   );
 };
 
