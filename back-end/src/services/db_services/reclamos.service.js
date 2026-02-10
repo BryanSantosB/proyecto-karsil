@@ -1,5 +1,6 @@
 import pool from "../../config/database.js";
 import { generarNumeroReclamo } from "../../utils/generarNumeroReclamo.js";
+import { enviarCorreoRespuestaReclamo } from "../email.service.js";
 
 export const crearReclamoService = async (data, archivos, userId = null) => {
   const client = await pool.connect();
@@ -166,7 +167,8 @@ export const obtenerReclamoPorNumero = async (numeroReclamo) => {
 
       r.acepta_politicas,
       r.firma_digital,
-      r.observaciones_internas
+      r.observaciones_internas,
+      r.respuesta_cliente
     FROM reclamos r
     LEFT JOIN tipos_envio ts ON r.tipo_servicio_id = ts.id
     LEFT JOIN ciudades c ON r.oficina_id = c.id
@@ -327,3 +329,91 @@ export const updateGestionReclamo = async (
 
   return result.rows[0];
 };
+
+export const responderReclamoService = async ({
+  reclamoId,
+  respuesta_cliente,
+  enviar_correo,
+  observaciones_internas,
+  asignado_a,
+  usuarioId,
+}) => {
+  const client = await pool.connect();
+
+  try {
+    await client.query('BEGIN');
+
+    // Obtener reclamo
+    const reclamoRes = await client.query(
+      `
+      SELECT r.id, r.numero_reclamo, r.respuesta_cliente, r.email
+      FROM reclamos r
+      WHERE r.id = $1
+      FOR UPDATE
+      `,
+      [reclamoId]
+    );
+
+    if (reclamoRes.rowCount === 0) {
+      throw new Error('Reclamo no encontrado');
+    }
+
+    const reclamo = reclamoRes.rows[0];
+
+    if (reclamo.respuesta_cliente) {
+      throw new Error('Este reclamo ya fue respondido');
+    }
+
+    // Obtener estado RESOLVED
+    const estadoRes = await client.query(
+      `SELECT id FROM estados_reclamo WHERE codigo = 'resolved'`
+    );
+
+    if (estadoRes.rowCount === 0) {
+      throw new Error('Estado resolved no configurado');
+    }
+
+    const estadoResolvedId = estadoRes.rows[0].id;
+
+    // Actualizar reclamo (CIERRE AUTOMÁTICO)
+    await client.query(
+      `
+      UPDATE reclamos
+      SET
+        estado_id = $1,
+        respuesta_cliente = $2,
+        fecha_respuesta = NOW(),
+        fecha_actualizacion = NOW(),
+        observaciones_internas = $3,
+        asignado_a = $4,
+        respondido_por = $5
+      WHERE id = $6
+      `,
+      [
+        estadoResolvedId,
+        respuesta_cliente,
+        observaciones_internas || null,
+        asignado_a || null,
+        usuarioId,
+        reclamoId,
+      ]
+    );
+
+    // Enviar correo (si aplica)
+    if (enviar_correo) {
+      await enviarCorreoRespuestaReclamo(
+        reclamo.email,
+        reclamo.numero_reclamo,
+        respuesta_cliente
+      );
+    }
+
+    await client.query('COMMIT');
+  } catch (error) {
+    await client.query('ROLLBACK');
+    throw error;
+  } finally {
+    client.release();
+  }
+};
+

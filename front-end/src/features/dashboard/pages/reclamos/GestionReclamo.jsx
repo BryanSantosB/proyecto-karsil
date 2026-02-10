@@ -25,6 +25,7 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
+  const [alerta, setAlerta] = useState("");
   const [estadosReclamo, setEstadosReclamo] = useState([]);
   const [trabajadores, setTrabajadores] = useState([]);
 
@@ -48,7 +49,6 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
       .get("/reclamos/estados")
       .then((res) => {
         setEstadosReclamo(res.data);
-        console.log("Estados de reclamo cargados:", res.data);
       })
       .catch(console.error);
 
@@ -56,7 +56,6 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
       .get("/users/trabajadores")
       .then((res) => {
         setTrabajadores(res.data.data);
-        console.log("Trabajadores cargados:", res.data.data);
       })
       .catch(console.error);
   }, []);
@@ -74,9 +73,7 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
       setError("");
 
       try {
-        console.log("Cargando reclamo ID:", reclamoId);
         const response = await api.get(`/reclamos/${reclamoId}`);
-        console.log("Respuesta API:", response.data);
 
         const data = response.data.data || response.data;
 
@@ -109,24 +106,22 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
 
   const handleGuardarGestion = async () => {
     try {
-      console.log("Guardando gestión interna:", gestionInterna);
-
       await api.put(`/reclamos/${gestionInterna.id}/gestion`, {
         estado: gestionInterna.estado,
         asignado_a: gestionInterna.asignado_a,
         observaciones_internas: gestionInterna.observaciones_internas,
       });
-
+      setAlerta("Gestión interna guardada correctamente");
       if (onUpdate) onUpdate();
     } catch (error) {
       console.error("Error al guardar gestión:", error.message);
-      alert("Error al guardar los cambios");
+      setError("Error al guardar los cambios");
     }
   };
 
   const handleEnviarRespuesta = async () => {
     if (!respuestaCliente.respuesta_cliente.trim()) {
-      alert("Debes escribir una respuesta para el cliente");
+      setError("Debes escribir una respuesta para el cliente");
       return;
     }
 
@@ -136,25 +131,24 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
   const confirmarEnvio = async () => {
     setEnviando(true);
     try {
-      // TODO: Implementar endpoint de respuesta al cliente
       console.log("Enviando respuesta:", {
         gestion: gestionInterna,
         respuesta: respuestaCliente,
       });
 
-      // await api.post(`/reclamos/${reclamoId}/responder`, {
-      //   ...gestionInterna,
-      //   ...respuestaCliente
-      // });
+      await api.post(`/reclamos/${gestionInterna.id}/responder`, {
+        ...gestionInterna,
+        ...respuestaCliente
+      });
 
-      alert("Respuesta enviada correctamente");
+      setAlerta("Respuesta enviada correctamente");
       setShowConfirmModal(false);
 
       if (onUpdate) onUpdate();
       if (onClose) onClose();
     } catch (error) {
       console.error("Error al enviar respuesta:", error);
-      alert("Error al enviar la respuesta");
+      setError("Error al enviar la respuesta");
     } finally {
       setEnviando(false);
     }
@@ -195,6 +189,8 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
     <div className="space-y-6">
 
       <AlertaFlotante mensaje={error} onClose={() => setError("")} />
+        
+      <AlertaFlotante mensaje={alerta} tipo="success" onClose={() => setAlerta("")} />
 
       {/* 1️⃣ INFORMACIÓN DEL RECLAMO - SOLO LECTURA */}
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 p-6">

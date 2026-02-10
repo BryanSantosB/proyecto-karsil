@@ -4,6 +4,7 @@ import {
   getAllMotivosReclamo,
   getAllReclamos,
   obtenerReclamoPorNumero,
+  responderReclamoService,
   updateGestionReclamo,
 } from "../services/db_services/reclamos.service.js";
 
@@ -111,6 +112,44 @@ export const updateGestion = async (req, res) => {
 
     res.status(400).json({
       message: error.message || "Error al actualizar la gestión",
+    });
+  }
+};
+
+export const responderReclamo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const usuarioId = req.user.id; // viene del auth middleware
+
+    const {
+      respuesta_cliente,
+      enviar_correo,
+      observaciones_internas,
+      asignado_a,
+    } = req.body;
+
+    if (!respuesta_cliente || respuesta_cliente.trim() === '') {
+      return res.status(400).json({
+        message: 'La respuesta al cliente es obligatoria',
+      });
+    }
+
+    await responderReclamoService({
+      reclamoId: id,
+      respuesta_cliente,
+      enviar_correo,
+      observaciones_internas,
+      asignado_a,
+      usuarioId,
+    });
+
+    res.json({
+      message: 'Respuesta enviada y reclamo cerrado correctamente',
+    });
+  } catch (error) {
+    console.error('Error respondiendo reclamo:', error);
+    res.status(500).json({
+      message: error.message || 'Error interno del servidor',
     });
   }
 };

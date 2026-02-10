@@ -3,7 +3,7 @@ const router = express.Router();
 
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import upload from "../config/multer.js";
-import { crearReclamo, getReclamoById, listarEstadosReclamos, listarMotivosReclamos, listarReclamos, updateGestion } from "../controllers/reclamos.controller.js";
+import { crearReclamo, getReclamoById, listarEstadosReclamos, listarMotivosReclamos, listarReclamos, responderReclamo, updateGestion } from "../controllers/reclamos.controller.js";
 import { requirePermission } from "../middlewares/permission.middleware.js";
 import { optionalAuth } from "../middlewares/optionalAuth.middleware.js";
 
@@ -25,6 +25,11 @@ router.put(
   updateGestion
 );
 router.get("/:numeroReclamo", getReclamoById);
-
+router.post(
+  '/:id/responder',
+  authMiddleware,
+  requirePermission("USER_UPDATE"),
+  responderReclamo
+);
 
 export default router;

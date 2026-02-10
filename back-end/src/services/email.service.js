@@ -109,3 +109,59 @@ export const enviarCorreoNumeroReclamo = async (correo, numeroReclamo) => {
   });
 };
 
+export const enviarCorreoRespuestaReclamo = async (
+  correo,
+  numeroReclamo,
+  respuesta
+) => {
+  await transporter.sendMail({
+    from: `"Karsil Cargo" <${process.env.EMAIL_USER}>`,
+    to: correo,
+    subject: `Respuesta a su reclamo ${numeroReclamo}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+        <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 20px; border-radius: 8px;">
+          
+          <h2 style="color: #333;">Respuesta a su reclamo</h2>
+
+          <p>
+            Hemos atendido su reclamo identificado con el número:
+          </p>
+
+          <div style="
+            background-color: #f0f8ff;
+            border: 1px dashed #007bff;
+            padding: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+            margin: 20px 0;
+          ">
+            ${numeroReclamo}
+          </div>
+
+          <p><strong>Respuesta:</strong></p>
+
+          <div style="
+            background-color: #fafafa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 15px 0;
+          ">
+            ${respuesta}
+          </div>
+
+          <p>
+            Si necesita realizar otra consulta, deberá registrar un nuevo reclamo.
+          </p>
+
+          <p style="margin-top: 30px;">
+            Atentamente,<br />
+            <strong>Equipo Karsil Cargo</strong>
+          </p>
+        </div>
+      </div>
+    `,
+  });
+};
