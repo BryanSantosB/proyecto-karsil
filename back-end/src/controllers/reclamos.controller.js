@@ -4,6 +4,7 @@ import {
   getAllMotivosReclamo,
   getAllReclamos,
   obtenerReclamoPorNumero,
+  updateGestionReclamo,
 } from "../services/db_services/reclamos.service.js";
 
 export const crearReclamo = async (req, res) => {
@@ -84,4 +85,34 @@ export const listarMotivosReclamos = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener motivos de reclamos' });
   }
 };
+
+export const updateGestion = async (req, res) => {
+  try {
+    const { reclamoId } = req.params;
+    const { estado, asignado_a, observaciones_internas } = req.body;
+
+    if (!estado) {
+      return res.status(400).json({
+        message: "El estado es obligatorio",
+      });
+    }
+
+    await updateGestionReclamo(reclamoId, {
+      estado,
+      asignado_a,
+      observaciones_internas,
+    });
+
+    res.json({
+      message: "Gestión del reclamo actualizada correctamente",
+    });
+  } catch (error) {
+    console.error("Error actualizando gestión:", error.message);
+
+    res.status(400).json({
+      message: error.message || "Error al actualizar la gestión",
+    });
+  }
+};
+
 

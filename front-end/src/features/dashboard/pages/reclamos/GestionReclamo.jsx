@@ -1,80 +1,103 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  AlertCircle, 
-  User, 
-  Calendar, 
-  FileText, 
+import React, { useState, useEffect } from "react";
+import {
+  AlertCircle,
+  User,
+  Calendar,
+  FileText,
   Paperclip,
   Save,
   Send,
   CheckCircle,
   // eslint-disable-next-line
   Clock,
-  MapPin
-} from 'lucide-react';
-import { api } from 'services/api';
-import StatusBadge from 'features/dashboard/main_components/StatusBadge';
-import ProgressBar from 'features/dashboard/main_components/ProgressBar';
-import Modal from 'features/dashboard/main_components/Modal';
+  MapPin,
+} from "lucide-react";
+import { api } from "services/api";
+import StatusBadge from "features/dashboard/main_components/StatusBadge";
+import ProgressBar from "features/dashboard/main_components/ProgressBar";
+import Modal from "features/dashboard/main_components/Modal";
+import CustomSelect from "components/ui/CustomSelect/CustomSelect";
 
 const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
   const [reclamo, setReclamo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [enviando, setEnviando] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const [estadosReclamo, setEstadosReclamo] = useState([]);
+  const [trabajadores, setTrabajadores] = useState([]);
 
   // Estados editables - Gestión interna
   const [gestionInterna, setGestionInterna] = useState({
-    estado: 'pendiente',
+    estado: "pendiente",
     progreso: 0,
-    asignado_a: '',
-    observaciones_internas: ''
+    asignado_a: "",
+    observaciones_internas: "",
   });
 
   // Estados editables - Respuesta al cliente
   const [respuestaCliente, setRespuestaCliente] = useState({
-    respuesta_cliente: '',
-    enviar_correo: false
+    respuesta_cliente: "",
+    enviar_correo: false,
   });
+
+  // Cargar los estados y trabajadores
+  useEffect(() => {
+    api
+      .get("/reclamos/estados")
+      .then((res) => {
+        setEstadosReclamo(res.data);
+        console.log("Estados de reclamo cargados:", res.data);
+      })
+      .catch(console.error);
+
+    api
+      .get("/users/trabajadores")
+      .then((res) => {
+        setTrabajadores(res.data.data);
+        console.log("Trabajadores cargados:", res.data.data);
+      })
+      .catch(console.error);
+  }, []);
 
   // Cargar datos del reclamo
   useEffect(() => {
     const cargarReclamo = async () => {
       if (!reclamoId) {
-        setError('ID de reclamo no proporcionado');
+        setError("ID de reclamo no proporcionado");
         setLoading(false);
         return;
       }
 
       setLoading(true);
-      setError('');
-      
+      setError("");
+
       try {
-        console.log('Cargando reclamo ID:', reclamoId);
+        console.log("Cargando reclamo ID:", reclamoId);
         const response = await api.get(`/reclamos/${reclamoId}`);
-        console.log('Respuesta API:', response.data);
-        
+        console.log("Respuesta API:", response.data);
+
         const data = response.data.data || response.data;
-        
+
         setReclamo(data);
-        
+
         // Configurar gestión interna con datos existentes o valores por defecto
         setGestionInterna({
-          estado: data.estado?.codigo || 'pendiente',
-          progreso: data.progreso || 0,
-          asignado_a: data.asignado_a?.id || '',
-          observaciones_internas: data.observaciones_internas || ''
+          id: data.id,
+          estado: data.estado.codigo,
+          progreso: data.estado.progreso,
+          asignado_a: data.asignado_a?.id || "",
+          observaciones_internas: data.observaciones_internas || "",
         });
-        
+
         // Configurar respuesta al cliente
         setRespuestaCliente({
-          respuesta_cliente: data.respuesta_cliente || '',
-          enviar_correo: false
+          respuesta_cliente: data.respuesta_cliente || "",
+          enviar_correo: false,
         });
       } catch (error) {
-        console.error('Error al cargar reclamo:', error);
-        setError('Error al cargar la información del reclamo');
+        console.error("Error al cargar reclamo:", error);
+        setError("Error al cargar la información del reclamo");
       } finally {
         setLoading(false);
       }
@@ -85,23 +108,24 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
 
   const handleGuardarGestion = async () => {
     try {
-      // TODO: Implementar endpoint de actualización de gestión
-      console.log('Guardando gestión interna:', gestionInterna);
-      
-      // await api.put(`/reclamos/${reclamoId}/gestion`, gestionInterna);
-      
-      alert('Gestión actualizada correctamente');
-      
+      console.log("Guardando gestión interna:", gestionInterna);
+
+      await api.put(`/reclamos/${gestionInterna.id}/gestion`, {
+        estado: gestionInterna.estado,
+        asignado_a: gestionInterna.asignado_a,
+        observaciones_internas: gestionInterna.observaciones_internas,
+      });
+
       if (onUpdate) onUpdate();
     } catch (error) {
-      console.error('Error al guardar gestión:', error);
-      alert('Error al guardar los cambios');
+      console.error("Error al guardar gestión:", error.message);
+      alert("Error al guardar los cambios");
     }
   };
 
   const handleEnviarRespuesta = async () => {
     if (!respuestaCliente.respuesta_cliente.trim()) {
-      alert('Debes escribir una respuesta para el cliente');
+      alert("Debes escribir una respuesta para el cliente");
       return;
     }
 
@@ -112,9 +136,9 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
     setEnviando(true);
     try {
       // TODO: Implementar endpoint de respuesta al cliente
-      console.log('Enviando respuesta:', {
+      console.log("Enviando respuesta:", {
         gestion: gestionInterna,
-        respuesta: respuestaCliente
+        respuesta: respuestaCliente,
       });
 
       // await api.post(`/reclamos/${reclamoId}/responder`, {
@@ -122,27 +146,20 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
       //   ...respuestaCliente
       // });
 
-      alert('Respuesta enviada correctamente');
+      alert("Respuesta enviada correctamente");
       setShowConfirmModal(false);
-      
+
       if (onUpdate) onUpdate();
       if (onClose) onClose();
     } catch (error) {
-      console.error('Error al enviar respuesta:', error);
-      alert('Error al enviar la respuesta');
+      console.error("Error al enviar respuesta:", error);
+      alert("Error al enviar la respuesta");
     } finally {
       setEnviando(false);
     }
   };
 
   // Lista de trabajadores (reemplazar con datos de tu API)
-  const trabajadores = [
-    { id: 'carlos_ruiz', nombre: 'Carlos Ruiz' },
-    { id: 'ana_torres', nombre: 'Ana Torres' },
-    { id: 'luis_mora', nombre: 'Luis Mora' },
-    { id: 'maria_lopez', nombre: 'María López' }
-  ];
-
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -158,7 +175,9 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
     return (
       <div className="text-center py-12">
         <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-        <p className="text-gray-600">{error || 'No se pudo cargar la información del reclamo'}</p>
+        <p className="text-gray-600">
+          {error || "No se pudo cargar la información del reclamo"}
+        </p>
         <button
           onClick={onClose}
           className="mt-4 px-4 py-2 text-sm text-gray-600 hover:text-gray-900"
@@ -180,7 +199,9 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
             <h3 className="text-xl font-bold text-gray-900 mb-1">
               Información del Reclamo
             </h3>
-            <p className="text-sm text-gray-600">Datos reportados por el cliente</p>
+            <p className="text-sm text-gray-600">
+              Datos reportados por el cliente
+            </p>
           </div>
           <StatusBadge status={gestionInterna.estado} size="md" />
         </div>
@@ -190,16 +211,22 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
           <div className="bg-white rounded-lg p-4 border border-gray-200">
             <div className="flex items-center gap-2 mb-2">
               <FileText className="w-4 h-4 text-gray-500" />
-              <span className="text-xs font-semibold text-gray-500 uppercase">Número</span>
+              <span className="text-xs font-semibold text-gray-500 uppercase">
+                Número
+              </span>
             </div>
-            <p className="font-mono text-lg font-bold text-gray-900">#{reclamo.numero_reclamo}</p>
+            <p className="font-mono text-lg font-bold text-gray-900">
+              #{reclamo.numero_reclamo}
+            </p>
           </div>
 
           {/* Fecha */}
           <div className="bg-white rounded-lg p-4 border border-gray-200">
             <div className="flex items-center gap-2 mb-2">
               <Calendar className="w-4 h-4 text-gray-500" />
-              <span className="text-xs font-semibold text-gray-500 uppercase">Fecha de Creación</span>
+              <span className="text-xs font-semibold text-gray-500 uppercase">
+                Fecha de Creación
+              </span>
             </div>
             <p className="text-lg font-bold text-gray-900">
               {new Date(reclamo.fecha_creacion).toLocaleString()}
@@ -210,9 +237,13 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
           <div className="bg-white rounded-lg p-4 border border-gray-200">
             <div className="flex items-center gap-2 mb-2">
               <User className="w-4 h-4 text-gray-500" />
-              <span className="text-xs font-semibold text-gray-500 uppercase">Cliente</span>
+              <span className="text-xs font-semibold text-gray-500 uppercase">
+                Cliente
+              </span>
             </div>
-            <p className="font-semibold text-gray-900">{reclamo.nombre_completo}</p>
+            <p className="font-semibold text-gray-900">
+              {reclamo.nombre_completo}
+            </p>
             <p className="text-sm text-gray-600">{reclamo.email}</p>
             <p className="text-sm text-gray-600">{reclamo.telefono}</p>
             <p className="text-xs text-gray-500 mt-1">
@@ -224,9 +255,13 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
           <div className="bg-white rounded-lg p-4 border border-gray-200">
             <div className="flex items-center gap-2 mb-2">
               <FileText className="w-4 h-4 text-gray-500" />
-              <span className="text-xs font-semibold text-gray-500 uppercase">Número de Guía</span>
+              <span className="text-xs font-semibold text-gray-500 uppercase">
+                Número de Guía
+              </span>
             </div>
-            <p className="font-mono text-lg font-bold text-gray-900">{reclamo.numero_guia}</p>
+            <p className="font-mono text-lg font-bold text-gray-900">
+              {reclamo.numero_guia}
+            </p>
             <p className="text-xs text-gray-500 mt-1">
               Servicio: {new Date(reclamo.fecha_servicio).toLocaleDateString()}
             </p>
@@ -236,28 +271,42 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
           <div className="bg-white rounded-lg p-4 border border-gray-200">
             <div className="flex items-center gap-2 mb-2">
               <FileText className="w-4 h-4 text-gray-500" />
-              <span className="text-xs font-semibold text-gray-500 uppercase">Tipo de Servicio</span>
+              <span className="text-xs font-semibold text-gray-500 uppercase">
+                Tipo de Servicio
+              </span>
             </div>
-            <p className="text-lg font-bold text-gray-900">{reclamo.tipo_servicio?.nombre}</p>
+            <p className="text-lg font-bold text-gray-900">
+              {reclamo.tipo_servicio?.nombre}
+            </p>
           </div>
 
           {/* Oficina */}
           <div className="bg-white rounded-lg p-4 border border-gray-200">
             <div className="flex items-center gap-2 mb-2">
               <MapPin className="w-4 h-4 text-gray-500" />
-              <span className="text-xs font-semibold text-gray-500 uppercase">Oficina</span>
+              <span className="text-xs font-semibold text-gray-500 uppercase">
+                Oficina
+              </span>
             </div>
-            <p className="text-lg font-bold text-gray-900">{reclamo.oficina?.nombre}</p>
-            <p className="text-xs text-gray-500 mt-1">{reclamo.oficina?.direccion}</p>
+            <p className="text-lg font-bold text-gray-900">
+              {reclamo.oficina?.nombre}
+            </p>
+            <p className="text-xs text-gray-500 mt-1">
+              {reclamo.oficina?.direccion}
+            </p>
           </div>
 
           {/* Motivo */}
           <div className="bg-white rounded-lg p-4 border border-gray-200 md:col-span-2">
             <div className="flex items-center gap-2 mb-2">
               <AlertCircle className="w-4 h-4 text-gray-500" />
-              <span className="text-xs font-semibold text-gray-500 uppercase">Motivo del Reclamo</span>
+              <span className="text-xs font-semibold text-gray-500 uppercase">
+                Motivo del Reclamo
+              </span>
             </div>
-            <p className="text-lg font-bold text-gray-900 mb-2">{reclamo.motivos_reclamo?.nombre}</p>
+            <p className="text-lg font-bold text-gray-900 mb-2">
+              {reclamo.motivos_reclamo?.nombre}
+            </p>
             <p className="text-sm text-gray-700">{reclamo.descripcion}</p>
             {reclamo.monto_reclamado && (
               <p className="text-sm font-semibold text-gray-900 mt-2">
@@ -279,7 +328,7 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
                 {reclamo.evidencias.map((evidencia, index) => (
                   <a
                     key={index}
-                    href={`/${evidencia.ruta_archivo}`}
+                    href={`${process.env.REACT_APP_API_UR}/${evidencia.ruta_archivo}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium text-gray-700 transition-colors"
@@ -300,9 +349,13 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
             <div className="bg-white rounded-lg p-4 border border-gray-200 md:col-span-2">
               <div className="flex items-center gap-2 mb-2">
                 <CheckCircle className="w-4 h-4 text-green-500" />
-                <span className="text-xs font-semibold text-gray-500 uppercase">Firma Digital</span>
+                <span className="text-xs font-semibold text-gray-500 uppercase">
+                  Firma Digital
+                </span>
               </div>
-              <p className="text-sm text-gray-700 italic">{reclamo.firma_digital}</p>
+              <p className="text-sm text-gray-700 italic">
+                {reclamo.firma_digital}
+              </p>
               <p className="text-xs text-gray-500 mt-1">
                 ✓ Cliente acepta políticas y condiciones
               </p>
@@ -317,7 +370,9 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
           <div className="w-1 h-6 bg-primary-primary rounded-full"></div>
           <h3 className="text-xl font-bold text-gray-900">Gestión Interna</h3>
         </div>
-        <p className="text-sm text-gray-600 mb-6">Información de uso interno, no visible para el cliente</p>
+        <p className="text-sm text-gray-600 mb-6">
+          Información de uso interno, no visible para el cliente
+        </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Estado */}
@@ -325,17 +380,16 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Estado del Reclamo
             </label>
-            <select
+            <CustomSelect
+              placeholder="Estado del Reclamo"
               value={gestionInterna.estado}
-              onChange={(e) => setGestionInterna({ ...gestionInterna, estado: e.target.value })}
-              disabled={yaRespondido}
-              className="w-full px-4 py-2.5 h-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
-            >
-              <option value="pendiente">Pendiente</option>
-              <option value="en_proceso">En Proceso</option>
-              <option value="resuelto">Resuelto</option>
-              <option value="rechazado">Rechazado</option>
-            </select>
+              options={estadosReclamo}
+              onChange={(e) =>
+                setGestionInterna({ ...gestionInterna, estado: e.target.value })
+              }
+              val="codigo"
+              lab="nombre"
+            />
           </div>
 
           {/* Asignado a */}
@@ -343,19 +397,16 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Asignado a
             </label>
-            <select
+            <CustomSelect
+              placeholder="Asignado a"
               value={gestionInterna.asignado_a}
-              onChange={(e) => setGestionInterna({ ...gestionInterna, asignado_a: e.target.value })}
-              disabled={yaRespondido}
-              className="w-full px-4 py-2.5 h-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-primary focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
-            >
-              <option value="">Sin asignar</option>
-              {trabajadores.map(trabajador => (
-                <option key={trabajador.id} value={trabajador.id}>
-                  {trabajador.nombre}
-                </option>
-              ))}
-            </select>
+              options={trabajadores}
+              onChange={(e) =>
+                setGestionInterna({ ...gestionInterna, asignado_a: e.target.value })
+              }
+              val="id"
+              lab="nombre"
+            />
           </div>
 
           {/* Progreso */}
@@ -369,11 +420,19 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
               max="100"
               step="5"
               value={gestionInterna.progreso}
-              onChange={(e) => setGestionInterna({ ...gestionInterna, progreso: parseInt(e.target.value) })}
+              onChange={(e) =>
+                setGestionInterna({
+                  ...gestionInterna,
+                  progreso: parseInt(e.target.value),
+                })
+              }
               disabled={yaRespondido}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-primary disabled:cursor-not-allowed"
             />
-            <ProgressBar value={gestionInterna.progreso} showPercentage={false} />
+            <ProgressBar
+              value={gestionInterna.progreso}
+              showPercentage={false}
+            />
           </div>
 
           {/* Observaciones Internas */}
@@ -383,7 +442,12 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
             </label>
             <textarea
               value={gestionInterna.observaciones_internas}
-              onChange={(e) => setGestionInterna({ ...gestionInterna, observaciones_internas: e.target.value })}
+              onChange={(e) =>
+                setGestionInterna({
+                  ...gestionInterna,
+                  observaciones_internas: e.target.value,
+                })
+              }
               disabled={yaRespondido}
               rows={4}
               placeholder="Notas internas sobre el seguimiento del reclamo..."
@@ -409,7 +473,9 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
       <div className="bg-white rounded-xl border-2 border-primary-primary p-6">
         <div className="flex items-center gap-2 mb-4">
           <div className="w-1 h-6 bg-primary-primary rounded-full"></div>
-          <h3 className="text-xl font-bold text-gray-900">Respuesta al Cliente</h3>
+          <h3 className="text-xl font-bold text-gray-900">
+            Respuesta al Cliente
+          </h3>
         </div>
         <p className="text-sm text-gray-600 mb-6">
           {yaRespondido ? (
@@ -418,7 +484,7 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
               Respuesta enviada - Solo lectura
             </span>
           ) : (
-            'Esta respuesta será enviada al cliente por correo electrónico'
+            "Esta respuesta será enviada al cliente por correo electrónico"
           )}
         </p>
 
@@ -430,7 +496,12 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
             </label>
             <textarea
               value={respuestaCliente.respuesta_cliente}
-              onChange={(e) => setRespuestaCliente({ ...respuestaCliente, respuesta_cliente: e.target.value })}
+              onChange={(e) =>
+                setRespuestaCliente({
+                  ...respuestaCliente,
+                  respuesta_cliente: e.target.value,
+                })
+              }
               disabled={yaRespondido}
               rows={6}
               placeholder="Escribe aquí la respuesta que recibirá el cliente..."
@@ -445,10 +516,18 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
                 type="checkbox"
                 id="enviar_correo"
                 checked={respuestaCliente.enviar_correo}
-                onChange={(e) => setRespuestaCliente({ ...respuestaCliente, enviar_correo: e.target.checked })}
+                onChange={(e) =>
+                  setRespuestaCliente({
+                    ...respuestaCliente,
+                    enviar_correo: e.target.checked,
+                  })
+                }
                 className="w-5 h-5 text-primary-primary rounded focus:ring-2 focus:ring-primary-primary cursor-pointer"
               />
-              <label htmlFor="enviar_correo" className="text-sm font-medium text-gray-700 cursor-pointer flex-1">
+              <label
+                htmlFor="enviar_correo"
+                className="text-sm font-medium text-gray-700 cursor-pointer flex-1"
+              >
                 Enviar notificación por correo electrónico al cliente
               </label>
             </div>
@@ -485,18 +564,22 @@ const GestionReclamo = ({ reclamoId, onClose, onUpdate }) => {
           <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <AlertCircle className="w-8 h-8 text-yellow-600" />
           </div>
-          
+
           <h3 className="text-lg font-bold text-gray-900 mb-2">
             ¿Estás seguro de enviar esta respuesta?
           </h3>
-          
+
           <p className="text-sm text-gray-600 mb-4">
-            Esta acción {respuestaCliente.enviar_correo && 'enviará un correo al cliente y '}
+            Esta acción{" "}
+            {respuestaCliente.enviar_correo &&
+              "enviará un correo al cliente y "}
             cerrará el reclamo. No podrás editar la respuesta posteriormente.
           </p>
 
           <div className="bg-gray-50 rounded-lg p-4 mb-6 text-left">
-            <p className="text-xs font-semibold text-gray-500 mb-2">Vista previa de la respuesta:</p>
+            <p className="text-xs font-semibold text-gray-500 mb-2">
+              Vista previa de la respuesta:
+            </p>
             <p className="text-sm text-gray-700 line-clamp-3">
               {respuestaCliente.respuesta_cliente}
             </p>

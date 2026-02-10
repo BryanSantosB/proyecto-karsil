@@ -18,8 +18,7 @@ import reclamosRoutes from "./routes/reclamos.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from './routes/user.routes.js';
 import cookieParser from 'cookie-parser';
-
-
+import usersRoutes from "./routes/usuarios.routes.js";
 
 // Configuración para emular __dirname en ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -58,25 +57,13 @@ app.use("/api/modalidades", modalidadesEnvioRoutes);
 app.use("/api/paquetes", tiposPaquetesRoutes);
 app.use("/api/reclamos", reclamosRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/users", usersRoutes);
 app.use('/users', userRoutes);
 
 // Manejo de errores global
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ message: "Error interno del servidor" });
-});
-
-// Ruta de prueba de BD
-app.get("/prueba", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT NOW()");
-    res.json({
-      ok: true,
-      dbTime: result.rows[0],
-    });
-  } catch (error) {
-    res.status(500).json({ error: "Error en BD" });
-  }
 });
 
 export default app;

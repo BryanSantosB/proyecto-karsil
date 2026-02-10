@@ -127,6 +127,13 @@ export const obtenerReclamoPorNumero = async (numeroReclamo) => {
         'icon', ts.icon
       ) as tipo_servicio,
 
+      json_build_object(
+        'id', e.id,
+        'codigo', e.codigo,
+        'nombre', e.nombre,
+        'progreso', e.progreso
+      ) AS estado,
+
       -- Objeto completo de oficina con departamento incluido
       json_build_object(
         'id', c.id,
@@ -141,6 +148,12 @@ export const obtenerReclamoPorNumero = async (numeroReclamo) => {
         )
       ) as oficina,
 
+      json_build_object(
+        'id', u.id,
+        'nombre', u.nombre,
+        'email', u.email
+      ) as asignado_a,
+
       -- Objeto completo de tipo_servicio
       json_build_object(
         'id', mr.id,
@@ -152,12 +165,15 @@ export const obtenerReclamoPorNumero = async (numeroReclamo) => {
       r.monto_reclamado,
 
       r.acepta_politicas,
-      r.firma_digital
+      r.firma_digital,
+      r.observaciones_internas
     FROM reclamos r
     LEFT JOIN tipos_envio ts ON r.tipo_servicio_id = ts.id
     LEFT JOIN ciudades c ON r.oficina_id = c.id
+    LEFT JOIN estados_reclamo e ON e.id = r.estado_id
     LEFT JOIN departamentos d ON c.departamento_id = d.id
     LEFT JOIN motivos_reclamo mr ON r.motivo_reclamo = mr.id
+    LEFT JOIN usuarios u ON r.asignado_a = u.id
     WHERE r.numero_reclamo = $1
   `;
 
@@ -264,4 +280,50 @@ export const getAllMotivosReclamo = async () => {
 
   const { rows } = await pool.query(query);
   return rows;
+};
+
+/**
+ * Actualiza la gestión interna de un reclamo
+ */
+export const updateGestionReclamo = async (
+  reclamoId,
+  { estado, asignado_a, observaciones_internas }
+) => {
+  // Obtener ID del estado desde el código
+  const estadoResult = await pool.query(
+    `SELECT id FROM estados_reclamo WHERE codigo = $1`,
+    [estado]
+  );
+
+  if (estadoResult.rowCount === 0) {
+    throw new Error("Estado de reclamo no válido");
+  }
+
+  const estadoId = estadoResult.rows[0].id;
+
+  // Actualizar reclamo
+  const result = await pool.query(
+    `
+    UPDATE reclamos
+    SET
+      estado_id = $1,
+      asignado_a = $2,
+      observaciones_internas = $3,
+      fecha_actualizacion = NOW()
+    WHERE id = $4
+    RETURNING id
+    `,
+    [
+      estadoId,
+      asignado_a || null,
+      observaciones_internas || null,
+      reclamoId,
+    ]
+  );
+
+  if (result.rowCount === 0) {
+    throw new Error("Reclamo no encontrado");
+  }
+
+  return result.rows[0];
 };
