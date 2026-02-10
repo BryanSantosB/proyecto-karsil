@@ -26,11 +26,12 @@ export const login = async (email, password) => {
   );
 
   console.log('Objeto recibido de query:', rows);
+  const user = rows[0];
   console.log('HASH BD:', user.password_hash);
   console.log('COMPARE:', await bcrypt.compare(password, user.password_hash));
 
 
-  const user = rows[0];
+  
   if (!user) throw new Error("Credenciales inválidas");
 
   const match = await bcrypt.compare(password, user.password_hash);
