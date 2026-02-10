@@ -1,9 +1,15 @@
 import * as authService from "../services/auth.service.js";
 
 export const login = async (req, res) => {
+  console.log("LOGIN BODY:", req.body);
+
   try {
     const { email, password } = req.body;
+    console.log("EMAIL:", email);
+    console.log("PASSWORD:", password);
+
     const { token, user } = await authService.login(email, password);
+    console.log("USER ENCONTRADO:", user);
 
     res.cookie("token", token, {
       httpOnly: true,
