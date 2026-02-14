@@ -19,6 +19,7 @@ import authRoutes from "./routes/auth.routes.js";
 import userRoutes from './routes/user.routes.js';
 import cookieParser from 'cookie-parser';
 import usersRoutes from "./routes/usuarios.routes.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 // Configuración para emular __dirname en ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -41,6 +42,7 @@ app.use(cors({
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(errorHandler); // Middleware de manejo de errores global
 
 // Archivos estáticos
 app.use("/public", express.static(path.join(__dirname, "../src/public")));
