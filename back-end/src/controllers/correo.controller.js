@@ -1,45 +1,36 @@
-import { enviarCorreoContacto, enviarCorreoNumeroReclamo,  } from "../services/email.service.js";
+import {
+  enviarCorreoContacto,
+  enviarCorreoNumeroReclamo,
+} from "../services/email.service.js";
 
-export const enviarEmailContacto = async (req, res) => {
+const SMTP_ENABLED = process.env.SMTP_ENABLED === "true";
+
+export const enviarEmailContacto = catchAsync(async (req, res) => {
   const { fullName, email, phone, message } = req.body;
 
   if (!fullName || !email || !message) {
-    return res.status(400).json({ message: "Datos incompletos" });
+    throw new AppError("Datos incompletos", 400);
   }
 
-  try {
+  if(SMTP_ENABLED) {
     await enviarCorreoContacto(fullName, email, phone, message);
-    res.status(200).json({ message: "Correo enviado" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error al enviar el correo" });
   }
-};
+  res.status(200).json({ message: "Correo enviado" });
+});
 
-export const enviarNumeroReclamoController = async (req, res) => {
-  try {
-    const { correo, numeroReclamo } = req.body;
+export const enviarNumeroReclamoController = catchAsync(async (req, res) => {
+  const { correo, numeroReclamo } = req.body;
 
-    if (!correo || !numeroReclamo) {
-      return res.status(400).json({
-        ok: false,
-        mensaje: "El correo y el número de reclamo son obligatorios",
-      });
-    }
+  if (!correo || !numeroReclamo) {
+    throw new AppError("Correo y número de reclamo son obligatorios", 400);
+  }
 
+  if(SMTP_ENABLED) {
     await enviarCorreoNumeroReclamo(correo, numeroReclamo);
-
-    return res.status(200).json({
-      ok: true,
-      mensaje: "Correo con número de reclamo enviado correctamente",
-    });
-
-  } catch (error) {
-    console.error("Error al enviar correo de número de reclamo:", error);
-
-    return res.status(500).json({
-      ok: false,
-      mensaje: "Error interno al enviar el correo",
-    });
   }
-};
+
+  return res.status(200).json({
+    ok: true,
+    mensaje: "Correo con número de reclamo enviado correctamente",
+  });
+});

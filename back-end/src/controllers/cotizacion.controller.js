@@ -2,6 +2,7 @@ import { calcularEnvio } from "../services/cotizacion.service.js";
 import { enviarCorreoCotizacion } from "../services/email.service.js";
 import * as cotizacionesService from "../services/db_services/cotizaciones.service.js";
 
+const SMTP_ENABLED = process.env.SMTP_ENABLED === "true";
 
 export const cotizarEnvio = (req, res) => {
   try {
@@ -25,13 +26,15 @@ export const crearCotizacion = async (req, res) => {
     const resultado = calcularEnvio(data);
 
     // 2. enviar correo con precios
-    await enviarCorreoCotizacion({
-      cliente: data.contacto,
-      origen: data.origen,
-      destino: data.destino,
-      paquete: data.paquete,
-      resultado,
-    });
+    if(SMTP_ENABLED) {
+      await enviarCorreoCotizacion({
+        cliente: data.contacto,
+        origen: data.origen,
+        destino: data.destino,
+        paquete: data.paquete,
+        resultado,
+      });
+    }
 
     // 3. responder al front
     res.json({
@@ -48,7 +51,6 @@ export const crearCotizacion = async (req, res) => {
     });
   }
 };
-
 
 /**
  * POST /cotizaciones
@@ -81,7 +83,7 @@ export async function listar(req, res) {
 export async function obtenerPorId(req, res) {
   try {
     const cotizacion = await cotizacionesService.obtenerCotizacionPorId(
-      req.params.id
+      req.params.id,
     );
 
     if (!cotizacion) {
@@ -101,7 +103,7 @@ export async function actualizar(req, res) {
   try {
     const cotizacion = await cotizacionesService.actualizarCotizacion(
       req.params.id,
-      req.body
+      req.body,
     );
 
     if (!cotizacion) {
@@ -120,7 +122,7 @@ export async function actualizar(req, res) {
 export async function eliminar(req, res) {
   try {
     const eliminado = await cotizacionesService.eliminarCotizacion(
-      req.params.id
+      req.params.id,
     );
 
     if (!eliminado) {
@@ -132,5 +134,3 @@ export async function eliminar(req, res) {
     res.status(500).json({ error: "Error al eliminar cotización" });
   }
 }
-
-
