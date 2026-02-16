@@ -42,7 +42,6 @@ app.use(cors({
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(errorHandler); // Middleware de manejo de errores global
 
 // Archivos estáticos
 app.use("/public", express.static(path.join(__dirname, "../src/public")));
@@ -62,10 +61,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", usersRoutes);
 app.use('/users', userRoutes);
 
-// Manejo de errores global
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({ message: "Error interno del servidor" });
-});
+app.use(errorHandler); // Middleware de manejo de errores global
 
 export default app;

@@ -1,10 +1,15 @@
 export const errorHandler = (err, req, res, next) => {
-  console.error(err); // Log interno
+  console.error("ERROR 💥:", err);
 
-  const statusCode = err.status || 500;
+  if (err.isOperational) {
+    return res.status(err.statusCode).json({
+      success: false,
+      message: err.message,
+    });
+  }
 
-  res.status(statusCode).json({
+  return res.status(500).json({
     success: false,
-    message: err.message || "Error interno del servidor",
+    message: "Error interno del servidor",
   });
 };

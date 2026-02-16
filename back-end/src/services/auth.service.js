@@ -25,13 +25,7 @@ export const login = async (email, password) => {
     [email],
   );
 
-  console.log('Objeto recibido de query:', rows);
   const user = rows[0];
-  console.log('HASH BD:', user.password_hash);
-  console.log('COMPARE:', await bcrypt.compare(password, user.password_hash));
-  console.log("JWT_SECRET:", JWT_SECRET);
-  console.log("JWT_EXPIRES_IN:", JWT_EXPIRES_IN);
-
   
   if (!user) throw new Error("Credenciales inválidas");
 
